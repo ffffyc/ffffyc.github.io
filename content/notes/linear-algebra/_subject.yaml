@@ -6,7 +6,7 @@ unit: 讲
 columns:
 - note
 - homework
-- solution
+- tutorial
 resources:
 - title: Linear Algebra and Its Applications（Lay，4e）
   file: files/books/linear-algebra/lay-4e.pdf
