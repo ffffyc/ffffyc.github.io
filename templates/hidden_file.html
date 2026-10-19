@@ -1,31 +1,27 @@
 {% extends "base.html" %}
 {% block title %}作业解答 — {{ site.title }}{% endblock %}
 {% block main %}
-<div class="post-layout">
-  <article class="post">
-    <header class="post-head">
-      <p class="crumb"><a href="{{ base }}notes/{{ subject.slug }}/">{{ subject.name }}</a> / {{ item.kind_label }}</p>
-      <h1 class="post-title" id="secret-title">作业解答</h1>
-    </header>
+<article class="post">
+  <header class="post-head">
+    <p class="crumb"><a href="{{ base }}notes/{{ subject.slug }}/">{{ subject.name }}</a> / {{ item.kind_label }}</p>
+    <h1 class="post-title" id="secret-title">作业解答</h1>
+  </header>
 
-    <div class="lock" id="lock-panel">
-      <p class="lede">这份文件已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
-      <form class="lock-form" id="lock-form">
-        <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
-        <button type="submit">打开</button>
-        <span class="lock-hint" id="lock-hint"></span>
-      </form>
-    </div>
+  <div class="lock" id="lock-panel">
+    <p class="lede">这份文件已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+    <form class="lock-form" id="lock-form">
+      <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+      <button type="submit">打开</button>
+      <span class="lock-hint" id="lock-hint"></span>
+    </form>
+  </div>
 
-    <div id="pdf-slot"></div>
+  <div id="pdf-slot"></div>
 
-    <p class="post-back">
-      <a href="{{ base }}notes/{{ subject.slug }}/">返回{{ subject.name }}</a>
-    </p>
-  </article>
-
-  <aside class="toc" id="secret-toc"></aside>
-</div>
+  <p class="post-back">
+    <a href="{{ base }}notes/{{ subject.slug }}/">返回{{ subject.name }}</a>
+  </p>
+</article>
 
 <script>window.FFFFYC_SUFFIX = "{{ site.title }}";</script>
 <script id="lock-data" type="application/json">{{ payload }}</script>

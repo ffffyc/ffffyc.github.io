@@ -838,7 +838,7 @@ def main() -> None:
                     section="notes",
                     subject=subject,
                     item=item,
-                    wide=True,
+                    wider=True,
                 )
 
         secret_entries = subject["hidden_entries"]
@@ -859,6 +859,7 @@ def main() -> None:
                     subject=subject,
                     item=entry,
                     payload=payload,
+                    wider=True,
                 )
 
 
