@@ -17,3 +17,14 @@ homework_lectures:
   3: 8–10
   4: 11–14
 merge_tables: true
+links_title: 实验
+links:
+- title: Lab 1 · 硬件架构与汇编
+  href: https://git.tsinghua.edu.cn/yifan-chen25/lab1
+  note: 校内 GitLab
+- title: Lab 2 · 并发与性能
+  href: https://git.tsinghua.edu.cn/yifan-chen25/lab2
+  note: 校内 GitLab
+- title: Lab 3 · 分布式与 RPC
+  href: https://git.tsinghua.edu.cn/yifan-chen25/lab3
+  note: 校内 GitLab

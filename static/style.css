@@ -640,6 +640,8 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
   white-space: nowrap;
 }
 
+.course-table td.span-cell { vertical-align: middle; }
+
 .course-table .col-text {
   color: var(--ink-2);
   min-width: 12rem;

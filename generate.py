@@ -17,6 +17,7 @@ from pathlib import Path
 
 import yaml
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from urllib.parse import quote
 from jinja2 import Environment, FileSystemLoader
 from markdown_it import MarkdownIt
 from pygments import highlight
@@ -307,6 +308,17 @@ def _size_text(pdf: str | None) -> str:
     return f"{size / 1024:.0f} KB"
 
 
+def _office_src(pdf: str | None, cfg: dict) -> str:
+    """PPTX 交给微软 Office 网页查看器渲染，需要公网可访问的绝对地址。"""
+    if not pdf or pdf.lower().endswith(".pdf"):
+        return ""
+    url = str(cfg.get("url") or "").rstrip("/")
+    if not url.startswith("http"):
+        return ""
+    target = f"{url}/{pdf.lstrip('/')}"
+    return f"https://view.officeapps.live.com/op/embed.aspx?src={quote(target, safe='')}"
+
+
 def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
     subjects = []
     root = CONTENT / "notes"
@@ -347,6 +359,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     "pdf_href": (cfg["base"] + pdf) if pdf else "",
                     "file_name": Path(pdf).name if pdf else "",
                     "size_text": _size_text(pdf),
+                    "office_src": _office_src(pdf, cfg),
                     "tags": imeta.get("tags") or [],
                     "math": bool(imeta.get("math", False)),
                     "html": body_html,
@@ -406,7 +419,22 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 }
             )
 
-        column_keys = meta.get("columns") or []
+        # 解答不单独占一列，挂在对应作业/习题课后面，避免列数过多把表格挤扁
+        for r in rows:
+            for sol_key, base_key in (("solution", "homework"), ("tutorial_solution", "tutorial")):
+                group = r["cells"].pop(sol_key, None)
+                if not group:
+                    continue
+                if base_key not in r["cells"]:
+                    r["cells"][base_key] = []
+                for e in group:
+                    item = dict(e)
+                    item["short"] = "解答"
+                    r["cells"][base_key].append(item)
+
+        column_keys = [
+            k for k in (meta.get("columns") or []) if k not in ("solution", "tutorial_solution")
+        ]
         if not column_keys:
             present = {k for r in rows for k in r["cells"]}
             column_keys = [k for k in cfg["kinds"] if k in present]
@@ -452,12 +480,32 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
 
             by_n: dict[int, dict] = {}
             for r in lecture_rows:
-                by_n[r["n"]] = {"n": r["n"], "cells": dict(r["cells"]), "hw": []}
+                by_n[r["n"]] = {
+                    "n": r["n"],
+                    "cells": dict(r["cells"]),
+                    "hw": [],
+                    "span": {},
+                    "skip": set(),
+                }
             for r in rows:
-                target = by_n.setdefault(start_of(r["n"]), {"n": start_of(r["n"]), "cells": {}, "hw": []})
+                start = start_of(r["n"])
+                target = by_n.setdefault(
+                    start, {"n": start, "cells": {}, "hw": [], "span": {}, "skip": set()}
+                )
                 for key, group in r["cells"].items():
                     target["cells"].setdefault(key, []).extend(group)
                 target["hw"].append(r["n"])
+
+                # 作业覆盖若干讲：起始行用 rowspan 合并，跨过的行不再画这个格子
+                digits = re.findall(r"\d+", str(hw_ranges.get(r["n"], "") or ""))
+                end = int(digits[-1]) if len(digits) > 1 else start
+                if end > start:
+                    target["span"]["homework"] = end - start + 1
+                    for n in range(start + 1, end + 1):
+                        row = by_n.setdefault(
+                            n, {"n": n, "cells": {}, "hw": [], "span": {}, "skip": set()}
+                        )
+                        row["skip"].add("homework")
             for n, r in by_n.items():
                 r["text"] = str(syllabus.get(n, "") or "")
             merged_rows = [by_n[n] for n in sorted(by_n)]
@@ -506,6 +554,8 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 "unit": meta.get("unit", "周"),
                 "show_text": bool(meta.get("show_text", True)),
                 "resources": meta.get("resources") or [],
+                "links": meta.get("links") or [],
+                "links_title": meta.get("links_title", "实验与代码"),
                 "count": len(public),
                 "hidden_count": len(secret),
             }

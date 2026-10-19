@@ -8,9 +8,18 @@
     <p class="meta">
       {% if item.date_text %}<span>{{ item.date_text }}</span>{% endif %}
       {% if item.size_text %}<span>{{ item.size_text }}</span>{% endif %}
+      <span>{{ item.file_name }}</span>
     </p>
   </header>
 
+  {% if item.office_src %}
+  <iframe class="pdf-frame" src="{{ item.office_src }}" loading="lazy" allowfullscreen></iframe>
+  <p class="file-note">预览由微软 Office 网页查看器渲染，需要站点已发布到公网；无法显示时请直接下载。</p>
+  <p class="post-back">
+    <a href="{{ item.pdf_href }}" download>下载文件</a>
+    <a href="{{ base }}notes/{{ subject.slug }}/">返回{{ subject.name }}</a>
+  </p>
+  {% else %}
   <div class="file-box">
     <p class="file-name">{{ item.file_name }}</p>
     <p class="file-note">演示文稿格式，浏览器不能直接预览，下载后用 PowerPoint / WPS / Keynote 打开。</p>
@@ -19,5 +28,6 @@
       <a href="{{ base }}notes/{{ subject.slug }}/">返回{{ subject.name }}</a>
     </p>
   </div>
+  {% endif %}
 </article>
 {% endblock %}

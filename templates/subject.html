@@ -23,8 +23,9 @@
         <td class="col-n">{{ r.n }}</td>
         {% if subject.show_text %}<td class="col-text">{{ r.text }}</td>{% endif %}
         {% for c in subject.merged_columns %}
+        {% if c.key in r.skip %}{% else %}
         {% set group = r.cells.get(c.key) %}
-        <td>
+        <td{% if c.key in r.span %} class="span-cell" rowspan="{{ r.span[c.key] }}"{% endif %}>
           {% if group %}
             {% for e in group %}
               {% if e.hidden %}
@@ -38,6 +39,7 @@
           <span class="none">—</span>
           {% endif %}
         </td>
+        {% endif %}
         {% endfor %}
       </tr>
       {% endfor %}
@@ -128,6 +130,20 @@
     {% for it in subject.loose %}
     <li>
       <a class="pl-title" href="{{ it.href }}">{{ it.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if subject.links %}
+<section class="block">
+  <h2 class="sec">{{ subject.links_title }}</h2>
+  <ul class="itemlist">
+    {% for l in subject.links %}
+    <li>
+      <a class="pl-title" href="{{ l.href }}" target="_blank" rel="noopener">{{ l.title }}</a>
+      {% if l.note %}<span class="pl-date">{{ l.note }}</span>{% endif %}
     </li>
     {% endfor %}
   </ul>
