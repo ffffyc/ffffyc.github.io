@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} — {{ site.title }}{% endblock %}
+{% block main %}
+<header class="list-head">
+  <h1 class="page-title">{{ heading }}</h1>
+  <p class="lede">{{ count }} 篇未公开的内容。</p>
+</header>
+
+{% if chips %}
+<nav class="chips">
+  <a class="chip{% if not active_cat %} on{% endif %}" href="{{ base }}hidden/">全部</a>
+  {% for c in chips %}
+  <a class="chip{% if active_cat == c.name %} on{% endif %}" href="{{ base }}hidden/category/{{ c.key }}/">{{ c.name }}<span class="chip-n">{{ c.count }}</span></a>
+  {% endfor %}
+</nav>
+{% endif %}
+
+<div class="lock" id="lock-panel">
+  <form class="lock-form" id="lock-form">
+    <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+    <button type="submit">打开</button>
+    <span class="lock-hint" id="lock-hint"></span>
+  </form>
+</div>
+
+<div id="secret-list" hidden></div>
+
+<p class="post-back">
+  {% if public_href %}<a href="{{ public_href }}">回到公开的 {{ heading }} 列表</a>{% endif %}
+  {% if back_href %}<a href="{{ back_href }}">全部隐藏文章</a>{% endif %}
+  <a href="{{ base }}past/">返回缥缈过往</a>
+</p>
+
+<script id="lock-data" type="application/json">{{ payload }}</script>
+<script src="{{ base }}assets/lock.js?v={{ site.v }}"></script>
+{% endblock %}

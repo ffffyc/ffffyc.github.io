@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7291 【人赢】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7291 【人赢】</h1>
+      <p class="meta">
+        <span>2021-01-27</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/n10x7n9z" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>P7291 人赢</h1>
+<p>「EZEC-5」人赢 加强版</p>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/P7286"><em>弱化版传送门</em></a></h4>
+<h4 id="s2"><a href="https://www.luogu.com.cn/problem/P7291"><em>传送门</em></a></h4>
+<p><s>本来想去弱化版发题解的，但是题解区一下就满了...</s></p>
+<p>原题被最后几个点卡着的 dalao 们可以去 <a href="https://www.luogu.com.cn/problem/U149812"><em>这里</em></a> 测试，这几组就是我造的 hack 数据。</p>
+<p>显然 $n\leqslant 10^7$ 的数据范围要求了我们用 $\texttt{O}(n)$ 的算法。</p>
+<h2 id="s3">思路</h2>
+<h4 id="s4">$\texttt{O}(n^2)$</h4>
+<p>我们显然可以暴力枚举 $x,y$ 求最大值。</p>
+<h4 id="s5">$\texttt{O}(n \log n)$</h4>
+<p>我们可以将每个数按照值域从大到小排序，从前到后扫一遍，在路上求出原始编号的前缀最大值，直接求 $f$ 函数即可。</p>
+<p>正确性证明：由于现在扫到的数一定比前面的数小，所以要使编号尽量大才能使 $f$ 函数最大。</p>
+<p>代码很好写，就<s>咕</s>了，想看可以去其它题解或原题题解。</p>
+<h4 id="s6">$\texttt{O}(n)$</h4>
+<h4 id="s7">方法 1</h4>
+<p>我们发现 $\texttt{O}(n \log n)$ 做法的扫一遍是 $\texttt{O}(n)$ 的，复杂度瓶颈在排序的 $\texttt{O}(n \log n)$，于是我们可以使用基数排序，期望复杂度 $\texttt{O}(n)$，但是常数巨大，无法通过本题。</p>
+<h4 id="s8">方法2</h4>
+<p>在 $\texttt{O}(n \log n)$ 的做法中，我们为了保证正确性，我们给原序列排了序，现在我们要在 $\texttt{O}(n \log n)$ 的做法中找到一个正确的做法保证正确性。</p>
+<p>我在这里先给出方法：先取出 $k_x\times x$ 的最大值，再从前后分别扫一遍，分别取前后缀的 $k_i\times i$ 的最大值，再路上求 $(i+x)\times \min(k_i,k_x)$ 的最大值即可。</p>
+<p>正确性证明：我们假设最终的答案为 $(x,y)$ ，如果我们在这种方法下我们没法取到 $(x,y)$ 当且仅当存在 $x&lt;z&lt;y$ 满足：</p>
+<p>$$\begin{cases}k_z\times z &gt;k_x \times x\k_z\times z &gt;k_y \times y\end{cases}$$</p>
+<p>我们分类讨论：</p>
+<ul>
+<li>1.当 $k_x&gt;\min(k_x,k_y)$ 时，则将 $x$ 换为 $z$ 答案不会变劣，与最终的答案为 $(x,y)$ 矛盾。</li>
+<li>2.当 $k_z\leqslant\min(k_x,k_y)$ 时，则 $k_z\times z \leqslant k_y \times y$ ，与假设矛盾。</li>
+</ul>
+<p>所以一定能取到最优解。</p>
+<p>这种方法给出代码:</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+<span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span>
+<span class="w">	</span><span class="c1">//read()</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">;</span>
+<span class="n">ll</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">10000010</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="n">ll</span><span class="w"> </span><span class="n">maxn</span><span class="p">;</span>
+<span class="kt">signed</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">        </span><span class="n">now</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">now</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="n">now</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">now</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]));</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="o">&gt;</span><span class="n">maxn</span><span class="p">)</span><span class="w"> </span><span class="n">maxn</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">maxn</span><span class="o">=</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
+<span class="w">        </span><span class="n">now</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">now</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]));</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="o">&gt;</span><span class="n">maxn</span><span class="p">)</span><span class="w"> </span><span class="n">maxn</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span><span class="n">now</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>卡了点常数，卡到了 $249ms$ 最优解。</p>
+<p>这是一道思维题，对码量没什么要求。</p>
+<p>那就再见了 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">弱化版传送门</a><a class="lv4" href="#s2">传送门</a><a class="lv2" href="#s3">思路</a><a class="lv4" href="#s4">$\texttt{O}(n^2)$</a><a class="lv4" href="#s5">$\texttt{O}(n \log n)$</a><a class="lv4" href="#s6">$\texttt{O}(n)$</a><a class="lv4" href="#s7">方法 1</a><a class="lv4" href="#s8">方法2</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

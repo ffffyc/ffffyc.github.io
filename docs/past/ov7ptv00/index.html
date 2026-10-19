@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>详细揭秘：集合划分容斥的容斥系数 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
+      <h1 class="post-title">详细揭秘：集合划分容斥的容斥系数</h1>
+      <p class="meta">
+        <span>2024-08-11</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/ov7ptv00" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p>dp 转移时，我们有时会要求枚举一个<strong>极大</strong>的合法子集进行转移，但是往往不能很好地处理极大的限制，只能枚举一个不作限制的合法子集。我们希望通过容斥使得每个极大的子集的转移正确。</p>
+<p>引用一份看到的形式化描述：在某种等价关系下，对于某一组合结构，构成其的元素其可以被划分成若干等价类，有一关于等价类的系数 $F(x)$（即这一等价类的贡献系数）。而我们的 dp 不能恰好地刻画出每一极大等价类（有可能有相互等价的等价类），记等价类之间的合并关系为 $G(x)$，我们设计容斥系数 $H(x)$ 满足：
+$$G(H(x))=F(x)$$</p>
+<h3 id="s1">例：<a href="https://www.luogu.com.cn/problem/P6846">DAG 定向问题</a></h3>
+<blockquote>
+<p>给你一个 $n$ 个点 $m$ 条边的无向图，给每条边定向并要求不出现环，求定向方案数。</p>
+<p>$n\le 18$。</p>
+</blockquote>
+<p>我们知道，这个经典问题的 dp 方法为每一次枚举当前入度为 $0$ 的<strong>极大</strong>子集 $T$ 将其删去。设 $g_S$ 表示 $S$ 内的点能否入度为 $0$，即 $S$ 是否是独立集，$f_S$ 表示 $S$ 内点的定向方案，有：
+$$f_S=\sum_{T\sube S} f_{S/T}g_T(-1)^{|T|-1}$$</p>
+<p>我们尝试用上述方法得到这个 $(-1)^{|T|-1}$ 的容斥系数：$[x^S]F(x)$ 表示的是极大的入度为 $0$ 的点集为 $S$ 时需要贡献的系数，显然 $[x^S]F(x)=[S\ne \varnothing]$。合并方式为每次加入一个非空无交子集，可以得出 $G(x)=\dfrac{1}{1-x}-1$。所以 $\dfrac{1}{1-H(x)}=F(x)+1$，手动求逆得到 $[x^S]H(x)=(-1)^{|S|-1}$。</p>
+<p>设 $A(x)=\displaystyle\sum_Sg_S(-1)^{|S|-1}\cdot x^S$，所求即为 $[x^U]\dfrac{1}{1-A(x)}$。</p>
+<h3 id="s2">例：<a href="https://www.luogu.com.cn/problem/P7275">计树</a></h3>
+<blockquote>
+<p>求有多少不同的包含 $n$ 个点的有标号无根树，满足：对于任何一个点 $x$，都存在点 $y$ 使得 $x$ 和 $y$ 之间有一条边且 $|x - y| = 1$。</p>
+<p>$n\le 10^5$。</p>
+</blockquote>
+<p>树的形态必定为若干值域连续的链拼起来。</p>
+<p>根据 Prufer 定理，$k$ 个大小分别为 $w_{1\dots k}$ 的连通块形成树的方案数为：
+$$n^{k-2}\prod w_i$$</p>
+<p>那么我们每加入一条<strong>极长</strong>的长为 $w(w\ge 2)$ 的链将答案乘以 $nw$，最后除以 $n^2$。因为我们不能钦定极长，所以需要容斥。</p>
+<p>题目要求链长 $\ge 2$，那么 $F(x)=\displaystyle\sum_{i\ge 2}x^i=\frac{x^2}{1-x}$；合并方式与 DAG 定向问题类似，每次直接拼一段上去，$G(x)=\dfrac{1}{1-x}-1$；简单计算得到 $H(x)=\dfrac{x^2}{1-x+x^2}$。</p>
+<p>设 $A(x)=\displaystyle\sum_{w}wn\cdot x^w\cdot[x^w]H(x)$，所求即为 $[x^n]\dfrac{1}{1-A(x)}$。</p>
+<h3 id="s3">例：<a href="https://www.luogu.com.cn/problem/AT_agc058_d">Yet Another ABC String</a></h3>
+<blockquote>
+<p>给出 $a,b,c$，求由 $a$ 个 A，$b$ 个 B，$c$ 个 C 构成的字符串数量，使得不存在子串 <code>ABC</code>，<code>BCA</code> 和 <code>CAB</code>。</p>
+<p>$a,b,c\le 10^6$。</p>
+</blockquote>
+<p>将序列划分为若干极长的形如 <code>..BCABC...AB...</code> 的连续段。则每个连续段必须 $\le 2$ 即 $F(x)=x+x^2$，$H(x)=1-\dfrac{1}{1+x+x^2}$。</p>
+<p>手玩求逆可以得到：
+$$[x^i]H(x)=\begin{cases}-1&amp;i\equiv0\pmod3\\1&amp;i\equiv1\pmod3\\0&amp;i\equiv2\pmod3\end{cases}$$</p>
+<p>设 $A(x,y,z)$ 为一个连续段的生成函数：
+$$\begin{aligned}A(x,y,z)&amp;=-3\sum_{i\ge 1}(xyz)^i+(x+y+z)\sum_{i\ge 0}(xyz)^i\\
+&amp;=\dfrac{x+y+z-3xyz}{1-xyz}
+\end{aligned}$$</p>
+<p>答案为：
+$$[x^ay^bz^c]\dfrac{1}{1-A(x,y,z)}$$
+$$[x^ay^bz^c]\dfrac{1-xyz}{1-x-y-z+2xyz}$$
+$$\sum_{i\ge 0}(-2)^i\left[\binom{a+b+c-2i}{a-i,b-i,c-i,i}-\binom{a+b+c-2i-3}{a-i-1,b-i-1,c-i-1,i}\right]$$</p>
+<h3 id="s4">例：<a href="https://loj.ac/p/3395">Yet Another Permutation Problem</a></h3>
+<blockquote>
+<p>有一个长为 $n$ 的排列 $p$，初始 $p_i=i$，接下来你需要对它进行若干次操作，每次操作你可以指定一个 $x\in[1,n]$，将 $p_x$ 取出后放在排列的开头或末尾。对 $\forall k\in[0,n)$ 求出经过 $k$ 次操作能得到几种不同的排列。</p>
+<p>$n\le 1000$。</p>
+</blockquote>
+<p>判断一个排列是否可行，考虑将操作反过来：将排列的开头或末尾任意插入排列中。不难发现排列合法当且仅当存在一个长度 $\ge n-k$ 的上升子区间，将该区间外的数依次向内插入即可。</p>
+<p>令 $m=n-k$，不妨计数所有极长上升子区间长度都 $&lt;m$ 的排列数量。$F(x)=\dfrac{x-x^m}{1-x}$，$H(x)=\dfrac{x-x^m}{1-x^m}$。</p>
+<p>令 $A(x)$ 为一个上升子区间的 EGF，即 $A(x)=\displaystyle\sum_{i}[x^i]H(x)\cdot \dfrac{x^i}{i!}$，所求即为 $n![x^n]\dfrac{1}{1-A(x)}$。注意到 $A(x)$ 只有 $O(\dfrac{n}{m})$ 项，所以直接暴力求逆也可做到 $O(n^2\log n)$。</p>
+<h3 id="s5">例：<a href="https://www.luogu.com.cn/problem/AT_abc236_h">Distinct Multiples</a></h3>
+<blockquote>
+<p>给定 $n,m$ 以及一个长为 $n$ 的序列 $d_{1\dots n}$，你需要计数有多少个值域为 $[1,m]$ 的序列 $a_{1\dots n}$ 满足 $d_i|a_i$ 且 $a_i$ 两两不同。</p>
+<p>$n\le 16$。</p>
+</blockquote>
+<p>考虑令等价类为相等的数的集合，则所有极大等价类大小必须都为 $1$，即 $[x^S]F(x)=[|S|=1]$。注意此处等价类之间的合并是无序的，则 $G(x)=\exp x-1$，$H(x)=\ln\left(F(x)+1\right)$，模拟得 $[x^S]H(x)=(-1)^{|S|-1}(|S|-1)!$。</p>
+<p>令 $f_S$ 表示等价类 $S$ 的方案数，$A(x)=\displaystyle\sum_Sf_S(-1)^{|S|-1}(|S|-1)!\cdot x^S$，所求即为 $[x^U]\exp A(x)$。</p>
+<h3 id="s6">例：<a href="https://www.luogu.com.cn/problem/AT_abc288_h">A Nameless Counting Problem</a></h3>
+<blockquote>
+<p>给定 $n,m,x$，求有多少个长为 $n$ 的单调不降序列 $a_{1\dots n}$，满足 $a_n&lt; m$ 且 $\text{xor}_{i=1}^na_i=x$。</p>
+<p>$n\le 200$。</p>
+</blockquote>
+<p>考虑不断将序列中相同的数配对删除，最终得到一个单增的序列。一个长为 $k$ 的不重序列对应回原序列的方案数为 $[k\equiv n\pmod2]\dfrac{1}{k!}\displaystyle\binom{m+(n-k)/2}{(n-k)/2}$。</p>
+<p>容斥掉互不相同的限制，容斥系数同上题。但此时答案不能简单地由状态的等价类信息得出。设 $f_{i,j,d}$ 表示长为 $i$ 的序列，由高至低考虑到第 $d$ 位，有 $j$ 个数顶着上界 $m$ 时满足 $x$ 这些位的限制的方案数，转移可以枚举这一位有几个数仍顶着上界。</p>
+<p>考虑分别有 $i,j$ 个奇偶大小的等价类，则贡献为 $m^jf_{i,0,0}$，则设 $g_{i,j}$ 为目前已经有 $i$ 个数，有 $j$ 个奇数大小等价类的贡献和。等价类之间无序，转移时枚举包含 $1$ 的等价类大小即可。</p>
+<p>时间复杂度 $O(n^3\log v)$，使用生成函数刻画可以得到更优的做法。</p>
+<h3 id="s7">例：<a href="https://www.luogu.com.cn/problem/P10104">异或图</a></h3>
+<blockquote>
+<p>给定一个 $n$ 个点 $m$ 条边的图以及一个长为 $n$ 的序列 $a_{1\dots n}$，有一常数 $C$，你需要求出有多少序列 $b_{1\dots n}$ 满足 $0\le b_i\le a_i$，$\forall (u,v)\in E,b_u\ne b_v$，$\text{xor}_{i=1}^nb_i=C$。</p>
+<p>$n\le 15$。</p>
+</blockquote>
+<p>考虑 $m=0$ 怎么做，从高至低枚举第一个不全顶到上界的位 $d$，则低 $d-1$ 位只需要一个在第 $d$ 位不顶到上界的数进行调整，其余数任选即可。</p>
+<p>令等价类为相等的数的集合，则 $[x^S]F(x)$ 等于 $1$ 当且仅当 $S$ 内点在图上为独立集。$H(x)=\ln (F(x)+1)$ 可以直接求出。</p>
+<p>考虑一个状态的答案，我们只关注每个等价类内部的最小值。每个大小为偶数的等价类均可随便取，大小为奇数的等价类的最小值（称为关键点）构成 $m=0$ 的子问题。</p>
+<p>设 $f_{S,T}$ 表示当前已经考虑了 $S$ 内的点，其中关键点的集合为 $T$ 的方案数，时间复杂度为 $O(4^n)$。</p>
+<p>此时记录了大量无用信息，我们将 $a$ 从小到大排序，逐个尝试加入关键点。设当前加入到 $i$，则 $[1,i)$ 的点已经必然在考虑的点集中，只需要记录它们是否在关键点集中；$[i,n]$ 的点必然不在当前关键点集中，只需要记录它们是否在已考虑点集中。这样状态数就减小至 $2^n$，再加上枚举子集，时间复杂度为 $O(3^nn+2^n(m+n\log V))$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/theory/">返回算法·理论列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">例：DAG 定向问题</a><a class="lv3" href="#s2">例：计树</a><a class="lv3" href="#s3">例：Yet Another ABC String</a><a class="lv3" href="#s4">例：Yet Another Permutation Problem</a><a class="lv3" href="#s5">例：Distinct Multiples</a><a class="lv3" href="#s6">例：A Nameless Counting Problem</a><a class="lv3" href="#s7">例：异或图</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

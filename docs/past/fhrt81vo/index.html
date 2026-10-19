@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快速创造数据 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/tools/">工具</a></p>
+      <h1 class="post-title">快速创造数据</h1>
+      <p class="meta">
+        <span>2021-01-13</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/fhrt81vo" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p>想批量生产数据？下面的数据生成器能满足你的愿望。</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">rad</span><span class="p">{</span>
+<span class="w">	</span><span class="n">mt19937_64</span><span class="w"> </span><span class="nf">R</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">().</span><span class="n">time_since_epoch</span><span class="p">().</span><span class="n">count</span><span class="p">());</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">Rand</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
+<span class="w">		</span><span class="n">uniform_int_distribution</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">distribution</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+<span class="w">	    </span><span class="k">return</span><span class="w"> </span><span class="n">distribution</span><span class="p">(</span><span class="n">R</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">rad</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">string</span><span class="w"> </span><span class="n">in</span><span class="p">,</span><span class="n">out</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">T</span><span class="o">=</span><span class="cm">/*这里放起始数据编号*/</span><span class="p">;</span><span class="n">T</span><span class="o">&lt;=</span><span class="cm">/*这里放终止数据编号*/</span><span class="p">;</span><span class="n">T</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">in</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="n">T</span><span class="p">;</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">J</span><span class="p">){</span>
+<span class="w">			</span><span class="kt">char</span><span class="w"> </span><span class="n">m</span><span class="o">=</span><span class="n">J</span><span class="o">%</span><span class="mi">10</span><span class="o">+</span><span class="sc">'0'</span><span class="p">;</span>
+<span class="w">			</span><span class="n">in</span><span class="o">=</span><span class="n">m</span><span class="o">+</span><span class="n">in</span><span class="p">;</span>
+<span class="w">			</span><span class="n">J</span><span class="o">/=</span><span class="mi">10</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">out</span><span class="o">=</span><span class="n">in</span><span class="p">;</span>
+<span class="w">		</span><span class="n">in</span><span class="o">+=</span><span class="s">".in"</span><span class="p">;</span>
+<span class="w">		</span><span class="n">out</span><span class="o">+=</span><span class="s">".out"</span><span class="p">;</span>
+<span class="w">		</span><span class="n">freopen</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="s">"w"</span><span class="p">,</span><span class="n">stdout</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">//这里放你的数据生成器</span>
+<span class="w">		</span><span class="n">fclose</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+<span class="w">		</span><span class="n">string</span><span class="w"> </span><span class="n">Str</span><span class="o">=</span><span class="s">"/*这里放std文件名*/.exe &lt; "</span><span class="o">+</span><span class="n">in</span><span class="o">+</span><span class="s">" &gt; "</span><span class="o">+</span><span class="n">out</span><span class="p">;</span>
+<span class="w">		</span><span class="n">system</span><span class="p">(</span><span class="n">Str</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>快去造数据吧！</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/tools/">返回工具列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

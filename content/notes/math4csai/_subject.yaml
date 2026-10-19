@@ -1,0 +1,14 @@
+name: 计算机与人工智能应用数学
+name_en: Mathematics for Computer Science and AI
+order: 2
+term: 2026 春
+unit: 次
+columns:
+- homework
+- solution
+show_text: false
+resources:
+- title: 课程讲义 lecture notes
+  file: files/books/math4csai/lecture-notes.pdf
+- title: Discrete Mathematics
+  file: files/books/math4csai/discrete-mathematics.pdf

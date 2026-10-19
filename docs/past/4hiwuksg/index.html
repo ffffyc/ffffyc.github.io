@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P10198 Infinite Adventure P — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P10198 Infinite Adventure P</h1>
+      <p class="meta">
+        <span>2024-09-03</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/4hiwuksg" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P10198">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给定 $n$ 个数组 $c_{i,0\dots t_i-1}$，其中 $t_i$ 为 $2$ 的幂。有 $q$ 次询问，每次询问给出三个参数 $x,T,\Delta$，接下来会执行 $\Delta$ 次 $x\gets c_{x,T\bmod t_x},T\gets T+1$，求出最终的 $x$。</p>
+<p>$n,\sum t\le 10^5$，$q\le 5\times 10^4$。</p>
+<h2 id="s2">题解</h2>
+<p>令 $n=\sum t$，$v=\max\Delta$。</p>
+<p><strong>从一点开始走若干步到达的点提示使用倍增</strong>。</p>
+<p>我们的状态数不能太多，于是一个想法是设 $f_{i,j,k}$ 表示现在在点 $i$，当前时间 $\bmod\ t_i$ 等于 $j$，走 $2^k$ 步到达的点。</p>
+<p>此时一个问题是如果跳到一个 $t_u&gt;t_i$ 的点 $u$，维护的信息不足以得知当前时间 $\bmod\ t_u$ 的值。<strong>注意到 $t_i$ 只有 $\log n$ 种，即我们在一条路径上最多遇到 $\log n$ 次这种情况</strong>。于是我们将此种情况下的 $f_{i,j,k}$ 定义为在这 $2^k$ 步中遇到的第一个 $t_u&gt;t_i$ 的点 $u$，还需再维护 $g_{i,j,k}$ 表示在这个 $u$ 之前已经走了几步了。</p>
+<p>预处理与单次询问均可模拟：从高至低枚举每一位，不断跳直到该位为 $0$，每一位至多只会跳 $\log n$ 次。时间复杂度为 $O(n\log n\log^2v+q\log n\log v)$，无法通过。</p>
+<p>考虑复杂度瓶颈为预处理部分，我们在特殊情况中经过了形如 $i\to u\to v$ 且 $t_u&lt;t_v&lt;t_i$ 这样的路径，这造成了很大的复杂度开销，<strong>我们希望每一次跳到的点 $u$ 对应的 $t_u$ 均为路径上的前缀最大值</strong>，这样一条任意长的路径也只需要跳 $\log n+\log v$ 次即可跳完。</p>
+<p>考虑令 $f_{i,j,k}$ 为在时间为 $j\pmod{t_i}$ 时从点 $i$ 开始不断走直到经过了 $2^k$ 个使得 $t_u=t_i$ 的点 $u$ 或到达一个使得 $t_u&gt;t_i$ 的点 $u$，此时到达的点。相应地有 $g_{i,j,k}$ 表示这条路径的长度。</p>
+<p>预处理时先从小到大枚举 $v$，对所有 $t_i=2^v$ 的 $i$ 求出所有 $f_{i,j,k}$。重点为求出 $f_{i,j,0}$，从 $c_{i,j}$ 开始不断向其后第一个 $t$ 比自身大的跳即可。</p>
+<p>询问时先不断向大跳直到达到路径上 $t$ 的最大值，此后跳过所有 $t$ 值为最大值的点即可减小最大值，显然我们只能减少 $\log n$ 次。</p>
+<p>总时间复杂度 $O(n\log v+q\log n\log v)$，可以通过。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

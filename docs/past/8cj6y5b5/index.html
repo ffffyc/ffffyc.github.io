@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P13275 [NOI2025] 集合 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P13275 [NOI2025] 集合</h1>
+      <p class="meta">
+        <span>2025-07-17</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/8cj6y5b5" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P13275">$\text{Link}$</a></p>
+<h2 id="s1">前言</h2>
+<p><a href="https://www.luogu.com.cn/article/dwcn28bs">感谢本题为我的 OI 生涯画上一个完美的句号，谨以此纪念场上为之奋斗的两个半小时</a>。</p>
+<p>本题解的解法将会比较暴力。</p>
+<h2 id="s2">题意</h2>
+<p>给定长为 $2^n$ 的序列 $a_{0\sim2^n-1}$，定义 $f(S)$ 为集合 $S$ 中所有数的二进制按位与。对于所有 $\{0, 1, \ldots, 2^n - 1\}$ 的不交子集对 $P,Q$ 满足 $f(P)=f(Q)$，计算 $\prod_{i \in P \cup Q} a_i$ 之和。对 $998244353$ 取模。</p>
+<p>$n\le 20$，$T\le 3$。</p>
+<h2 id="s3">思路</h2>
+<p>直接写一个容斥可以做到 $O(8^n)$ 至 $O(7^n)$，可以获得 $16$ 分，但没什么前途。</p>
+<p>考虑直接看作二元集合幂级数，即</p>
+<p>$$\prod_S\left(x^Uy^U+x^Sy^Ua_S+x^Uy^Sa_S\right)$$</p>
+<p>其中 $U$ 表示全集，乘法为集合幂级数 $\text{and}$ 卷积，其 FWT 与 IFWT 分别为高维后缀和以及高维后缀差分。</p>
+<p>维护 FWT 结果，每次乘入一项只会更新 $x,y$ 的此项中至少有一个是 $S$ 子集的元素，最终 IFWT 回去后求解所有 $[x^Sy^S]$ 项的系数之和，暴力做即为 $O(6^n)$，可以获得 $24$ 分。</p>
+<p>瓶颈为乘入一项时枚举子集，要想求答案的 FWT 数组的 $[x^Ay^B]$ 项系数，不妨考虑每个 $S$ 对其的贡献。记 $f_S,g_S$ 分别为：</p>
+<p>$$f_S=\prod_{S\sube T}(a_T+1)$$
+$$g_S=\prod_{S\sube T}\dfrac{2a_T+1}{(a_T+1)^2}$$</p>
+<p>那么答案的 FWT 数组的 $[x^Ay^B]$ 项系数即为 $f_Sf_Tg_{S\cup T}$，做到 $O(4^nn)$。注意处理 $a_S\equiv -1$，不妨将每个数记作 $v\cdot z^k$，其中 $z=0$。</p>
+<p>最后做 IFWT 很没必要，反向推出 FWT 数组的 $[x^Ay^B]$ 项对答案的贡献系数为 $(-1)^{|A|+|B|}2^{|A\cap B|}$，即可做到 $O(4^n)$，获得 $36$ 分。</p>
+<p>明显可以发现这是 $\text{or}$ 卷积的形式，拆一下 $|A\cap B|$ 即可通过 B 性质获得 $68$ 分。问题在于此时涉及了加减法，每个值变为了多项式。注意到最终的运算肯定不会涉及 $z$ 的负次幂，即每个多项式只有最低次项有可能有用，故直接维护最低次项的值即可。</p>
+<p>时间复杂度 $O(2^nn)$，可以通过。</p>
+<p>代码之后再补。</p>
+<blockquote>
+<p>为什么要攀登？因为山就在那里。</p>
+</blockquote>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">前言</a><a class="lv2" href="#s2">题意</a><a class="lv2" href="#s3">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P5491【【模板】二次剩余】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P5491【【模板】二次剩余】</h1>
+      <p class="meta">
+        <span>2021-03-04</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/fvaqnm1a" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P5491"><em>传送门</em></a></p>
+<p>板子题。</p>
+<h2 id="s1">题意</h2>
+<p>给出 $a,p$，求满足 $x^2\equiv a(\bmod p)$ 的所有 $x$。</p>
+<p>模奇素数的二次剩余大家都讲过了，这里不再多说。</p>
+<p>我们来看<a href="https://www.luogu.com.cn/problem/U152928">任意模数二次剩余</a>。</p>
+<h2 id="s2">思路</h2>
+<p>我们将上面的问题拆分为四部分：</p>
+<h4 id="s3">1.$p$ 为奇素数</h4>
+<p>不讲，见其他题解。</p>
+<h4 id="s4">2.$p=p_0^k$，其中 $p_0$ 为奇素数</h4>
+<p>设 $a=p_0^i\times m,p_0\nmid m$。</p>
+<p>当 $i\ne0$ 时：</p>
+<p>设 $x=p_0^j\times n,p_0\nmid n$,即 $x^2=p_0^{2j}n^2$</p>
+<p>$(p_0^{2j}n^2)\bmod p=p^{2j}(n^2\bmod p_0^{k-2j})$，即 $p_0^{2t}\mid a$.</p>
+<p>于是有当 $x_0^2\equiv \dfrac{a}{p^i}(\bmod p_0^{k-i})$ 有解时原方程有解 $x=x_0p^{\frac i 2}$，注意 $2\mid i$ 时才有解。</p>
+<p>注意欧拉定则的 $p-1$ 需要换成 $\phi(p_0^{k-i})$。</p>
+<p>当 $i=0$ 时：</p>
+<p>先解二次剩余
+$$q^2\equiv a(\bmod p_0)$$
+有：
+$$(q^2-a)^k\equiv0(\bmod p)$$
+设
+$$(q^2-a)^k\equiv s^2-t^2a(\bmod p)$$
+有
+$$(q-\sqrt a)^k=s-t\sqrt a$$
+$$(q+\sqrt a)^k=s+t\sqrt a$$
+所以有
+$$s^2\equiv t^2a(\bmod p)$$
+$$s^2t^{-2}\equiv a(\bmod p)$$
+显然逆元有解。</p>
+<p>时间复杂度 $O(\log p)$</p>
+<h4 id="s5">3.$p=2^k$</h4>
+<p>先将 $a$ 中 $2$ 的因数除掉，然后可以发现 $a\equiv 1(\bmod 8)$ 才有解。</p>
+<p>证明：</p>
+<p>因为 $x_0^2\equiv a(\bmod p),2\nmid a$，所以 $2\nmid x_0$
+，设 $x_0=2q+1$。</p>
+<p>$a\equiv(2q+1)^2=4q(q+1)+1(\bmod p)$，我们有 $8\mid 4q(q+1)$，所以 $a\equiv 1(\bmod 8)$ 时原方程有解。</p>
+<p>求解：</p>
+<p>对 $k$ 分类讨论，</p>
+<p>当 $k\le 3$ 时，特判即可。</p>
+<p>当 $k&gt;3$ 时，</p>
+<p>设解可以表示为 $x_0=±(x_{q-1}+t_{q-1}\times 2^{q-2})$</p>
+<p>对于 $x^2\equiv a(\bmod 2^{q-1})$ 的解 $x_{q-1}$，有：</p>
+<p>$$x_{q-1}^2\equiv a\bmod 2^{q-1}(\bmod 2^q)$$
+或
+$$x_{q-1}^2\equiv a\bmod 2^{q-1}+2^{q-1}(\bmod 2^q)$$
+我们要求出 $t_{q-1}$，带入方程 $x^2\equiv a(\bmod 2^{q})$  有
+$$t_{q-1}\equiv \dfrac{a\bmod 2^q-x_{q-1}^2}{2^{q-1}}(\bmod 2)$$
+所以满足要求的 $t_{q-1}=\dfrac{a\bmod 2^q-x_{q-1}^2}{2^{q-1}}+2\times t_q$.</p>
+<p>带回方程 $x^2\equiv a(\bmod 2^{q})$ 得到解为：
+$$x=±(x_{q-1}+\dfrac{a\bmod 2^q-x_{q-1}^2}{2}+2^{k-1}\times t_k)$$</p>
+<p>从 $q=3$ 开始递推就行了。</p>
+<p>时间复杂度 $O(\log p)$，也就是 $O(k)$。</p>
+<h4 id="s6">4.$p$ 无要求</h4>
+<p>分解 $p$ 得到 $t$ 个二次剩余方程
+$$\begin{cases}x_1^2\equiv a(\bmod p_1^{k_1})\x_2^2\equiv a(\bmod p_2^{k_2})\x_3^2\equiv a(\bmod p_3^{k_3})\\...\x_t^2\equiv a(\bmod p_t^{k_t})\end{cases}$$
+最后用 CRT 合并：
+$$\begin{cases}x\equiv x_1(\bmod p_1^{k_1})\x\equiv x_2(\bmod p_2^{k_2})\x\equiv x_3(\bmod p_3^{k_3})\\...\x\equiv x_t(\bmod p_t^{k_t})\end{cases}$$</p>
+<hr />
+<p>本文参考：<a href="https://blog.csdn.net/zxyoi_dreamer/article/details/85195819">-&gt;Click Here&lt;-</a></p>
+<p>代码不放，想要看可以去上面链接中的文章最下方的链接里看，稍作修改即可。</p>
+<p>若我有表述不清，可以去上面链接中的文章中看。</p>
+<p>再见qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a><a class="lv4" href="#s3">1.$p$ 为奇素数</a><a class="lv4" href="#s4">2.$p=p_0^k$，其中 $p_0$ 为奇素数</a><a class="lv4" href="#s5">3.$p=2^k$</a><a class="lv4" href="#s6">4.$p$ 无要求</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

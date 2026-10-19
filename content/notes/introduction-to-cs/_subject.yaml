@@ -1,0 +1,9 @@
+name: 计算机入门
+name_en: Introduction to Computer Science
+order: 4
+term: 2026 秋
+unit: 次
+columns:
+- homework
+- solution
+show_text: false

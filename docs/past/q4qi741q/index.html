@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF1045G【AI robots】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF1045G【AI robots】</h1>
+      <p class="meta">
+        <span>2022-10-21</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/q4qi741q" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/CF1045G">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>有 $n$ 个人，每个人三个属性 $x_i,r_i,q_i$。两个人 $i,j$ 可以互相看到当且仅当 $x_i\in[x_j-r_j,x_j+r_j],x_j\in[x_i-r_i,x_i+r_i],|q_i-q_j|\le k$。求有多少对人会互相看到。</p>
+<p>$1\le n\le 10^5$，$0\le k\le 20$。</p>
+<h2 id="s2">思路</h2>
+<p>神秘波特题，写一个波特题解。本题解为口胡，若有错误或想复杂了请指出。</p>
+<p>先离散化。枚举波特 $i$，求有多少合法的波特 $j$。</p>
+<p>把每个波特 $i$ 放到第 $q_i$ 个 <code>vector</code> 中，枚举 $q_j$，对每个合法 $q_j$ 二分出对应它的 <code>vector</code> 中 $x_j\in[x_i-r_i,x_i+r_i]$ 的区间。</p>
+<p>这个区间内的数满足了限制 $2,3$，考虑有多少个区间里的 $j$ 满足 $x_i\in[x_j-r_j,x_j+r_j]$。转化为点对序列 $(x_j-r_j,x_j+r_j)$，求区间内有多少点 $(a,b)$ 满足 $a\le x_i\le b$。经典转化：相当于对区间内所有 $(a,b)$ 执行区间 $[a,b]$ 加一之后 $x_i$ 位置的值。扫描线，可以差分为前缀 $[1,r]$ 和前缀 $[1,l-1]$ 时的 $x_i$ 位置的值相减。</p>
+<p>这样时间复杂度是 $O(nk\log n)$ 的。看起来不太好。</p>
+<p>考虑优化，二分部分，每个序列 $q_j$ 二分的值是一样的。把所有二分的值取出来排个序再挂回序列上询问，进行归并即可求出每个值在询问序列上的前驱后继。</p>
+<p>扫描线部分，我们执行了 $O(n)$ 次区间加和 $O(nk)$ 次单点求值。考虑不使用树状数组而使用分块。这样可以做到 $O(n\sqrt n+nk)$，略优秀一些。不妨考虑迭代分块，将整块打标记和散块暴力加再分别用分块维护。这样可以做到 $O(n\sqrt[4]n+nk)$。事实上，迭代分块可以做到 $O(n^{1+eps})$ 修改 $O(1)$ 查询。</p>
+<p>最终时间复杂度 $O(n\sqrt[4]n+n\log n+nk)$。</p>
+<p>本题解为口胡，无代码，若有错误或想复杂了请指出。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

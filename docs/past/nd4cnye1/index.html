@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF986F【Oppa Funcan Style Remastered】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF986F【Oppa Funcan Style Remastered】</h1>
+      <p class="meta">
+        <span>2021-12-11</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/nd4cnye1" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/CF986F">$\text{Link}$</a></p>
+<p>惊讶，看了看最优解发现我 300+ms，别人 6s+？</p>
+<p>另外这题 *3300?</p>
+<h2 id="s1">题意</h2>
+<p>给你 $n$ 和 $k$，问 $n$ 能否表示为 $k$ 的若干非 $1$ 因子之和，每个因子可用无限次。</p>
+<p>$t$ 组数据，令 $t_k$ 表示所有数据中不同 $k$ 的数量。</p>
+<p>$n\le 10^{18},k\le 10^{15},t\le 10^4,t_k\le 50$。</p>
+<h2 id="s2">题解</h2>
+<hr />
+<p>引理：若 $n$ 能表示为 $k$ 的若干非 $1$ 因子之和，则 $n$ 能表示为 $k$ 的若干质因子之和。</p>
+<p>证：设 $n=\displaystyle\sum_{i=1}^d w_i$，若 $w_i\notin\Bbb P$，则必然可以找到一个质数 $p|w_i$，显然，$p$ 是 $k$ 的质因子，$w_i$ 便可用 $\dfrac {w_i}p$ 个 $p$ 代替。</p>
+<hr />
+<p>首先对每个 $k$ 分别计算，设 $\displaystyle k=\prod_{i=1}^dp_i^{q_i}$，其中 $p_i\le p_{i+1}$。</p>
+<p>对 $d$ 分类讨论：</p>
+<ul>
+<li>$d=0$：很显然，$k=1$，由于要的是质因子，所以无解。</li>
+<li>$d=1$：很显然，$k\in\Bbb P$，由于只有 $k$ 一个质因子即它自己，直接判断 $[k|n]$ 即可。</li>
+<li>$d=2$：设 $k=x^{u}y^{v}$，很显然，指数在这里没用。假设有解，令 $ax+by=n$，则易得 $by\equiv n(\bmod x)$，求解逆元 $y^{-1}$，带回计算 $[y\times(n\times y^{-1}\bmod x)\le n]$ 即可。</li>
+<li>$d\ge 3$：看起来并不好直接求。</li>
+</ul>
+<p>我们可以发现，对于 $d\ge 3$，$p_1\le\sqrt[3]{k}\le 10^5$。此时我们需要做的是，给定初始状态 $0$ 和 $d$ 种转移，第 $i$ 种转移的权值是 $p_i$，给出一堆询问，求能否通过初始状态转移到 $n$。</p>
+<p>此时需要引入一个算法：同余最短路。</p>
+<p>考虑令 $s_i$ 表示以 $0$ 为初始状态，能转移到的 $u\bmod p_1=i$ 的最小的 $u$。于是对于一个询问 $n$，只需考虑 $[s_{n\bmod p_1}\le n]$ 即可。（显然，之后可以一直 $+p_1$ 拼出 $n$）</p>
+<p>那么怎么计算 $s$ 呢？</p>
+<p>考虑图论建模，转移可以看作对于所有 $2\le i\le d,0\le j&lt;p_1$，连边 $j\to(j+p_i)\bmod p_1$，权值为 $p_i$，从 $0$ 开始使用最短路算法即可得到答案。</p>
+<p>可以发现，$d\le13$，边数是 $\Theta(d\sqrt[3]k)$ 的，点数是 $\Theta(\sqrt[3]k)$ 的，所以该算法的时间复杂度是对的。</p>
+<p>另外，$k$ 很大，分解质因数要用 Pollard-Rho。</p>
+<p>于是这道题就做完了，时间复杂度是 $\Theta(t\log k+t_kd\sqrt[3]k\log k)$，显然跑不满，可以通过。</p>
+<p>代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">PR</span><span class="p">{</span>
+<span class="w">	</span><span class="cp">#define lll __int128</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="nf">qpow</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">mod</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">y</span><span class="p">){</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">y</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">res</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">			</span><span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">			</span><span class="n">y</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">Miller_Rabin</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">y</span><span class="p">){</span>
+<span class="w">			</span><span class="n">ll</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="n">qpow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">res</span><span class="o">!=</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">res</span><span class="o">!=</span><span class="n">x</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">y</span><span class="o">&amp;</span><span class="mi">1</span><span class="o">||</span><span class="n">res</span><span class="o">==</span><span class="n">x</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">			</span><span class="n">y</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">Isprime</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">2</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">46856248255981</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="mi">2</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">3</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">7</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">61</span><span class="o">||</span><span class="n">x</span><span class="o">==</span><span class="mi">24251</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">%</span><span class="mi">6</span><span class="o">!=</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">x</span><span class="o">%</span><span class="mi">6</span><span class="o">!=</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">Miller_Rabin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="n">Miller_Rabin</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">61</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="p">){</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="p">((</span><span class="n">lll</span><span class="p">)</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">c</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="nf">Pollard_Rho</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">rand</span><span class="p">()</span><span class="o">%</span><span class="p">(</span><span class="n">x</span><span class="mi">-1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">stp</span><span class="p">,</span><span class="n">g</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(;;</span><span class="n">g</span><span class="o">&lt;&lt;=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="n">t</span><span class="p">,</span><span class="n">val</span><span class="o">=</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(</span><span class="n">stp</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">stp</span><span class="o">&lt;=</span><span class="n">g</span><span class="p">;</span><span class="n">stp</span><span class="o">++</span><span class="p">){</span>
+<span class="w">				</span><span class="n">t</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">				</span><span class="n">val</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">val</span><span class="o">*</span><span class="n">abs</span><span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">s</span><span class="p">)</span><span class="o">%</span><span class="n">x</span><span class="p">;</span>
+<span class="w">				</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">stp</span><span class="o">&amp;</span><span class="mi">127</span><span class="p">)){</span>
+<span class="w">					</span><span class="n">ll</span><span class="w"> </span><span class="n">q</span><span class="o">=</span><span class="n">__gcd</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">					</span><span class="k">if</span><span class="p">(</span><span class="n">q</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="w">				</span><span class="p">}</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">			</span><span class="n">ll</span><span class="w"> </span><span class="n">q</span><span class="o">=</span><span class="n">__gcd</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">q</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span><span class="w">	</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">cnt</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ans</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">Isprime</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="n">ans</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="k">return</span><span class="w"> </span><span class="p">;}</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">pri</span><span class="o">=</span><span class="n">x</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(;</span><span class="n">pri</span><span class="o">&gt;=</span><span class="n">x</span><span class="p">;</span><span class="n">pri</span><span class="o">=</span><span class="n">Pollard_Rho</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(;</span><span class="n">x</span><span class="o">%</span><span class="n">pri</span><span class="o">==</span><span class="mi">0</span><span class="p">;</span><span class="n">x</span><span class="o">/=</span><span class="n">pri</span><span class="p">)</span><span class="n">s</span><span class="o">++</span><span class="p">;</span>
+<span class="w">		</span><span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">cnt</span><span class="p">,</span><span class="n">ans</span><span class="p">),</span><span class="n">solve</span><span class="p">(</span><span class="n">pri</span><span class="p">,</span><span class="n">cnt</span><span class="o">*</span><span class="n">s</span><span class="p">,</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">decompose</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&amp;</span><span class="n">ans</span><span class="p">){</span>
+<span class="w">		</span><span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="n">ll</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">mp</span><span class="p">;</span><span class="w"> </span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">nd</span><span class="p">{</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="p">{</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="w">	</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">nd</span><span class="o">&gt;</span><span class="n">vec</span><span class="p">;</span>
+<span class="p">}</span><span class="n">tmp</span><span class="p">[</span><span class="mi">70</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cnt</span><span class="p">,</span><span class="n">T</span><span class="p">;</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">ans</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">qpow</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">p</span><span class="p">){</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="n">x</span><span class="o">%=</span><span class="n">p</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">y</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">y</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="n">res</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">p</span><span class="p">;</span>
+<span class="w">		</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">p</span><span class="p">;</span>
+<span class="w">		</span><span class="n">y</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cntt</span><span class="p">,</span><span class="n">head</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="n">ll</span><span class="w"> </span><span class="n">dis</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">vis</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Edge</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">to</span><span class="p">,</span><span class="n">nxt</span><span class="p">;</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">w</span><span class="p">;</span>
+<span class="p">}</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="o">*</span><span class="mi">30</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="n">ll</span><span class="w"> </span><span class="n">w</span><span class="p">){</span>
+<span class="w">	</span><span class="n">cntt</span><span class="o">++</span><span class="p">;</span>
+<span class="w">	</span><span class="n">a</span><span class="p">[</span><span class="n">cntt</span><span class="p">].</span><span class="n">to</span><span class="o">=</span><span class="n">v</span><span class="p">;</span>
+<span class="w">	</span><span class="n">a</span><span class="p">[</span><span class="n">cntt</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+<span class="w">	</span><span class="n">a</span><span class="p">[</span><span class="n">cntt</span><span class="p">].</span><span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">;</span>
+<span class="w">	</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">cntt</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">nodeE</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">d</span><span class="p">;</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="k">friend</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">nodeE</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">nodeE</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">){</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">d</span><span class="o">&gt;</span><span class="n">b</span><span class="p">.</span><span class="n">d</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">};</span>
+<span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">nodeE</span><span class="o">&gt;</span><span class="n">q</span><span class="p">;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Dijkstra</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="p">){</span>
+<span class="w">	</span><span class="n">memset</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">vis</span><span class="p">));</span>
+<span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">dis</span><span class="p">,</span><span class="mi">127</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">dis</span><span class="p">));</span>
+<span class="w">	</span><span class="n">dis</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">=</span><span class="n">s</span><span class="p">;</span>
+<span class="w">	</span><span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span><span class="n">s</span><span class="p">,</span><span class="n">dis</span><span class="p">[</span><span class="n">s</span><span class="p">]});</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
+<span class="w">	    </span><span class="n">nodeE</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="n">q</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+<span class="w">	    </span><span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+<span class="w">	    </span><span class="kt">int</span><span class="w"> </span><span class="n">rt</span><span class="o">=</span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+<span class="w">	    </span><span class="k">if</span><span class="p">(</span><span class="n">vis</span><span class="p">[</span><span class="n">rt</span><span class="p">])</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">	    </span><span class="n">vis</span><span class="p">[</span><span class="n">rt</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">rt</span><span class="p">];</span><span class="n">i</span><span class="p">;</span><span class="n">i</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="p">){</span>
+<span class="w">		    </span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">to</span><span class="p">;</span>
+<span class="w">		    </span><span class="k">if</span><span class="p">(</span><span class="n">dis</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">&gt;</span><span class="n">dis</span><span class="p">[</span><span class="n">rt</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">w</span><span class="p">){</span>
+<span class="w">			    </span><span class="n">dis</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">=</span><span class="n">dis</span><span class="p">[</span><span class="n">rt</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">w</span><span class="p">;</span>
+<span class="w">			    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">vis</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+<span class="w">				    </span><span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">({</span><span class="n">t</span><span class="p">,</span><span class="n">dis</span><span class="p">[</span><span class="n">t</span><span class="p">]});</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="cm">/*</span>
+<span class="cm">4</span>
+<span class="cm">41 236447</span>
+<span class="cm">7 1533</span>
+<span class="cm">128 68191</span>
+<span class="cm">1188 267623</span>
+<span class="cm">*/</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">node</span><span class="w"> </span><span class="n">p</span><span class="p">){</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="n">p</span><span class="p">.</span><span class="n">k</span><span class="p">;</span>
+<span class="w">	</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="n">d</span><span class="p">;</span>
+<span class="w">	</span><span class="n">PR</span><span class="o">::</span><span class="n">decompose</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">d</span><span class="p">);</span>
+<span class="w">	</span><span class="n">sort</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">d</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+<span class="w">	</span><span class="n">d</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">d</span><span class="p">.</span><span class="n">end</span><span class="p">())</span><span class="o">-</span><span class="n">d</span><span class="p">.</span><span class="n">begin</span><span class="p">());</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">sz</span><span class="o">=</span><span class="n">d</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">sz</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">sz</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">tmp</span><span class="o">:</span><span class="n">p</span><span class="p">.</span><span class="n">vec</span><span class="p">)</span>
+<span class="w">			</span><span class="n">ans</span><span class="p">[</span><span class="n">tmp</span><span class="p">.</span><span class="n">id</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">.</span><span class="n">n</span><span class="o">%</span><span class="n">k</span><span class="o">==</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">sz</span><span class="o">==</span><span class="mi">2</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">y</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">tmp</span><span class="o">:</span><span class="n">p</span><span class="p">.</span><span class="n">vec</span><span class="p">){</span>
+<span class="w">			</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">tmp</span><span class="p">.</span><span class="n">n</span><span class="p">;</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">ans</span><span class="p">[</span><span class="n">tmp</span><span class="p">.</span><span class="n">id</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">			</span><span class="k">else</span><span class="p">{</span>
+<span class="w">				</span><span class="n">ll</span><span class="w"> </span><span class="n">pp</span><span class="o">=</span><span class="n">n</span><span class="o">%</span><span class="n">x</span><span class="o">*</span><span class="n">qpow</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="mi">-2</span><span class="p">,</span><span class="n">x</span><span class="p">)</span><span class="o">%</span><span class="n">x</span><span class="p">;</span>
+<span class="w">				</span><span class="n">ans</span><span class="p">[</span><span class="n">tmp</span><span class="p">.</span><span class="n">id</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">lll</span><span class="p">)</span><span class="n">pp</span><span class="o">*</span><span class="n">y</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">		</span><span class="n">cntt</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="n">memset</span><span class="p">(</span><span class="n">head</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">head</span><span class="p">));</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">sz</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">				</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">%</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+<span class="w">		</span><span class="n">Dijkstra</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">tmp</span><span class="o">:</span><span class="n">p</span><span class="p">.</span><span class="n">vec</span><span class="p">){</span>
+<span class="w">			</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">tmp</span><span class="p">.</span><span class="n">n</span><span class="p">;</span>
+<span class="w">			</span><span class="n">ans</span><span class="p">[</span><span class="n">tmp</span><span class="p">.</span><span class="n">id</span><span class="p">]</span><span class="o">=</span><span class="n">dis</span><span class="p">[</span><span class="n">n</span><span class="o">%</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">T</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">T</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">mp</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="w"> </span><span class="n">mp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">=++</span><span class="n">cnt</span><span class="p">;</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="o">=</span><span class="n">mp</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+<span class="w">		</span><span class="n">tmp</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">;</span>
+<span class="w">		</span><span class="n">tmp</span><span class="p">[</span><span class="n">t</span><span class="p">].</span><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="p">});</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">cnt</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">solve</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">T</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">puts</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">?</span><span class="s">"YES"</span><span class="o">:</span><span class="s">"NO"</span><span class="p">);</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

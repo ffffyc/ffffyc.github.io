@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}学习资料 — {{ site.title }}{% endblock %}
+{% block main %}
+<h1 class="page-title">学习资料</h1>
+<p class="lede">按学期与科目归档的笔记、作业与课堂记录。</p>
+
+{% for term in terms %}
+<section class="term">
+  <h2 class="term-name">{{ term.name }}</h2>
+  <div class="cards">
+    {% for s in term.subjects %}
+    <a class="card" href="{{ base }}notes/{{ s.slug }}/">
+      <h3 class="card-title">{{ s.name }}</h3>
+      {% if s.name_en %}<p class="card-en">{{ s.name_en }}</p>{% endif %}
+      {% if s.description %}<p class="card-desc">{{ s.description }}</p>{% endif %}
+      {% if s.count %}<p class="card-count">{{ s.count }} 项</p>{% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+{% if not terms %}<p class="empty">暂无科目。</p>{% endif %}
+{% endblock %}

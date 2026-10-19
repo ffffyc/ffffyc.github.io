@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P6178【模板】Matrix-Tree 定理 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P6178【模板】Matrix-Tree 定理</h1>
+      <p class="meta">
+        <span>2025-11-13</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/v4ognxzb" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P6178">$\text{Link}$</a></p>
+<p>现有的证明都繁长冗杂，利用行列式的定义式带来的低秩矩阵分解这个工具，我们能轻松地证明矩阵树定理。</p>
+<p>本文节选自 <a href="https://www.luogu.com.cn/article/bk01s75s">详细揭秘：低秩矩阵分解与矩阵树定理极简证明</a>。</p>
+<p>:::info[低秩矩阵分解]{open}
+回顾行列式的定义式：</p>
+<p>$$\det(A)=\sum_{p_{1\sim n}}(-1)^{\text{inv}(p)}\prod_{i=1}^nA_{i,p_i}$$</p>
+<p>对于求解 $\det(A+B)$ 的问题，根据行列式的定义式有：</p>
+<ul>
+<li>选取一个集合 $S\sube\{1,2,\dots,n\}$；</li>
+<li>$\forall i\in S$，将 $B_{i,j}$ 替换为 $A_{i,j}$；</li>
+<li>$\det(A+B)$ 的值等于所有子集 $S$ 得到的矩阵 $B'_{i,j}$ 的行列式之和；</li>
+</ul>
+<p>如果其中 $\text{rank}(A)$ 为常数，则可以进行低秩矩阵分解：根据行列式基本性质，只有 $S$ 内行线性无关时才有可能做出贡献，此时明显有 $|S|\le \text{rank}(A)$。
+:::</p>
+<p>:::info[矩阵树定理]{open}
+给定一张图，令 $D,A$ 分别为图的度数矩阵、邻接矩阵，则任意选定 $x$ 并删除 $D,A$ 中的第 $x$ 行、第 $x$ 列后，$\det(D-A)$ 等于该图生成树个数。
+:::
+对于一条边 $(u,v)$，其贡献为一个只有四个点有值的矩阵 $M_i$，其 $(u,u),(v,v)$ 上的值为 $1$，$(u,v),(v,u)$ 上的值为 $-1$。显然 $M_i$ 的秩为 $1$，而 $D-A$ 就是 $\sum M_i$，这适用低秩矩阵分解。</p>
+<p>相当于对每个不等于 $x$ 的点选择了一条边，且这些边互不相同。考虑每种方案的贡献：</p>
+<ul>
+<li>如果选出了环，那么这些行加起来就是全零行，故对应贡献为 $0$。</li>
+<li>如果没有任何环，那么考虑与 $x$ 相连的任意点 $p$，其只能选择 $(p,p)$ 上的 $1$，因为 $(p,x)$ 被删去了，依此递推可以得到贡献为 $1$。</li>
+</ul>
+<p>可以非常轻松地拓展至带权、有向版本推论。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

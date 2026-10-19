@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7431【[THUPC2017] 小 L 的计算题】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7431【[THUPC2017] 小 L 的计算题】</h1>
+      <p class="meta">
+        <span>2021-03-10</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/mqbl945f" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7431">$\text{Link}$</a></p>
+<p>$\text{upd 2022.2.8}$：修改 $\LaTeX$ 和错误的式子。</p>
+<h2 id="s1">题意</h2>
+<p>$$f_k=(\sum_{i=1}^na_i^k)\bmod 998244353$$
+计算出 $f_1\sim f_n$。</p>
+<h2 id="s2">思路</h2>
+<p>算出 $f$ 数列的 $\text{OGF}$ $F(x)$</p>
+<p>$$\begin{aligned}F(x)&amp;=\sum_{i\ge0}x^i\Big(\sum_{j=1}^n{a_j}^i\Big)\\&amp;=\sum_{j=1}^n\sum_{i\ge0}{(a_jx)}^i\\&amp;=\sum_{j=1}^n\dfrac{1}{1-a_jx}\\&amp;=\sum_{j=1}^n\Big(1-\dfrac{-a_jx}{1-a_jx}\Big)\\&amp;=n-x\sum_{j=1}^n\dfrac{-a_j}{1-a_jx}\end{aligned}$$
+我们发现有 $\dfrac{-a_j}{1-a_jx}=(\ln(1-a_jx))'$，得：
+$$F(x)=n-x\sum_{j=1}^n(\ln(1-a_jx))'$$
+又有 $a'+b'=(a+b)'$，得：
+$$\begin{aligned}F(x)&amp;=n-x(\sum_{j=1}^n\ln(1-a_jx))'\\&amp;=n-x(\ln\prod_{j=1}^n(1-a_jx))'\end{aligned}$$
+这个可以分治 $\text{NTT}$ 求出。</p>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

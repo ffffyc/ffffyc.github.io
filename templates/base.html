@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.title }}{% endblock %}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="icon" href="{{ base }}files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="{{ base }}files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{ base }}files/icon-180.png">
+  <link rel="stylesheet" href="{{ base }}assets/style.css?v={{ site.v }}">
+  <link rel="stylesheet" href="{{ base }}assets/pygments.css?v={{ site.v }}">
+  <style>
+    body::before { background-image: url("{{ base }}files/background.jpg"); }
+  </style>
+  {% if math %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="{{ base }}assets/math.js?v={{ site.v }}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  {% endif %}
+</head>
+<body class="{% if wide %}wide{% endif %}{% if wider %} wider{% endif %}">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="{{ base }}">{{ site.title }}</a>
+      <nav class="nav">
+        <a href="{{ base }}past/"{% if section == 'past' %} class="on"{% endif %}>过往文章</a>
+        <a href="{{ base }}notes/"{% if section == 'notes' %} class="on"{% endif %}>学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap{% if wide %} wide{% endif %}{% if wider %} wider{% endif %}">
+    {% block main %}{% endblock %}
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">{{ site.footer }}</div>
+  </footer>
+</body>
+</html>

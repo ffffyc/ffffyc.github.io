@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P14231 复读机 / repeat — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P14231 复读机 / repeat</h1>
+      <p class="meta">
+        <span>2025-10-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/6hxf41c0" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P14231">$\text{Link}$</a></p>
+<p>2024 NOIP 联考供题，数据范围略有加强。</p>
+<h2 id="s1">题意</h2>
+<p>给你一个长度为 $n$ 的序列 $a_{1\dots n}$。</p>
+<p>接下来有 $q$ 次查询，每次给出一个区间 $[l,r]$ 和 $k$，你需要在区间中选择一个长为 $k$ 的子序列，最小化相邻两项的和的最大值。</p>
+<p>$n,q\le 3\times10^5$。</p>
+<h2 id="s2">题解</h2>
+<p>对于一个数 $v$，取出最长的相邻两项和 $\le v$ 的子序列，如果其长度 $\ge k$ 那么答案就 $\le v$。</p>
+<p>我们把 $2a_i\le v$ 的数称为「小数」，反之称之为「大数」。小数必定可连选，大数必定不可连选。</p>
+<p>最优情况必定为小数全选，对于每相邻两个小数，如果它们之间最小的大数可选就选上。</p>
+<p>那么我们<strong>按值域从小到大做扫描线</strong>，每次会将一些大数切换为小数。注意到相邻的小数之间显然均为大数，所以可以求出若干四元组 $(i,j,l,r)$ 表示在 $v\in [l,r]$ 时 $i,j$ 为相邻小数且对答案有 $1$ 的贡献。差分为对 $v\ge l$ 的单点加矩形求和，还需注意 $[i,j]$ 跨过端点时的贡献。</p>
+<p>对这些四元组以及询问进行整体二分即可。</p>
+<p>时间复杂度 $O((n+q)\log^2n)$。</p>
+<p>继续优化，发现<strong>对于一个时刻 $v$，仍有贡献的四元组 $(i,j,l,r),l\le v\le r$ 的区间 $[i,j]$ 除端点外互不相交，那么数点可以降一维：只要求 $i$ 在区间内，此时只会算多包含右端点的一个贡献区间</strong>。</p>
+<p>前驱后继可以类似地在整体二分中双指针维护。</p>
+<p>时间复杂度 $O((n+q)\log n)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

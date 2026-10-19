@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7809【[JRKSJ R2] 01 序列】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7809【[JRKSJ R2] 01 序列】</h1>
+      <p class="meta">
+        <span>2021-02-22</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/z05222pl" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7809">$\text{Link}$</a></p>
+<h3 id="s1">算法 1</h3>
+<p>针对 $\text{Subtask 1}$。</p>
+<p>显然对于询问 $1$，答案为 $r-l+1$，对于询问 $2$，答案为 $1$。</p>
+<p>时间复杂度 $O(n+m)$。期望得分 $5\text{pts}$。</p>
+<h3 id="s2">算法 2</h3>
+<p>暴力求区间最长不降/上升子序列，时间复杂度 $O(mn^2)$。期望得分 $10\text{pts}$，结合算法 $1$ 可得 $15\text{pts}$。</p>
+<h3 id="s3">算法 3</h3>
+<p>设 $pre_{x,i}=\sum_{j=1}^i[a_i=x]$，（$0\le x\le1$，$1\le i\le n$）。</p>
+<p>第一问：</p>
+<p>其实本质是求 $\max_{i=l}^r pre_{0,i}-pre_{0,l-1}+pre_{1,r}-pre_{1,i}$。</p>
+<p>怎么理解这个柿子呢？显然 $pre$ 是前缀和的形式，所以 $pre_{0,i}-pre_{0,l-1}$ 即 $\sum_{j=l}^i[a_i=0]$，$pre_{1,r}-pre_{1,i}$ 即 $\sum_{j=i+1}^r[a_i=1]$。我们可以理解 $i$ 为分界线，分界线前选 $0$，分界线后选 $1$，枚举所有 $l\le i\le r$，显然可以取到最大值，时间复杂度 $O(mn)$。</p>
+<p>还需要特判只选 $1$ 的情况，当然你也可以看为求 $\displaystyle\max_{i=l-1}^rpre_{0,i}-pre_{0,l-1}+pre_{1,r}-pre_{1,i}$。</p>
+<p>第二问：</p>
+<p>显然有答案为 $1$ 或 $2$，答案为 $2$ 时只有在有 $0$ 在最后一个 $1$ 前面，否则为 $1$。</p>
+<p>于是我们考虑维护 $bef_i$ 为 $a_i=1$ 时 $i$ 前最后一个 $0$ 所在的位置，否则为 $0$。</p>
+<p>答案显然为 $1+[(\max_{i=l}^r bef_i)\ge l]$，暴力枚举，时间复杂度 $O(mn)$。</p>
+<p>总时间复杂度 $O(mn)$。期望得分 $25\text{pts}$。</p>
+<h3 id="s4">算法 4</h3>
+<p>上面那个东西可以套路ST表处理，时间复杂度 $O(n\log n+m)$，期望得分 $100\text{pts}$。</p>
+<p>当然开 $2$ 个ST表常数较大。</p>
+<p>用 <code>+1-1RMQ</code> 可以做到严格 $O(n+m)$，常数较大，不做为本题最优做法。</p>
+<p>这里还有一个后来发现的一个减小常数方法：</p>
+<p>发现第二问只有 $1$ 和 $2$ 两种答案，要有 $2$ 则区间中必须出现连续的 $0-1$，于是我们维护 $0-1$ 出现次数的前缀和，如果左端点前缀和等于右端点前缀和，则答案为 $1$，否则为 $2$。可以大大减小常数，如果实现优秀，则可以所有点进 1s。</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e6</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="mi">20</span><span class="p">][</span><span class="n">N</span><span class="p">],</span><span class="n">lg</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="k">pre</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">pp</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">q</span><span class="o">=</span><span class="n">lg</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="n">l</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">q</span><span class="p">][</span><span class="n">r</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">q</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">    	</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">o</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="n">sum</span><span class="o">--</span><span class="p">,</span><span class="n">o</span><span class="o">++</span><span class="p">;</span>
+<span class="w">		</span><span class="k">else</span><span class="w"> </span><span class="n">sum</span><span class="o">++</span><span class="p">,</span><span class="n">z</span><span class="o">++</span><span class="p">;</span>
+<span class="w">		</span><span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">z</span><span class="o">-</span><span class="n">o</span><span class="p">;</span>
+<span class="w">		</span><span class="n">pp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">o</span><span class="p">;</span>
+<span class="w">		</span><span class="k">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="k">pre</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">	    </span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">19</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">)</span><span class="mi">-1</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">			</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="mi">-1</span><span class="p">)]);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">opt</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">l</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">r</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">opt</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">			</span><span class="n">write</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">pp</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="n">pp</span><span class="p">[</span><span class="n">l</span><span class="mi">-1</span><span class="p">],</span><span class="n">query</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">)</span><span class="o">-</span><span class="p">(</span><span class="n">l</span><span class="mi">-1</span><span class="o">-</span><span class="n">pp</span><span class="p">[</span><span class="n">l</span><span class="mi">-1</span><span class="p">])</span><span class="o">+</span><span class="n">pp</span><span class="p">[</span><span class="n">r</span><span class="p">]));</span>
+<span class="w">		</span><span class="k">else</span>
+<span class="w">			</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="o">+!</span><span class="p">(</span><span class="k">pre</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">==</span><span class="k">pre</span><span class="p">[</span><span class="n">r</span><span class="p">]));</span>
+<span class="w">		</span><span class="n">putc</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 qwq~</p>
+<p>upd：好像赛时还被线段树过了，考虑加入主题库后缩小时限。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">算法 1</a><a class="lv3" href="#s2">算法 2</a><a class="lv3" href="#s3">算法 3</a><a class="lv3" href="#s4">算法 4</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

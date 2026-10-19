@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 UVA10110 【Light, more light】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 UVA10110 【Light, more light】</h1>
+      <p class="meta">
+        <span>2020-09-18</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/sydmnryn" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>UVA10110 Light, more light</h1>
+<p><a href="https://www.luogu.com.cn/problem/UVA10110">传送门</a></p>
+<h2 id="s1">思路</h2>
+<p>循环输入，直到输入为 $0$ 。</p>
+<p>每次判断一下这个数是否为完全平方数，输出即可。</p>
+<p>用一个整形数 $w$ 存下 $sqrt(x)$（整形才可把不是完全平方数的平方根的尾数省略），如果 $w*w=x$ 说明 $x$ 是完全平方数（因为它拥有一个因数是它的平方根） 。</p>
+<p>在下面我的程序中，直接使用字符串保存并换行，再输出。</p>
+<p>下面给出AC代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define int long long</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(){</span><span class="c1">//快读</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'0'</span><span class="o">||</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'9'</span><span class="p">){</span><span class="k">if</span><span class="p">(</span><span class="n">ch</span><span class="o">==</span><span class="sc">'-'</span><span class="p">)</span><span class="w"> </span><span class="n">f</span><span class="o">=</span><span class="mi">-1</span><span class="p">;</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();}</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&gt;=</span><span class="sc">'0'</span><span class="o">&amp;&amp;</span><span class="n">ch</span><span class="o">&lt;=</span><span class="sc">'9'</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="p">(</span><span class="n">ch</span><span class="o">^</span><span class="mi">48</span><span class="p">),</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">signed</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">x</span><span class="p">){</span>
+<span class="w">		    </span><span class="k">break</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">string</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="n">pow</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="n">x</span><span class="o">?</span><span class="s">"yes</span><span class="se">\n</span><span class="s">"</span><span class="o">:</span><span class="s">"no</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span><span class="c1">//直接换行</span>
+<span class="w">		</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">a</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见qwq</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

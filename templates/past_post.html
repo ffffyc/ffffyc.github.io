@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ site.title }}{% endblock %}
+{% block main %}
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="{{ base }}past/">缥缈过往</a> / <a href="{{ base }}past/category/{{ post.category_key }}/">{{ post.category }}</a></p>
+      <h1 class="post-title">{{ post.title }}</h1>
+      <p class="meta">
+        <span>{{ post.date_text }}</span>
+        {% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        {% if post.source %}<a class="tag tag-link" href="{{ post.source }}" target="_blank" rel="noopener">洛谷原文</a>{% endif %}
+      </p>
+    </header>
+    <div class="prose">{{ post.html|safe }}</div>
+    <p class="post-back">
+      <a href="{{ base }}past/category/{{ post.category_key }}/">返回{{ post.category }}列表</a>
+      <a href="{{ base }}past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  {% if toc %}
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+    {% for t in toc %}<a class="lv{{ t.level }}" href="#{{ t.id }}">{{ t.text }}</a>{% endfor %}
+  </aside>
+  {% endif %}
+</div>
+{% endblock %}

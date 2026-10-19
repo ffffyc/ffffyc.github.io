@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P8143【[JRKSJ R4] Stirling】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P8143【[JRKSJ R4] Stirling】</h1>
+      <p class="meta">
+        <span>2022-02-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/4chv077f" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8143">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>定义 $n$ 阶排列 $p$ 的生成图为对 $\forall i\in[1,n]$ 连接 $(i,p_i)$ 的无向图。</p>
+<p>求有几个 $n$ 阶排列的生成图有偶数个环。</p>
+<p>$n\le 10^6$。</p>
+<h2 id="s2">思路</h2>
+<p><s>现在的官方题解做法是我提供的，之前是转化成逆序对后解释的。</s></p>
+<p>$n=1$ 的情况平凡，答案为 $0$。</p>
+<p>排列的生成图一定是由若干环组成的，证明：每个点的入度与出度都为 $1$，点数和边数都是 $n$，考虑一个连通子图，设它的大小为 $s$，其中有 $s+k$ 条边，若 $k&gt;0$，则至少有一个点入度大于 $1$；若 $k&lt;0$，必然有其它连通块 $k&gt;0$。所以 $k$ 必然等于 $0$，也就是说边数等于点数。此时有两种形态：单一的环或基环树，基环树中必然有一点有 $2$ 入度同样矛盾，证毕。</p>
+<p>考虑交换 $p_1$ 和 $p_2$，断开 $(1,p_1)$ 和 $(2,p_2)$ 并连接 $(1,p_2)$ 和 $(2,p_1)$，若它们在一个环中，则断开会把环展开为两条链，连接会把它们修复为两个环；反之，断开会把两个环展开为两条链，连接会把它们组成一个环。</p>
+<p>综上，交换 $p_1$ 和 $p_2$ 会改变环数奇偶性，也就是说，生成图有偶数个环的 $n$ 阶排列与生成图有奇数个环的 $n$ 阶排列构成双射，答案为 $\dfrac{n!}2$。</p>
+<p>时间复杂度 $\Theta(n)$。</p>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

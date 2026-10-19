@@ -1,0 +1,14 @@
+name: 算法设计
+name_en: Algorithm Design
+order: 3
+term: 2026 秋
+unit: 次
+columns:
+- homework
+- solution
+resources:
+- title: Algorithm Design（Kleinberg / Tardos）
+  file: files/books/algorithm-design/kleinberg-tardos.pdf
+- title: Introduction to Algorithms（CLRS）
+  file: files/books/algorithm-design/clrs.pdf
+show_text: false

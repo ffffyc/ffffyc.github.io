@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P4795【基因工程】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P4795【基因工程】</h1>
+      <p class="meta">
+        <span>2021-01-29</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/97yddsd6" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h3 id="s1">P4795 基因工程</h3>
+<p><a href="https://www.luogu.com.cn/problem/P4795"><em>P4795 [BalticOI 2018]基因工程</em></a></p>
+<p>我们知道有朴素的 $O(n^3)$ 的暴力，我又不会正解，于是我们来<s>乱搞</s>。</p>
+<h4 id="s2">思路</h4>
+<p>既然复杂度不会优化，那就优化常数。</p>
+<p>朴素字符串匹配是 $O(n)$ 的，于是我们用一个 $4\times 4100$ 的 $\texttt{bitset}$ 维护每个字符串，其中 $4$ 代表的是字符集大小，$4100$ 代表的是字符串长度，第 $i,j$ 个数为 $1$ 的意义是第 $j$ 位的字符为第 $i$ 种字符。</p>
+<p>但是这样还是会 $\texttt{TLE 91pts/94pts}$。</p>
+<p>于是我们考虑随机打乱字符串，使其期望运行次数减小。</p>
+<p>我们使用 <code>random_shuffle</code>  随机打乱字符串顺序。</p>
+<p>然后就过了...</p>
+<p>时间复杂度 $O(\dfrac {n^3}{w})$。</p>
+<p>如果你过不了，那么你需要一些评测机波动<s>和玄学</s>。</p>
+<p>$Code$:</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">4105</span><span class="p">];</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="p">}</span><span class="n">a</span><span class="p">[</span><span class="mi">4105</span><span class="p">];</span>
+<span class="n">bitset</span><span class="o">&lt;</span><span class="mi">4105</span><span class="o">&gt;</span><span class="n">b</span><span class="p">[</span><span class="mi">4110</span><span class="p">][</span><span class="mi">5</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">change</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="p">){</span>
+<span class="w">	</span><span class="k">switch</span><span class="p">(</span><span class="n">ch</span><span class="p">){</span>
+<span class="w">		 </span><span class="k">case</span><span class="w"> </span><span class="sc">'A'</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		 </span><span class="k">case</span><span class="w"> </span><span class="sc">'T'</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">		 </span><span class="k">case</span><span class="w"> </span><span class="sc">'G'</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">		 </span><span class="k">case</span><span class="w"> </span><span class="sc">'C'</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">){</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'A'</span><span class="o">||</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'Z'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&gt;=</span><span class="sc">'A'</span><span class="o">&amp;&amp;</span><span class="n">ch</span><span class="o">&lt;=</span><span class="sc">'Z'</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="o">++</span><span class="n">len</span><span class="p">]</span><span class="o">=</span><span class="n">ch</span><span class="p">,</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d %d %d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">,</span><span class="o">&amp;</span><span class="n">m</span><span class="p">,</span><span class="o">&amp;</span><span class="n">k</span><span class="p">);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">read</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">a</span><span class="p">);</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">id</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">random_shuffle</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">change</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])].</span><span class="n">set</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">){</span>
+<span class="w">				</span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">				</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">p</span><span class="o">&lt;=</span><span class="mi">4</span><span class="p">;</span><span class="n">p</span><span class="o">++</span><span class="p">){</span>
+<span class="w">					</span><span class="n">s</span><span class="o">+=</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span><span class="o">&amp;</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">p</span><span class="p">]).</span><span class="n">count</span><span class="p">();</span>
+<span class="w">				</span><span class="p">}</span>
+<span class="w">				</span><span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="o">+</span><span class="n">k</span><span class="o">!=</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="k">goto</span><span class="w"> </span><span class="n">nxt</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">id</span><span class="p">);</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="nl">nxt</span><span class="p">:;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">P4795 基因工程</a><a class="lv4" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

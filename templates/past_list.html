@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ heading }} — {{ site.title }}{% endblock %}
+{% block main %}
+<header class="list-head">
+  <h1 class="page-title">{{ heading }}</h1>
+  <p class="lede">{{ total }} 篇内容，按时间排列。</p>
+</header>
+
+<nav class="chips">
+  <a class="chip{% if not active_cat %} on{% endif %}" href="{{ base }}past/">全部</a>
+  {% for c in cats %}
+  <a class="chip{% if active_cat == c.name %} on{% endif %}" href="{{ base }}past/category/{{ c.key }}/">{{ c.name }}<span class="chip-n">{{ c.count }}</span></a>
+  {% endfor %}
+</nav>
+
+<ul class="postlist">
+  {% for p in posts %}
+  <li>
+    <a class="pl-title" href="{{ p.url }}">{% if p.top and p.top > 2 %}<svg class="pin" viewBox="0 0 16 16" aria-label="置顶" role="img"><path d="M8 13.2V3.4"/><path d="M3.8 7.6 8 3.4l4.2 4.2"/></svg>{% endif %}{{ p.title }}</a>
+    <span class="pl-date">{{ p.date_text }}</span>
+  </li>
+  {% endfor %}
+</ul>
+
+{% if pager.total > 1 %}
+<nav class="pager">
+  {% if pager.prev %}<a class="pg-step" href="{{ pager.prev }}">上一页</a>{% endif %}
+  {% for page in pager.pages %}
+  <a class="pg{% if page.current %} on{% endif %}" href="{{ page.href }}">{{ page.n }}</a>
+  {% endfor %}
+  {% if pager.next %}<a class="pg-step" href="{{ pager.next }}">下一页</a>{% endif %}
+</nav>
+{% endif %}
+
+{% if hidden_link %}
+<p class="hidden-link"><a href="{{ hidden_link.href }}">{{ hidden_link.label }} {{ hidden_link.count }} 篇，输入口令查看</a></p>
+{% endif %}
+{% endblock %}

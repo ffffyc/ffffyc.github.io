@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>详细揭秘：区间 DP 小计 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
+      <h1 class="post-title">详细揭秘：区间 DP 小计</h1>
+      <p class="meta">
+        <span>2024-08-17</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/6o5kdrh3" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h2 id="s1">状态设计</h2>
+<h3 id="s2">例：<a href="https://www.luogu.com.cn/problem/P10202">沉玉谷</a></h3>
+<blockquote>
+<p>$n$ 个有色小球排成一行，第 $i$ 个小球颜色为 $c_i$，每次可以拿走连续一段颜色相同的小球，问有多少种方式取完所有小球。</p>
+<p>$n\le 50$。</p>
+</blockquote>
+<p>考虑如何求一个区间的答案：<strong>枚举与 $l$ 一同删去的最右的小球</strong>。不相交区间之间没有影响，所以还要多一维表示取了几次。</p>
+<p>设 $f_{l,r,k}$ 表示区间 $[l,r]$ 取 $k$ 次取完的方案数，$g_{l,r,k}$ 表示在 $c_l=c_r$ 的情况下，区间 $[l,r]$ 取 $k$ 次，不取 $l,r$ 且剩下的小球颜色均与 $c_l$ 相同的方案数。</p>
+<p>$$g_{l,r,k}=\sum_{p=l}^{r-1}[c_l=c_p]\sum_{i=0}^{k}g_{l,p,i}f_{p+1,r-1,k-i}\binom{k}{i}$$</p>
+<p>$$f_{l,r,k}=\sum_{p=l}^{r}[c_l=c_p]\sum_{i=1}^{k}g_{l,p,i-1}f_{p+1,r,k-i}\binom{k}{i}$$</p>
+<p>时间复杂度 $O(n^5)$。</p>
+<h3 id="s3">例：<a href="https://www.luogu.com.cn/problem/P7914">括号序列</a></h3>
+<blockquote>
+<p>一个括号串由 <code>(</code>、<code>)</code>、<code>*</code> 三种字符构成，给定一个常数 $k$，按如下的方法定义合法括号串：</p>
+<ul>
+<li>空串为合法括号串；</li>
+<li>设 <code>A,B</code> 均为合法括号串，<code>S</code> 为 <code>*</code> 重复不超过 $k$ 次得到的串，则 <code>(A)</code>、<code>(AS)</code>、<code>(SA)</code>、<code>AB</code>、<code>ASB</code> 均为合法括号串。</li>
+</ul>
+<p>给定一个长为 $n$ 的包含 <code>(</code>、<code>)</code>、<code>*</code>、<code>?</code> 四种字符的字符串，求有多少种将所有字符 <code>?</code> 替换为 <code>(</code>、<code>)</code>、<code>*</code> 的方案数使得其为合法括号串。</p>
+<p>$n\le 500$。</p>
+</blockquote>
+<p>合法的括号串必然形如 <code>(A)*(B)***(C)**(D)</code>，其中每个 <code>*</code> 连续段的长度均小于等于 $k$。</p>
+<p>设 $f_{l,r,0/1/2/3}$ 分别表示 $[l,r]$ 得到 <code>A</code>，<code>(A)</code>，<code>*A</code>，<code>A*</code> 的方案数。注意到 $0$ 状态包含 $1$ 状态。</p>
+<p>有两种转移，第一种转移为在外加括号，则当 $l,r$ 分别可以为 <code>(</code>、<code>)</code> 时有：</p>
+<p>$$f_{l,r,0/1}\gets f_{l+1,r-1,0}+f_{l+1,r-1,2}+f_{l+1,r-1,3}+[\text{chk}(l+1,r-1)]$$</p>
+<p>其中 $[\text{chk}(l,r)]$ 表示 $[l,r]$ 是否能成为 <code>S</code>。</p>
+<p>第二种转移为拼接合法括号串，<strong>枚举第一个 <code>(A)</code></strong>：
+$$f_{l,r,0}\gets \sum_{k=l}^rf_{l,k,1}(f_{k+1,r,0}+f_{k+1,r,2})$$
+$$f_{l,r,2}\gets \sum_{k=l}^r[\text{chk}(l,k)]f_{k+1,r,0}$$
+$$f_{l,r,3}\gets \sum_{k=l}^r[\text{chk}(k,r)]f_{l,k-1,0}$$</p>
+<p>时间复杂度 $O(n^3)$。</p>
+<h3 id="s4">例：<a href="https://www.luogu.com.cn/problem/P10197">Minimum Sum of Maximums P</a></h3>
+<blockquote>
+<p>有一个长为 $n$ 的序列 $a_{1\dots n}$，初始有 $k$ 个位置 $a_{p_1}\dots a_{p_k}$ 已经有值，其余位置均无值。此外还有 $n-k$ 个数 $b_{1\dots n-k}$，你需要将它们放入初始无值的位置并最小化 $\sum_{i=1}^{n-1}\max(a_i,a_{i+1})$。</p>
+<p>$n\le 300$，$k\le \min(n,6)$。</p>
+</blockquote>
+<p>最小化 $\sum\max(a_i,a_{i+1})$ 等价于最小化 $\sum|a_i-a_{i+1}|$。</p>
+<p>令 $a_0=a_{n+1}=+\infty$，固定的位置将序列划分为若干段，要将剩余的数填进去。</p>
+<p>考虑一段内填入的数，一段内填的数必然是有序的，所以只需要考虑给这一段填的数的最小值和最大值，不妨设为 $l_i,r_i$，设这一段两端固定的数分别为 $a_i,b_i(a_i\le b_i)$，则这个区间的代价为 $r_i-l_i+|a_i-l_i|+|b_i-r_i|$。</p>
+<p>使用<strong>调整法</strong>可以说明<strong>一定有某种最优方案使得所有的 $\bm{[l_i,r_i]}$ 之间只有相离和包含关系</strong>，于是将 $b$ 排序，设计状态 $f_{l,r,s}$ 表示使用 $b_{l\sim r}$ 中的数填满 $s$ 中的段的最小代价，<strong>注意可能有未使用的数</strong>。设 $\text{len}(s)$ 表示 $s$ 中的段的长度总和。</p>
+<p>转移共有三种：</p>
+<ul>
+<li>$b_l,b_r$ <strong>预留给下一次包含它们的区间</strong>：
+$$f_{l,r,s}\gets \min(f_{l+1,r,s},f_{l,r-1,s})$$</li>
+<li>用 $b_{l\sim r}$ 中剩余的数填入某个段，条件为 $\text{len}(s)=r-l+1$：
+$$f_{l,r,s}=\min_{i\in s}\left(f_{l,r,s/\{i\}}+r-l+|a_i-l|+|b_i-r|\right)$$</li>
+<li>将两个无交区间合并，<strong>由于前两种转移所以只需要考虑用靠着端点的连续若干个数转移</strong>：
+$$f_{l,r,s}=\min_{t\sube s}\left(f_{l,l+\text{len}(t)-1,t}+f_{r-\text{len}(s/t)+1,r,s/t}\right)$$</li>
+</ul>
+<p>时间复杂度 $O(3^kn^2)$。</p>
+<h3 id="s5">例：<a href="https://www.luogu.com.cn/problem/P10041">史莱姆工厂</a></h3>
+<blockquote>
+<p>有 $n$ 个史莱姆排成一行，其中第 $i$ 个的颜色为 $c_i$，质量为 $m_i$。</p>
+<p>你可以任意次花费 $C$ 将某个史莱姆的质量增加 $1$。你可以任意卖出史莱姆，一个质量为 $i$ 的史莱姆有 $p_i$ 的价值。但是在任意时刻，如果有史莱姆的质量达到 $k$ 或以上，这个史莱姆就必须立即被卖掉。</p>
+<p>卖掉一个史莱姆之后，它两边的史莱姆会靠在一起。颜色相同的史莱姆靠在一起会融合成一个质量等于它们的质量和的史莱姆。</p>
+<p>求出卖掉所有史莱姆最多可以净赚多少。</p>
+<p>$n\le 150$，$k\le 10$。<strong>保证 $\bm{p_i-C\le p_{i+1}}$。</strong></p>
+</blockquote>
+<p>由于 $p_i-C\le p_{i+1}$，我们不会在卖出时再增加史莱姆的质量。</p>
+<p>设 $f_{l,r}$ 表示 $[l,r]$ 的答案，$g_{l,r,w}$ 表示 $[l,r]$ 中卖出一些史莱姆且最终剩余一个包含 $l$ 的质量为 $w$ 的史莱姆的最大获利，$h_{l,r,w}$ 表示 $[l,r]$ 中卖出一些史莱姆且最终剩余一个包含 $r$ 的质量为 $w$ 的史莱姆的最大获利。转移 $g_{l,r,w}$ 时<strong>枚举 $l$ 之后第一个合并进来的史莱姆编号</strong>：</p>
+<p>$$g_{l,r,w}=\max_{i=l+1,c_l=c_i}^r(f_{l+1,i-1}+g_{i,r,w-m_l})$$</p>
+<p>此外还有不合并的情况即 $g_{l,r,m_l}=f_{l+1,r}$。$h_{l,r,w}$ 的转移同理。</p>
+<p>转移 $f_{l,r}$ 时，<strong>如果 $\bm{c_l=c_r}$ 且最后 $\bm{l,r}$ 合并</strong>：
+$$f_{l,r}=\max_{i=l,c_l=c_i}^{r-1}\max_{1\le x,y&lt;k}(g_{l,i,x}+h_{i+1,r,y}+p_{x+y})$$</p>
+<p>如果最后 $l,r$ 不合并，<strong>注意区间内的史莱姆不能和区间外的合并</strong>：
+$$f_{l,r}=\max_{i=l,c_i\ne c_{r+1}\text{ or }c_{i+1}\ne c_{l-1}}^{r-1}(f_{l,i}+f_{i+1,r})$$</p>
+<p>上述几个转移对应的史莱姆删除顺序可以手玩一下。</p>
+<p>时间复杂度 $O(n^3k^2)$。</p>
+<h2 id="s6">算法优化</h2>
+<h3 id="s7">例：<a href="https://www.luogu.com.cn/problem/P10141">Merging Cells P</a></h3>
+<blockquote>
+<p>有 $n$ 个初始大小为 $s_{1\dots n}$ 的细胞从左到右排成一行。当存在多个细胞时，均匀地随机选择一对相邻细胞，其中较大的细胞会吞掉较小的细胞，若它们大小相同则编号较大的细胞会吞掉编号较小的细胞。对 $\forall i\in[1,n]$ 求出最终 $i$ 细胞存活的概率。</p>
+<p>$n\le 5000$。</p>
+</blockquote>
+<p>区间 DP，但是传统<strong>枚举最后一次合并</strong>，设计 $f_{l,r,i}$ 表示 $[l,r]$ 得到 $i$ 的概率，时间复杂度 $O(n^4)$，难以优化。</p>
+<p>思维方向是<strong>降维或者正难即反</strong>。上述做法枚举了最后一次合并，将小区间合并成为大区间。而一个区间得到的细胞大小是固定的，不妨考虑<strong>将大区间分裂成为小区间</strong>，设计 $f_{l,r}$ 表示最终答案在 $[l,r]$ 的概率。</p>
+<p>$$f_{l,r}=\sum_{1\le k&lt;l}^{s(k,l-1)\le s(l,r)}\dfrac{f_{k,r}}{r-k}+\sum_{r&lt;k\le n}^{s(r+1,k)&lt;s(l,r)}\dfrac{f_{l,k}}{k-l}$$</p>
+<p>时间复杂度 $O(n^3)$，需要继续优化。显然对于一个区间 $[l,r]$ 只有一个区间内的 $k$ 是合法的，可以双指针求出。以合适的方式选择前缀和、后缀和优化即可做到 $O(n^2)$。</p>
+<h3 id="s8">例：<a href="https://codeforces.com/gym/542554/problem/K">Si</a></h3>
+<blockquote>
+<p>给你一个长为 $n$ 的单调递增的序列 $a_{1\dots n}$，你需要猜出一个数 $x\in[1,n]$。每次可以询问一个整数 $y$，你将会得到 $y\le a_x$ 是否成立，该次询问会造成 $|a_x-y|$ 的代价且你并不知道该代价。求出确定 $x$ 所需要的最小代价和。</p>
+<p>$n\le 1000$。</p>
+</blockquote>
+<p>将代价中的绝对值拆掉，设 $f_{l,r,c}$ 表示已经确定 $x\in[l,r]$，且询问的所有 $y$ 中小于 $a_x$ 的个数减去大于 $a_x$ 的个数为 $c$。则 $f_{i,i,c}=ca_i$，转移为：</p>
+<p>$$f_{l,r,c}=\min_{k=l}^{r-1}\min_{y=a_k+1}^{a_{k+1}}\max(f_{l,k,c-1}+y,f_{k+1,r,c+1}-y)$$</p>
+<p>其中对于单个 $k$ 其对应的最小 $y$ 显然可以 $O(1)$ 计算。而经过尝试，$c$ 的绝对值不会超过 $O(\log v)$，于是我们得到了一个 $O(n^3\log v)$ 的算法。</p>
+<p>考虑<strong>决策单调性</strong>，归纳易证 $f_{l+1,r,c}\le f_{l,r,c}\le f_{l,r+1,c}$，于是我们可以证明 $f_{l,r,c}$ 的决策点 $\text{opt}_c(l,r)$ 满足 $\text{opt}_c(l,r-1)\le\text{opt}_c(l,r)\le \text{opt}_c(l+1,r)$。直接使用决策单调性优化便可做到 $O(n^2\log v)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/theory/">返回算法·理论列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">状态设计</a><a class="lv3" href="#s2">例：沉玉谷</a><a class="lv3" href="#s3">例：括号序列</a><a class="lv3" href="#s4">例：Minimum Sum of Maximums P</a><a class="lv3" href="#s5">例：史莱姆工厂</a><a class="lv2" href="#s6">算法优化</a><a class="lv3" href="#s7">例：Merging Cells P</a><a class="lv3" href="#s8">例：Si</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF86D 【Powerful array】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF86D 【Powerful array】</h1>
+      <p class="meta">
+        <span>2020-12-10</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/iefn81hy" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>CF86D Powerful array</h1>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/CF86D"><em>传送门</em></a></h4>
+<p>蒟蒻刚学莫队，找题做，<s>结果被块长卡了一个中午$RE$#$55$</s>，<s>顺便拿了个最优解</s></p>
+<h2 id="s2">思路</h2>
+<p>给出 $n,q,a_{1,2,...,n}$,每次询问给出$l$、$r$，$cnt_i$ 为 $l$、$r$ 区间中 $i$ 出现的次数，求 $\sum_icnt_i\times i$。</p>
+<p>区间询问，考虑莫队维护。</p>
+<p>莫队就是维护 $L,R$ ，对于每次询问跳到正确的区间处理的<s>暴力</s>算法，如果还不会右转<a href="https://www.luogu.com.cn/problem/P3901">P3901</a>。</p>
+<p>此题与 $P3901$ 类似，也是拿一个 $cnt$ 数组存当前 $L,R$ 区间中 $i$ 的出现次数，考虑插入 $i$，由平方差公式得</p>
+<p>$$ans={(cnt_i+1)}^2\times i-{cnt_i}^2\times i+ans=((cnt_i+cnt_i+1)\times (cnt_i-cnt_i+1))\times i+ans=(2\times cnt_i+1)\times i+ans$$</p>
+<p>删除同理，转换符号即可。</p>
+<p>接下来就是莫队基本操作了，$sz$ 作为块长取 $\frac{n}{\sqrt{\frac{3}{2}m}}+1$（因为#$55$中 $n&lt;\sqrt{\frac{3}{2}m}$，导致出现 $sz$ 为 $0$ 的情况，得$+1$）最快。按照 $sz$ 进行奇偶排序，然后暴力跳 $L,R$ 就行了，具体见下代码内容。</p>
+<p>$AC\;Code:$</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//IO优化</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">ibuf</span><span class="p">[(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">20</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="o">*</span><span class="n">iS</span><span class="p">,</span><span class="o">*</span><span class="n">iT</span><span class="p">,</span><span class="n">out</span><span class="p">[(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">25</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">	</span><span class="cp">#define gh() (iS==iT?iT=(iS=ibuf)+fread(ibuf,1,(1&lt;&lt;20)+1,stdin),(iS==iT?EOF:*iS++):*iS++)</span>
+<span class="c1">//  #define gh() getchar()</span>
+<span class="w">	</span><span class="cp">#define reg register</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(){</span>
+<span class="w">		</span><span class="n">reg</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">gh</span><span class="p">();</span>
+<span class="w">		</span><span class="n">reg</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'0'</span><span class="o">||</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'9'</span><span class="p">)</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">gh</span><span class="p">();</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&gt;=</span><span class="sc">'0'</span><span class="o">&amp;&amp;</span><span class="n">ch</span><span class="o">&lt;=</span><span class="sc">'9'</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="p">(</span><span class="n">ch</span><span class="o">^</span><span class="mi">48</span><span class="p">),</span><span class="n">ch</span><span class="o">=</span><span class="n">gh</span><span class="p">();</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="mi">9</span><span class="p">)</span><span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">		</span><span class="n">out</span><span class="p">[</span><span class="n">len</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="n">x</span><span class="o">%</span><span class="mi">10</span><span class="o">+</span><span class="mi">48</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">curL</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">curR</span><span class="p">,</span><span class="n">sz</span><span class="p">,</span><span class="n">cnt</span><span class="p">[</span><span class="mi">1000001</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="mi">200001</span><span class="p">];</span><span class="c1">//具体意义见上</span>
+<span class="n">ll</span><span class="w"> </span><span class="n">g</span><span class="p">[</span><span class="mi">200001</span><span class="p">],</span><span class="n">ans</span><span class="p">;</span><span class="c1">//g_i表示第i次询问的答案</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">que</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+<span class="w">	</span><span class="k">friend</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">que</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">que</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">){</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">l</span><span class="o">/</span><span class="n">sz</span><span class="o">^</span><span class="n">b</span><span class="p">.</span><span class="n">l</span><span class="o">/</span><span class="n">sz</span><span class="o">?</span><span class="n">a</span><span class="p">.</span><span class="n">l</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">l</span><span class="o">:</span><span class="n">a</span><span class="p">.</span><span class="n">l</span><span class="o">/</span><span class="n">sz</span><span class="o">&amp;</span><span class="mi">1</span><span class="o">?</span><span class="n">a</span><span class="p">.</span><span class="n">r</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">r</span><span class="o">:</span><span class="n">a</span><span class="p">.</span><span class="n">r</span><span class="o">&gt;</span><span class="n">b</span><span class="p">.</span><span class="n">r</span><span class="p">;</span><span class="c1">//奇偶排序</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span><span class="n">ask</span><span class="p">[</span><span class="mi">200001</span><span class="p">];</span><span class="c1">//询问</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">){</span><span class="c1">//加</span>
+<span class="w">	</span><span class="n">cnt</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">++</span><span class="p">,</span><span class="n">ans</span><span class="o">+=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">cnt</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="mi">-1</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">del</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">){</span><span class="c1">//删</span>
+<span class="w">	</span><span class="n">cnt</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">--</span><span class="p">,</span><span class="n">ans</span><span class="o">-=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">cnt</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="n">sz</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="c1">//块长</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">r</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="n">ask</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">};</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">sort</span><span class="p">(</span><span class="n">ask</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">ask</span><span class="o">+</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span><span class="c1">//离散化</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">L</span><span class="o">=</span><span class="n">ask</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">l</span><span class="p">,</span><span class="n">R</span><span class="o">=</span><span class="n">ask</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">r</span><span class="p">;</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">curL</span><span class="o">&gt;</span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="o">--</span><span class="n">curL</span><span class="p">);</span>
+<span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">curR</span><span class="o">&lt;</span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="o">++</span><span class="n">curR</span><span class="p">);</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">curL</span><span class="o">&lt;</span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="n">del</span><span class="p">(</span><span class="n">curL</span><span class="o">++</span><span class="p">);</span>
+<span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">curR</span><span class="o">&gt;</span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="n">del</span><span class="p">(</span><span class="n">curR</span><span class="o">--</span><span class="p">);</span>
+<span class="w">        </span><span class="n">g</span><span class="p">[</span><span class="n">ask</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">id</span><span class="p">]</span><span class="o">=</span><span class="n">ans</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">		</span><span class="n">out</span><span class="p">[</span><span class="n">len</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="sc">'\n'</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">fwrite</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">len</span><span class="p">,</span><span class="n">stdout</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*</span>
+<span class="cm">Time:18.14s</span>
+<span class="cm">Memory:41.48MB</span>
+<span class="cm">*/</span>
+</code></pre>
+<p>那这就再见了 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

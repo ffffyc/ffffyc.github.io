@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P12704 Retribution — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P12704 Retribution</h1>
+      <p class="meta">
+        <span>2023-07-07</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/0qthyrkm" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P12704">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给你一个 $n\times m$ 的棋盘，每个格点上标有一个字符 $c_{i,j}\in\{\texttt{U},\texttt{D},\texttt{L},\texttt{R}\}$，分别代表上、下、左、右。在一个格点可以移动到一个与它相邻的格点，但移动方向<strong>不能</strong>与当前所在格点上的字符所代表的方向相同且不能移出棋盘。</p>
+<p>给出 $q$ 次询问，每次询问给出两个格点 $s,t$，询问能否从格点 $s$ 通过若干次移动到达格点 $t$。</p>
+<p>$n,m\le 1.5\times 10^3$，$q\le 10^6$。</p>
+<h2 id="s2">前言</h2>
+<p>这题原做法 $O(n^2\log n+q)$ 本来想投公开赛，但 zak 发现了<a href="https://codeforces.com/gym/102391/problem/C">更强的问题</a>，后面转投联考，又发现了 $O(n^2+q)$ 的简单做法。</p>
+<p>由于这题我还挺喜欢的，故放到洛谷上来了（</p>
+<p>在简单线性做法之后附了原复杂带 $\log$ 做法，感兴趣的可以看一下。</p>
+<h2 id="s3">题解</h2>
+<p>为了方便，我们考虑用 $b,a$ 代替 $s,t$，即询问 $b$ 能否到达 $a$。不妨在上下左右边界分别加上一排的 $\texttt{D},\texttt{U},\texttt{R},\texttt{L}$（转角随意），显然不影响答案。</p>
+<blockquote>
+<p><strong>结论 1：$b$ 不能到达 $a$ 当且仅当存在一个包含 $a$，不包含 $b$ 的矩形使得其上下左右边界分别为 $\texttt{D},\texttt{U},\texttt{R},\texttt{L}$（转角随意）。</strong></p>
+</blockquote>
+<p>证明：显然 $b$ 不能到达 $a$ 必须有一个封闭多边形隔开 $a,b$，此时假设 $b$ 能到达此封闭多边形的边界（即没有更大的多边形隔开 $a,b$）。假设其不是矩形，则必然存在一个内凹拐角，$b$ 到达这个拐角有两个方向进入多边形，而字符只能阻隔一个方向，所以此多边形必然是矩形。</p>
+<p>定义<strong>合法矩形</strong>为上述上下左右边界分别全为 $\texttt{D},\texttt{U},\texttt{R},\texttt{L}$（不含转角）的矩形的内部区域。</p>
+<blockquote>
+<p><strong>结论 2：合法矩形之间只可能存在不相交和包含两种关系。</strong></p>
+</blockquote>
+<p>证明：显然，若相交且不包含则考虑交点处。</p>
+<p>那么将边反向，考虑反图上 $a$ 是否能到达 $b$。此时可以发现 $a$ 能到达的点即为包含其的最小合法矩形内的点，只需要求出该矩形即可。</p>
+<p>直接使用 Tarjan 缩点即可解决，时间复杂度 $O(nm+q)$。</p>
+<h2 id="s4">原题解</h2>
+<p>显然，<strong>以一个格点为右下角的合法矩形对应的左上角在两个维度上都是单调的。</strong>（其它拐角同理）</p>
+<p>定义以一个格点为右下角的极大合法矩形为此格点与它对应的最靠左上的左上角形成的合法矩形。</p>
+<p>我们需要对每个格点 $(x,y)$ 求出 $l_U$ 表示其左侧有多长的连续的 $\texttt U$，即 $\forall k\in[y-l_{U,(x,y)},y-1],(x,k)$ 上的字符都是 $\texttt U$ 且 $(x,y-l_{U,(x,y)}-1)$ 上的字母不是 $\texttt U$，同理求出 $u_L,u_R,d_R,l_D,r_D$。</p>
+<blockquote>
+<p><strong>结论 3：对于所有格点，以其为右下角的极大合法矩形中较短的一边长度之和是 $O(nm)$ 级别的。</strong></p>
+</blockquote>
+<p>证明：对于一个格点，以其为右下角的极大合法矩形中短边长必定小于等于 $\min(l_U,u_L)$。</p>
+<p>对每一段横着的连续的 $\texttt U$，向上找到另一段连续的 $\texttt U$（如果上方没有足够长的能覆盖这一段的则可以拆解这一段），考虑这两行间怎么填使得 $\sum\min(l_U,u_L)$ 最大。</p>
+<pre class="code"><code class="language-cpp"><span class="n">UUUUUUUU</span>
+<span class="n">LLLLLLLL</span>
+<span class="n">LLLLLLLL</span>
+<span class="n">UUUUUUUU</span>
+</code></pre>
+<p>平铺 $\texttt{L}$，若有 $l$ 行的 $\texttt L$，$u$ 列的 $\texttt U$，令 $u\ge l$，这两行间 $\sum\min(l_U,u_L)$ 为</p>
+<p>$$\dfrac{l(l-1)}2+(u-l)l=ul-\dfrac{l(l+1)}{2}$$</p>
+<p>不超过 $ul$，也就是中间这几行的每个格子最多有 $1$ 的贡献，由于每个点只会至多被夹在两行 $\texttt U$ 之间贡献 $1$，$\sum\min(l_U,u_L)$ 级别为 $O(nm)$。</p>
+<p>所以对每个格点可以枚举 $l_U,u_L$ 中较短的一边。</p>
+<p>枚举 $B=(x,y)$ 为右下角，不妨设 $l_{U,B}\le u_{L,B}$，枚举 $P=(x,k),k\in[y-l_{U,B}-1,y-2]$，判断其能否作为矩形左下角，即找到最小的 $p$ 使得 $p\in[x-\min(u_{R,P},u_{L,B})-1,x-2]$，且 $A=(p,k)$ 处 $r_{D,A}\ge y-k-1$，那么 $(p+1,k+1),(x-1,y-1)$ 便是一个合法矩形的左上角、右下角。可以二分加 $\text{RMQ}$ 求出这个 $p$。下图为一个简单的例子。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/10we2qru.png?x-oss-process=image" alt="" /></p>
+<p>不妨假设询问中 $a$ 在 $b$ 的左上方。那么能够阻隔 $a,b$ 的合法矩形的右下角 $(x_r,y_r)$ 需要满足 $x_r&lt;x_b$ 或 $y_r&lt;y_b$，并且包含点 $a$（显然此时 $b$ 在矩形外部）。下图中，蓝色的矩形可以阻隔 $a,b$，而红色的则不行。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/image_hosting/cptczdiu.png?x-oss-process=image" alt="" /></p>
+<p>$x_r&lt;x_b$ 或 $y_r&lt;y_b$ 的限制比较难处理，我们分别对 $x_r&lt;x_b$ 和 $y_r&lt;y_b$ 判断，如果两种中有一种存在阻隔 $a,b$ 的矩形则 $b$ 就不能到达 $a$。两种情况类似，仅讨论如何求 $x_r&lt;x_b$ 的答案。我们将合法矩形按 $x_r$ 从小到大排序。扫描线，扫到某个矩形时，标记其内部所有格点。扫到询问即询问点 $a$ 是否被标记。</p>
+<p>并查集可以支持快速取出区间内未删除的数并删去。我们对每一行、每一列维护并查集，对于横边短的矩形，我们修改列的并查集，对于竖边短的矩形，我们修改行的并查集。</p>
+<p>将整个表格旋转，对四个方向分别做一次即可避免分类讨论 $a,b$ 位置关系。</p>
+<p>假设 $n,m$ 同阶，时间复杂度 $O(n^2\log n+q)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">前言</a><a class="lv2" href="#s3">题解</a><a class="lv2" href="#s4">原题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

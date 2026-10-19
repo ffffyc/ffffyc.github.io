@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>详细揭秘：特殊图高斯消元 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
+      <h1 class="post-title">详细揭秘：特殊图高斯消元</h1>
+      <p class="meta">
+        <span>2024-08-01</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/gr6q34i5" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h2 id="s1">树上高斯消元</h2>
+<blockquote>
+<p>给你一颗树，某些点为终止结点，求从每个点开始随机游走走到某个终止节点的期望时间。</p>
+</blockquote>
+<p>从叶子开始将 $f(u)$ 表示为 $k(u)f(\text{fa}(u))+b(u)$，带回 $f(\text{fa}(u))$ 的方程中将 $f(u)$ 消掉即可。</p>
+<h2 id="s2">DAG 上高斯消元</h2>
+<blockquote>
+<h4 id="s3"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2158&amp;pid=1">可重集 / reset</a></h4>
+<p>有一个可重集 $S$，每一个时刻：</p>
+<ul>
+<li>有 $p$ 的概率执行以下操作：如果 $S=\varnothing$，则无事发生，否则会从 $S$ 中删去恰好一个 $\min(S)$；</li>
+<li>否则执行以下操作：如果 $S=\varnothing$，则会随机一个 $x\in[1,n]$ 加入 $S$ 中，否则会随机一个 $x\in[1,\min(S)]$ 加入 $S$ 中。</li>
+</ul>
+<p>给定 $n,m$，$q$ 次询问给出一个初始的 $S$，问期望什么时刻 $\text{sum}(S)$ 第一次大于 $m$。</p>
+<p>$n,m\le 5\times 10^3$，$q,\sum|S|\le 10^5$。</p>
+</blockquote>
+<p>设 $f(S)$ 为答案，则有：
+$$f(S)=1+pf(S\setminus\min(S))+\dfrac{1-p}{\min(S)}\sum_{i=1}^{\min(S)}f(S\cup i)$$</p>
+<p>使用树上高斯消元可得 $40$ 分。</p>
+<p>观察到转移只与 $\text{sum}(S),\min(S)$ 有关，即对于所有 $\text{sum}(S),\min(S)$ 相同的 $S$，它们转移的方式非常相似，考虑将它们压缩起来。我们设 $f(i,j)$ 表示和为 $i$，最小值为 $j$ 时的答案，则：</p>
+<p>$$f(i,j)=1+pf(i-j,?)+\frac{1-p}{j}\sum_{x=1}^{j}f(i+x,x)$$</p>
+<p>其中 $f(i-j,?)$ 是不确定的：类比递归，调用者知道被调用者是谁，被调用者不知道调用者是谁。此处 $f(i,j)$ 调用了 $f(i+x,x)$。</p>
+<p>下面归纳证明：存在确定的 $k(i,j)$ 和 $b(i,j)$，使得对于任意的 $f(i-j,?)$ 均有 $f(i,j)=k(i,j)f(i-j,?)+b(i,j)$。</p>
+<ul>
+<li>当 $i&gt;m$ 时，$k(i,j)=b(i,j)=0$ 即可。</li>
+<li>假设 $i&gt;i'$ 时结论均成立，当 $i=i'$ 时：</li>
+</ul>
+<p>$$\begin{aligned}f(i,j)&amp;=1+p f(i-j,?)+\frac{1-p}{j}\sum_{x=1}^{j}f(i+x,x)\\
+&amp;=1+p f(i-j,?)+\frac{1-p}{j}\sum_{x=1}^{j}\left[k(i+x,x)f(i,j)+b(i+x,x)\right]\end{aligned}$$</p>
+<p>移项得</p>
+<p>$$k(i,j)=\dfrac{p}{1-\frac{1-p}{j}\sum_{x=1}^{j}k(i+x,x)}$$
+$$b(i,j)=\dfrac{1+\frac{1-p}{j}\sum_{x=1}^j b(i+x,x)}{1-\frac{1-p}{j}\sum_{x=1}^{j}k(i+x,x)}$$
+$f(\varnothing)$ 没有前驱，单独计算：
+$$f(\varnothing)=\frac{1+\frac{1-p}{n}\sum_{x=1}^n b(x,x)}{1-p-\frac{1-p}{n}\sum_{x=1}^n k(x,x)}$$</p>
+<p>对于给定的初始集合 $S$，加入元素的顺序一定是从大到小。设 $S$ 从大到小排序后为 $a_{1\sim k}$，前缀和为 $b_{1\sim k}$， 递归 $f(b_k,a_k)=k(b_k,a_k)\times f(b_{k-1},a_{k-1})+b(b_k,a_k)$ 就能求出答案。</p>
+<p>使用离线线性求逆可以做到 $O(nm+q)$。</p>
+<p>更平凡地，</p>
+<blockquote>
+<p>给你一个有向无环图，出度为 $0$ 的点为终止结点，求从每个点开始随机游走走到某个终止节点的期望时间。</p>
+<p>随机游走的规则为：对于每一次，设当前在点 $u$，有 $p_u$ 的概率回退上一步游走以及 $1-p_u$ 的概率进行一次游走，以 $w_{u,v}$ 为权随机一条边 $u\to v$ 游走到点 $v$。</p>
+</blockquote>
+<h2 id="s4">ACAM 上高斯消元</h2>
+<blockquote>
+<h4 id="s5"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2001&amp;pid=0">字符串 / string</a></h4>
+<p>给你 $n$ 个长为 $m$、字符集为 $k$ 的字符串 $T_{1\sim n}$，以及一个长为 $k$ 的序列 $p_{1\sim k}$，每次询问给一个字符串 $S$，在 $S$ 后面以 $p$ 为概率随机添加字符直到恰好包含任意一个 $T_i$，求期望添加字符数量。</p>
+<p>$n,m\le 100$，$k\le nm$。</p>
+</blockquote>
+<p>建出 ACAM，由于字符集大，我们不复制转移，当需要转移 $(x,t,c)$ 这样一条边时从 $\text{fail}(x)$ 开始暴力跳 $\text{fail}$ 直到存在 $c$ 转移边即可。考虑一个串在 Trie 树上形成的一条链，显然每次跳 $\text{fail}$ 都会使深度变小至少 $1$，而转移一个字符深度至多增加 $1$，所以这部分均摊复杂度 $O(nm\log k)$。</p>
+<p>不妨先考虑字符集 $k$ 较小的时候怎么做。设 $g_{u,c}$ 表示从节点 $u$ 添加转移 $c$ 到达的点，$f(u)$ 为从 $u$ 开始游走需要的期望时间。</p>
+<p>$$f(u)=1+\sum_{c}f(g_{u,c})p_c$$</p>
+<p>暴力高消只能做到 $O(n^3m^3+nmk)$。</p>
+<p>一个思路为<strong>取若干变量为关键变量，使得非关键变量都可以通过关键变量与常数的线性组合来表示</strong>。对于这个问题，对于 Trie 树上所有儿子数量 $\text{son}(u)\ge 2$ 的结点 $u$，我们将所有 $u$ 的儿子 $v$ 对应的变量 $f(v)$ 设为关键变量。除此之外，再将 $f(0)$ 设为关键变量。</p>
+<p>接下来我们需要将所有非关键变量用关键变量表示。我们按深度由浅至深考虑，对于结点 $u$，由于它是非关键变量，所以它的父亲 $t$ 只有它一个儿子，设 $u$ 到父亲的边上的字符为 $c$。</p>
+<p>$$f(t)=1+f(u)p_c+\sum_{i\ne c}f(g_{t,i})p_i$$</p>
+<p>由于 $t$ 只有 $u$ 一个儿子，故 $\text{dep}(g_{t,i})\le \text{dep}(t)$，所以可以直接表示出 $f(u)$。</p>
+<p>考虑关键变量数量，由于叶子只有 $O(n)$ 个，每一次出现大于一个儿子就会多出现对应数量的叶子，所以关键变量只有 $O(n)$ 个。</p>
+<p>再考虑如何将关键变量消元。设有 $l$ 个关键变量，则必然剩余 $l$ 个方程：</p>
+<ul>
+<li>对于 $\text{son}(u)\ge 2$:</li>
+</ul>
+<p>$$f(t)=1+\sum_{i}f(g_{t,i})p_i$$</p>
+<ul>
+<li>对于 $\text{son}(u)=0$：
+$$f(u)=0$$</li>
+</ul>
+<p>时间复杂度 $O(n^2mk+n^3)$，不够优秀。</p>
+<p>考虑将 $k$ 去掉。对于表示 $f(u)$ 的部分：</p>
+<p>$$f(u)=\dfrac{f(t)-\sum_{i\ne c}f(g_{t,i})p_i-1}{p_c}$$</p>
+<p>若 $t=0$，则</p>
+<p>$$f(u)=f(t)-\dfrac{1}{p_c}$$</p>
+<p>否则</p>
+<p>$$f(u)=\dfrac{f(t)-f(\text{fail}(t))}{p_c}+f(\text{fail}(u))$$</p>
+<p>对于求解关键变量列方程的部分：
+$$\begin{aligned}f(t)&amp;=1+\sum_{c}f(g_{t,c})p_c\\
+&amp;=1+\sum_{c\in\text{son}(t)}f(g_{t,c})p_c+\sum_{c\notin\text{son}(t)}f(g_{\text{fail}(t),c})p_c\\
+&amp;=f(\text{fail}(t))+\sum_{c\in\text{son}(t)}\left[f(g_{t,c})-f(\text{fail}(g_{t,c}))\right]p_c
+\end{aligned}$$</p>
+<p>时间复杂度成功优化为 $O(n^2m+n^3)$。</p>
+<p>对每个关键变量分别进行一次上述过程即可做到空间复杂度 $O(nm)$。</p>
+<hr />
+<blockquote>
+<h4 id="s6"><a href="https://www.luogu.com.cn/problem/P3706">[SDOI2017] 硬币游戏</a></h4>
+<p>给你 $n$ 个长为 $m$、字符集为 $k$ 的字符串 $T_{1\sim n}$，每次询问给一个字符串 $S$，在 $S$ 后面均匀随机添加字符直到恰好包含任意一个 $T_i$，对 $i\in [1,n]$ 求最终恰好包含 $T_i$ 的概率。</p>
+<p>$n,m\le 300$，$k=2$。</p>
+</blockquote>
+<p>仿照上题，先建出 ACAM，设 $f(u)$ 为在不经过终止结点的情况下经过 $u$ 的期望次数，则对于非根结点 $u$ 有：</p>
+<p>$$f(u)=\sum_{v\notin \text{End}}f(v)\sum_c[g_{v,c}=u]p_c$$</p>
+<p>依旧考虑设定关键变量，由于此题转移路径与上一题相反，不妨考虑设定所有叶子为关键变量，在 Trie 树上按照深度由深至浅表示非关键变量。对于结点 $u$ 与其父亲 $t$ 有：</p>
+<p>$$f(u)=\dfrac12f(t)+\dfrac12\sum_{v\notin \text{End},v\ne \text{fa}(u)}f(v)\sum_c[g_{v,c}=u]$$</p>
+<p>由于 $\text{dep}(v)\ge \text{dep}(u)$ 故可以直接移项表示出 $f(t)$。</p>
+<p>接下来需要列出 $n$ 条方程：</p>
+<ul>
+<li>对于 $\text{son}(u)=2$ 的结点，其两个儿子导出的表示方法相同；</li>
+<li>由于最终一定会到达关键结点，故所有关键变量之和为 $1$。</li>
+</ul>
+<p>时间复杂度 $O(n^2m+n^3)$，空间复杂度 $O(nm)$，可以通过。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/theory/">返回算法·理论列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">树上高斯消元</a><a class="lv2" href="#s2">DAG 上高斯消元</a><a class="lv4" href="#s3">可重集 / reset</a><a class="lv2" href="#s4">ACAM 上高斯消元</a><a class="lv4" href="#s5">字符串 / string</a><a class="lv4" href="#s6">[SDOI2017] 硬币游戏</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

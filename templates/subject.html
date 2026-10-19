@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}{{ subject.name }} — {{ site.title }}{% endblock %}
+{% block main %}
+<header class="subject-head">
+  <h1 class="page-title">{{ subject.name }}</h1>
+  {% if subject.name_en %}<p class="lede">{{ subject.name_en }}</p>{% endif %}
+  {% if subject.description %}<p class="lede">{{ subject.description }}</p>{% endif %}
+</header>
+
+{% if subject.merge and subject.merged_rows %}
+<div class="table-wrap">
+  <table class="course-table">
+    <thead>
+      <tr>
+        <th class="col-n">{{ subject.lecture_unit }}</th>
+        {% if subject.show_text %}<th class="col-text">涉及内容</th>{% endif %}
+        {% for c in subject.merged_columns %}<th>{{ c.label }}</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in subject.merged_rows %}
+      <tr>
+        <td class="col-n">{{ r.n }}</td>
+        {% if subject.show_text %}<td class="col-text">{{ r.text }}</td>{% endif %}
+        {% for c in subject.merged_columns %}
+        {% set group = r.cells.get(c.key) %}
+        <td>
+          {% if group %}
+            {% for e in group %}
+              {% if e.hidden %}
+              <a class="locked" href="{{ e.url }}" title="隐藏内容，需要口令">{{ e.short }}</a>
+              {% else %}
+              <a href="{{ e.href }}">{{ e.short }}</a>
+              {% endif %}
+              {% if not loop.last %}<span class="sep">·</span>{% endif %}
+            {% endfor %}
+          {% else %}
+          <span class="none">—</span>
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if subject.rows and not subject.merge %}
+<div class="table-wrap">
+  <table class="course-table">
+    <thead>
+      <tr>
+        <th class="col-n">{{ subject.unit }}</th>
+        {% if subject.show_text %}<th class="col-text">涉及内容</th>{% endif %}
+        {% for c in subject.columns %}<th>{{ c.label }}</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in subject.rows %}
+      <tr>
+        <td class="col-n">{{ r.n }}</td>
+        {% if subject.show_text %}<td class="col-text">{{ r.text }}</td>{% endif %}
+        {% for c in subject.columns %}
+        {% if c.key == 'lectures' %}
+        <td class="col-lect">{% if r.lect %}{{ r.lect }}{% else %}<span class="none">—</span>{% endif %}</td>
+        {% else %}
+        {% set group = r.cells.get(c.key) %}
+        <td>
+          {% if group %}
+            {% for e in group %}
+              {% if e.hidden %}
+              <a class="locked" href="{{ e.url }}" title="隐藏内容，需要口令">{{ e.short }}</a>
+              {% else %}
+              <a href="{{ e.href }}">{{ e.short }}</a>
+              {% endif %}
+              {% if not loop.last %}<span class="sep">·</span>{% endif %}
+            {% endfor %}
+          {% else %}
+          <span class="none">—</span>
+          {% endif %}
+        </td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if subject.lecture_rows and not subject.merge %}
+<div class="table-wrap">
+  <table class="course-table">
+    <thead>
+      <tr>
+        <th class="col-n">{{ subject.lecture_unit }}</th>
+        {% for c in subject.lecture_columns %}<th>{{ c.label }}</th>{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in subject.lecture_rows %}
+      <tr>
+        <td class="col-n">{{ r.n }}</td>
+        {% for c in subject.lecture_columns %}
+        {% set group = r.cells.get(c.key) %}
+        <td>
+          {% if group %}
+            {% for e in group %}
+            <a href="{{ e.href }}">{{ e.short }}</a>{% if not loop.last %}<span class="sep">·</span>{% endif %}
+            {% endfor %}
+          {% else %}
+          <span class="none">—</span>
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if subject.loose %}
+<section class="block">
+  <h2 class="sec">讲义与笔记</h2>
+  <ul class="itemlist">
+    {% for it in subject.loose %}
+    <li>
+      <a class="pl-title" href="{{ it.href }}">{{ it.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if subject.resources %}
+<section class="block">
+  <h2 class="sec">参考资料</h2>
+  <ul class="itemlist">
+    {% for r in subject.resources %}
+    <li>
+      <a class="pl-title" href="{{ base }}{{ r.file }}" target="_blank" rel="noopener">{{ r.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if subject.groups and not subject.rows %}
+{% for label, items in subject.groups %}
+<section class="block">
+  <h2 class="sec">{{ label }}</h2>
+  <ul class="itemlist">
+    {% for it in items %}
+    <li>
+      {% if it.href %}<a class="pl-title" href="{{ it.href }}">{{ it.title }}</a>
+      {% else %}<span class="pl-title">{{ it.title }}</span>{% endif %}
+      <span class="pl-date">{{ it.date_text }}</span>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+{% endif %}
+
+{% if not subject.entries %}<p class="empty">这个科目还没有内容。</p>{% endif %}
+
+<p class="post-back"><a href="{{ base }}notes/">返回学习资料</a></p>
+{% endblock %}

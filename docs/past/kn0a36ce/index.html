@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P1383 【高级打字机】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P1383 【高级打字机】</h1>
+      <p class="meta">
+        <span>2020-10-10</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/kn0a36ce" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>P1383 高级打字机</h1>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/P1383"><em>传送门</em></a></h4>
+<h2 id="s2">思路</h2>
+<p>看到一道可持久化的字符串操作题，我立马打了一个叫做<code>rope</code>的数据结构。机房dalao说这是一个用可持久化红黑树实现的数据结构，我们先来学习一下<code>rope</code>的用法。</p>
+<p>首先要使用<code>rope</code>，需要加上一下两行：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;ext/rope&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">__gnu_cxx</span><span class="p">;</span>
+</code></pre>
+<p>然后我们可以定义一个字符串类型的<code>rope</code>，叫做<code>crope</code>，要这样定义：</p>
+<pre class="code"><code class="language-cpp"><span class="n">crope</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<span class="n">crope</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+</code></pre>
+<p><code>crope</code>支持的操作：</p>
+<ul>
+<li><code>a.push_back(x)</code>：在<code>crope a</code>的末尾增加字符串<code>x</code></li>
+<li><code>a.insert(k,x)</code>：在<code>a</code>的第<code>k</code>个字符后加入字符串<code>x</code></li>
+<li><code>a.erase(k,x)</code>：在<code>a</code>的第<code>k</code>个字符后删除<code>x</code>个字符</li>
+<li><code>a.replace(k,x)</code>：将<code>a</code>的第<code>k</code>个字符后<code>x</code>的长度个字符删除，并插入<code>x</code></li>
+<li><code>a.substr(k,x)</code>：获取<code>a</code>的第<code>k</code>个字符后的长度为<code>x</code>的字符串</li>
+<li><code>a.at(k)</code>：获取<code>a</code>的第<code>k</code>个字符（从0开始）</li>
+</ul>
+<p>我们可以拿一个数组来保存历史版本（反正不卡空间），每次读入操作，执行操作，保存到第$V$个历史版本中。</p>
+<ul>
+<li>对于操作$T$，我们可以使用<code>push_back</code>（或<code>insert</code>）</li>
+<li>对于操作$U$，我们可以直接回退到$V-x$的版本</li>
+<li>对于操作$Q$，我们可以使用<code>at</code>（或<code>substr</code>）</li>
+</ul>
+<p><code>crope</code>为什么可以通过此题呢？机房的dalao说它的复制操作是$O(log\enspace n)$的，可以较轻松地实现可持久化。</p>
+<p><s>所以这种算法可以轻松水过IOI难度</s></p>
+<p>上AC代码~</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="cp">#include</span><span class="cpf">&lt;ext/rope&gt;</span><span class="c1">//头文件</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">__gnu_cxx</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="n">crope</span><span class="w"> </span><span class="n">now</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="n">N</span><span class="p">];</span><span class="c1">//定义crope，保存现在的串与历史版本</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">V</span><span class="p">;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="nf">read</span><span class="p">(){</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="k">while</span><span class="p">((</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'U'</span><span class="o">||</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'Q'</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'z'</span><span class="o">||</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'a'</span><span class="p">)){</span>
+<span class="w">		</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">solve</span><span class="p">(){</span><span class="c1">//操作</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">opt</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="k">switch</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="k">case</span><span class="w"> </span><span class="sc">'T'</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="c1">//T操作</span>
+<span class="w">			</span><span class="kt">char</span><span class="w"> </span><span class="n">q</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">			</span><span class="n">now</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">);</span>
+<span class="w">			</span><span class="n">p</span><span class="o">++</span><span class="p">;</span>
+<span class="w">			</span><span class="n">x</span><span class="p">[</span><span class="o">++</span><span class="n">V</span><span class="p">]</span><span class="o">=</span><span class="n">now</span><span class="p">;</span>
+<span class="w">			</span><span class="k">break</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">case</span><span class="w"> </span><span class="sc">'U'</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="c1">//U操作</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="w">			</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+<span class="w">			</span><span class="n">now</span><span class="o">=</span><span class="n">x</span><span class="p">[</span><span class="n">V</span><span class="o">-</span><span class="n">q</span><span class="p">];</span>
+<span class="w">			</span><span class="n">x</span><span class="p">[</span><span class="o">++</span><span class="n">V</span><span class="p">]</span><span class="o">=</span><span class="n">now</span><span class="p">;</span>
+<span class="w">			</span><span class="k">break</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">case</span><span class="w"> </span><span class="sc">'Q'</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="c1">//Q操作</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="w">			</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">q</span><span class="p">);</span>
+<span class="w">			</span><span class="n">putchar</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">q</span><span class="mi">-1</span><span class="p">));</span>
+<span class="w">			</span><span class="n">puts</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+<span class="w">			</span><span class="k">break</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kt">signed</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">	</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">t</span><span class="p">);</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">t</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">		</span><span class="n">solve</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>最后送出<a href="https://www.luogu.com.cn/problem/P6166"> $\textcolor{#000000}{双倍经验}$ </a></p>
+<p>再见qwq</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

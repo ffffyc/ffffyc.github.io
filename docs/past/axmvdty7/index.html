@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P3235【[HNOI2014]江南乐】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P3235【[HNOI2014]江南乐】</h1>
+      <p class="meta">
+        <span>2021-07-07</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/axmvdty7" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P3235">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>一次操作可以将一堆数量为 $i$（$i\ge F$）的石子分为 $j-i\bmod j$ 堆数量为 $\left\lfloor\frac{i}{j}\right\rfloor$ 的石子和 $i\bmod j$ 堆数量为 $\left\lceil\frac{i}{j}\right\rceil$ 的石子，其中 $j$ 是每次操作时玩家自行选定，满足 $2\le j\le i$，$F$ 为给定。不能操作者输。</p>
+<p>初始有 $n$ 堆石子，第 $i$ 堆石子的数量为 $a_i$。多组数据，但 $F$ 不改变。</p>
+<p>$T,n\le100$，$F,a_i\le10^5$.</p>
+<h2 id="s2">思路</h2>
+<p>我们定一个数的 $\text{SG}$ 值为 $f(x)$，一个局面的 $\text{SG}$ 值为 $f(state)=\bigoplus_{i\in state}f(i)$。</p>
+<p>于是求出每个数的 $\text{SG}$ 值即可。</p>
+<p>首先，对于 $i&lt;F$，$f(i)=0$，因为显然此时无法取到石子，先手必败。</p>
+<p>然后枚举 $j$，我们可以算出此时划分的局面的 $\text{SG}$ 值。因为只有两种棋子的取值，且知道每堆的数量，所以算此时划分的局面的 $\text{SG}$ 值是 $O(1)$ 的。</p>
+<p>令 $v=\max\{a_i\}$，则此时时间复杂度为 $O(v^2+Tn)$，无法通过。</p>
+<p>瓶颈在于计算 $\text{SG}$，我们观察式子，发现有 $\left\lfloor\frac{i}{j}\right\rfloor$ 这一形式，于是考虑整除分块。</p>
+<p>但是式子里还有 $i\bmod j$ 这一形态，整除分块不好处理，怎么办呢？</p>
+<p>考虑向奇偶性方向想，</p>
+<ul>
+<li>当  $2\nmid\left\lfloor\frac{i}{j}\right\rfloor$ 时，$j-i\bmod j=j-(i-j\left\lfloor\frac{i}{j}\right\rfloor)=j(1+\left\lfloor\frac{i}{j}\right\rfloor)-i$，发现此时 $j-i\bmod j$ 的奇偶性不变，则此部分贡献不变；</li>
+<li>当 $2|\left\lfloor\frac{i}{j}\right\rfloor$ 时，$i\bmod j=i-j\left\lfloor\frac{i}{j}\right\rfloor$，则 $i\bmod j$ 奇偶性不变，此部分贡献不变。</li>
+</ul>
+<p>发现无论 $\left\lfloor\frac{i}{j}\right\rfloor$ 的奇偶性，两种数量的石子的堆数中总有一种不变。</p>
+<p>于是我们只需要枚举 $2$ 个 $j$ 值就能代表所有情况了。</p>
+<p>求 $\text{mex}$ 可以暴力，因为集合里的数的个数为 $O(\sqrt v)\times O(1)=O(\sqrt v)$。</p>
+<p>此时时间复杂度降为 $O(v\sqrt v+Tn)$，可以通过。</p>
+<p>由于查询的 $a_i$ 值较少，不会涵盖整个值域，可以使用记忆化搜索，比递推快很多。</p>
+<p>代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">f</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">SG</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getSG</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">){</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="o">~</span><span class="n">SG</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">SG</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="kt">bool</span><span class="w"> </span><span class="n">vis</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">	</span><span class="n">memset</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">vis</span><span class="p">));</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">r</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">=</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">		</span><span class="n">r</span><span class="o">=</span><span class="n">i</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">j</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="kt">bool</span><span class="w"> </span><span class="n">flag</span><span class="o">=</span><span class="n">i</span><span class="o">%</span><span class="n">j</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">j</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">^=</span><span class="n">getSG</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">%</span><span class="n">j</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">^=</span><span class="n">getSG</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">j</span><span class="p">);</span>
+<span class="w">		</span><span class="n">j</span><span class="o">++</span><span class="p">;</span>
+<span class="w">		</span><span class="n">vis</span><span class="p">[</span><span class="n">res</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="p">){</span>
+<span class="w">			</span><span class="n">res</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">j</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">^=</span><span class="n">getSG</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">i</span><span class="o">%</span><span class="n">j</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">^=</span><span class="n">getSG</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">j</span><span class="p">);</span>
+<span class="w">			</span><span class="n">j</span><span class="o">++</span><span class="p">;</span>
+<span class="w">			</span><span class="n">vis</span><span class="p">[</span><span class="n">res</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">vis</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="w">			</span><span class="k">return</span><span class="w"> </span><span class="n">SG</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">memset</span><span class="p">(</span><span class="n">SG</span><span class="p">,</span><span class="mi">-1</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">SG</span><span class="p">));</span>
+<span class="w">	</span><span class="n">T</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">f</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">T</span><span class="o">--</span><span class="p">){</span>
+<span class="w">		</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">res</span><span class="o">^=</span><span class="n">getSG</span><span class="p">(</span><span class="n">read</span><span class="p">());</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">res</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">),</span><span class="n">putc</span><span class="p">(</span><span class="sc">' '</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

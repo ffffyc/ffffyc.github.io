@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}文章 — {{ site.title }}{% endblock %}
+{% block main %}
+<h1 class="page-title">文章</h1>
+
+{% for year, group in years %}
+<section class="year">
+  <h2 class="year-label">{{ year }}</h2>
+  <ul class="postlist">
+    {% for p in group %}
+    <li>
+      <a class="pl-title" href="{{ p.url }}">{{ p.title }}</a>
+      <span class="pl-date">{{ p.date_text }}</span>
+      {% if p.summary %}<p class="pl-sum">{{ p.summary }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+
+{% if not posts %}<p class="empty">暂无文章。</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSP-S 2022 游寄 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
+      <h1 class="post-title">CSP-S 2022 游寄</h1>
+      <p class="meta">
+        <span>2022-09-27</span>
+<span class="tag">CSP-S 2022</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/m2bac2ag" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h3 id="s1">$2022.9.18$</h3>
+<p>初赛。由于去年 AK 了普及所以只报了提高。宇宙射线轰爆 CCF。</p>
+<p>赛时磕填空 $1$，举了好多例子感觉没有一组是程序跑得出的。</p>
+<p>赛后看了看，和大家选得差不多，但是好像第一题就我选 $\text C$。</p>
+<p>根据代码，只有 $\text C$ 跑得出来。</p>
+<h3 id="s2">$2022.9.21$</h3>
+<p>CCF 官答/cf。</p>
+<p>$O(\log_kn)$，这里是日志函数而不是对数函数，定义域为 $k,n\in \text R$。</p>
+<p>$O(\lfloor\log_k n\rfloor+1)$ 是日志函数的一个简单运用，但是由于 $+1$ 了是错的。</p>
+<p>填空 $1$ 就算跑不出来也应该 $+1$。</p>
+<p>估分 $78-6=72$。又是垫底。</p>
+<h3 id="s3">$2022.9.27$</h3>
+<p>麻了，果然 GD 不到 ddl 是不会出线的。</p>
+<p>查分查了一天，确实是 $72$，CCF/lh。</p>
+<p>能不能过啊。过了。</p>
+<h3 id="s4">$2022.10.17\sim10.28$</h3>
+<p>第一次停课，还是挺特殊的感觉的。</p>
+<p>中午会去抄一些笔记，感觉勉强跟得上。</p>
+<p>这几天就打打模拟赛，顺带复习了<a href="https://www.luogu.com.cn/training/224320">一些板子</a>（事实上我也知道 $\text{CSP}$ 复习板子用处不大）。</p>
+<p>大概就是考前的晚上就开摆，打了一晚上音游。</p>
+<p>大概 $\text{Concvssion}$ 比 $\text{Aleph-0}$ 好听一些，就用它替换了 $\text{JRKSJ R5 F}$ 的题目名字。</p>
+<p>有点紧张，但又不那么紧张。</p>
+<h3 id="s5">$2022.10.29$</h3>
+<p>上午开摆。$\text{Orzmic}$ 判定真神奇。</p>
+<h4 id="s6">$14:00$</h4>
+<p>进场。</p>
+<h4 id="s7">$14:27$</h4>
+<p>下发密码，$\text{belief2022}$。</p>
+<p>看了题，第一眼 $\text A$ 是个简单题，$\text B$ 一眼没看出来，但是感觉很简单。</p>
+<p>$\text C$ 题面有点长，看了一遍没理清题意，先跳了。</p>
+<p>$\text D$ 不会。</p>
+<h4 id="s8">$14:35\sim15:00$</h4>
+<p>先想 $\text A$，发现 $O(nm)$ 可以接受，然后第一反应是 $dp_{i,j}$，第 $i$ 个景点为 $j$。突然看到不能重复，想加一维，发现有点难度，跳了。</p>
+<h4 id="s9">$15:00\sim 15:45$</h4>
+<p>看 $\text B$，开始分类讨论，讨论区间内有没有 $a_x&lt;0,a_x=0,a_x&gt;0,b_y&lt;0,b_y=0,b_y&gt;0$，然后每种情况只和最小最大情况有关，写 $\text{ST}$ 表就好了。期望得分 $100$。</p>
+<h4 id="s10">$15:45\sim16:30$</h4>
+<p>再看 $\text A$，想了一会，还是不会，打算写个乱搞。考虑对 $dp_{i,j}$ 维护第 $i$ 个景点为 $j$ 的前 $k$ 优的解和路径。再这些解中找到不包含 $j$ 的进行转移（归并）即可。</p>
+<p>先令 $k=500$ 跑了跑，发现 $n\le300$ 的部分可以快速出解，但是 $n\le2500$ 非常慢。数据分治，当 $n\le 300$ 时取 $k=500$，否则取 $k=5$，期望得分 $[70,100]$。</p>
+<p>我猜这玩意比较难卡？</p>
+<h4 id="s11">$16:30\sim17:30$</h4>
+<p>战术厕所，看 $\text C$，理清了题意，发现是问是否是内向基环树森林，只需维护每个点出度是不是 $1$。对每个点维护两个 $\text{set}$，表示连向 $i$ 的，没有被删除的/已经被删除的点集。发现没有 $4$ 操作时均摊复杂度正确，跑了大样例 $4$ 还挺快，可能能多草点分，期望得分 $[60,?]$。</p>
+<p>看 $\text D$，完全没有思路。写了个 $k=1$ 的分和 $O(qn^2\log n)$ 的 $\text{dij}$。期望得分 $36$。</p>
+<h4 id="s12">$17:30\sim18:00$</h4>
+<p>拍了 $\text B$，造了其它三个题的极限数据测了测没问题。</p>
+<h4 id="s13">$18:00\sim18:28$</h4>
+<p>开摆，反复检查文件，战术厕所。</p>
+<h4 id="s14">$18:29$</h4>
+<p>结束，出考场。期望得分 $[70,100]+100+[60,?]+36=[266,336]$。</p>
+<p>发现 $\text{Ntokisq}$ 也不会 $\text A$ 的正解，他写了个随机化。</p>
+<p>感觉今年 $7$ 级可能要上 $300$，有点害怕。</p>
+<p>问了 $\text{iorit}$，他全程刚 $\text D$，没打 $\text C$ 的暴力。看起来不是很好。</p>
+<p>后面发现大家全都会做 $\text D$，有点慌。可是我连矩乘题没看出来，难过。</p>
+<p>原来 $\text A$ 是简单题，折半即可。考场思路真奇怪。</p>
+<p>晚上拿到代码测了测，INFOJ 是 $100+100+60+52=312$ 分。真奇怪，$\text D$ 的 $52$ 我在考场上随便卡掉了，怎么跑得过？</p>
+<p>今年的进步就在于考场决策，懂得跳 $\text A$ 做 $\text B$，稳住心态。</p>
+<p>对了一下，希望能有 $7$ 级。</p>
+<h3 id="s15">$2022.10.31$</h3>
+<p>有人在 INFOJ（?）上面测了 GD 所有人的分数。</p>
+<p>我 $100+100+60+52=312$ 排到了 $\text{rk}30$，震撼。</p>
+<p>$\text{Ntokisq } 100+100+60+76=336$ 排到了 $\text{rk18}$，震撼。</p>
+<p>等个官方成绩。看起来 $7$ 级没问题？</p>
+<p>写了 <a href="https://www.luogu.com.cn/blog/cyffff/solution-csp2022-a-p8817">$\text A$ 的题解</a>。</p>
+<h3 id="s16">$2022.11.2$</h3>
+<p>看了眼小图灵成绩。</p>
+<p>还是 $100+100+60+52=312$，省排 $36/1483$，国排 $255/8969$。</p>
+<h3 id="s17">$2022.11.7$</h3>
+<p>全 NO 45 是什么。。。。</p>
+<p>CCF 你有一点良知吗？</p>
+<p>年度难绷，不会造数据就别出题。</p>
+<p>我草，怎么官方还卡我 $5$ 分。</p>
+<p>$95+100+60+52=307$。</p>
+<p>明天看看数据，要是是评测问题到时候考虑要不要申诉。不过问题不大。真是抽象。</p>
+<h3 id="s18">$2022.11.8$</h3>
+<p>官方数据。</p>
+<p>我草，CCF 数据有一点水平，把我卡了！</p>
+<p>WA95.</p>
+<p>怎么是 $k=0$ 的点，还大了/yun。</p>
+<p>小问题，调好了。</p>
+<p><a href="https://www.luogu.com.cn/blog/Binary1110011/post-20221108-xian-hua#">好文推荐。</a></p>
+<h3 id="s19">$2022.11.17$</h3>
+<p>拿到了 $7$ 级，三年了终于蓝√了。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/travel/">返回游记列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">$2022.9.18$</a><a class="lv3" href="#s2">$2022.9.21$</a><a class="lv3" href="#s3">$2022.9.27$</a><a class="lv3" href="#s4">$2022.10.17\sim10.28$</a><a class="lv3" href="#s5">$2022.10.29$</a><a class="lv4" href="#s6">$14:00$</a><a class="lv4" href="#s7">$14:27$</a><a class="lv4" href="#s8">$14:35\sim15:00$</a><a class="lv4" href="#s9">$15:00\sim 15:45$</a><a class="lv4" href="#s10">$15:45\sim16:30$</a><a class="lv4" href="#s11">$16:30\sim17:30$</a><a class="lv4" href="#s12">$17:30\sim18:00$</a><a class="lv4" href="#s13">$18:00\sim18:28$</a><a class="lv4" href="#s14">$18:29$</a><a class="lv3" href="#s15">$2022.10.31$</a><a class="lv3" href="#s16">$2022.11.2$</a><a class="lv3" href="#s17">$2022.11.7$</a><a class="lv3" href="#s18">$2022.11.8$</a><a class="lv3" href="#s19">$2022.11.17$</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

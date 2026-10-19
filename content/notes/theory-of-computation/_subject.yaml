@@ -1,0 +1,19 @@
+name: 计算理论
+name_en: Theory of Computation
+order: 3
+term: 2026 春
+unit: 次
+columns:
+- homework
+- solution
+show_text: false
+lecture_columns:
+- slide
+lecture_unit: 讲
+homework_lectures:
+  1: 1–2
+  2: 3–4
+  3: 5–7
+  4: 8–10
+  5: 11–14
+merge_tables: true

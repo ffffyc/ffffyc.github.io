@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 UVA315 【Network】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 UVA315 【Network】</h1>
+      <p class="meta">
+        <span>2020-12-11</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/gysnt8pu" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>UVA315 Network</h1>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/UVA315"><em>传送门</em></a></h4>
+<h2 id="s2">思路</h2>
+<p><s>题意翻译真良心</s></p>
+<p>这道题给出一张有 $n$ 个点的无向图，求图的割点数。</p>
+<p>这道题倒是比<a href="https://www.luogu.com.cn/problem/P3388">【模板】割点</a>还少求割点是什么，不过输入太恶心了，我们可以对于每一个输入的 $u$ 开一个 $stringstream$ （字符串流）来存储这一行的 $v$ ，建完图之后就可以常规 $Tarjan$ 求割点了。</p>
+<p>$AC\;Code:$</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span>
+<span class="w">	</span><span class="c1">// read(),write();</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">cnt</span><span class="p">,</span><span class="n">tim</span><span class="p">,</span><span class="n">ans</span><span class="p">,</span><span class="n">head</span><span class="p">[</span><span class="mi">20001</span><span class="p">],</span><span class="n">dfn</span><span class="p">[</span><span class="mi">20001</span><span class="p">],</span><span class="n">low</span><span class="p">[</span><span class="mi">20001</span><span class="p">];</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">cut</span><span class="p">[</span><span class="mi">20001</span><span class="p">];</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Edge</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">nxt</span><span class="p">,</span><span class="n">to</span><span class="p">,</span><span class="n">fr</span><span class="p">;</span>
+<span class="p">}</span><span class="n">edge</span><span class="p">[</span><span class="mi">200001</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">){</span>
+<span class="w">	</span><span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+<span class="w">	</span><span class="n">edge</span><span class="p">[</span><span class="n">cnt</span><span class="p">].</span><span class="n">fr</span><span class="o">=</span><span class="n">u</span><span class="p">;</span>
+<span class="w">	</span><span class="n">edge</span><span class="p">[</span><span class="n">cnt</span><span class="p">].</span><span class="n">to</span><span class="o">=</span><span class="n">v</span><span class="p">;</span>
+<span class="w">	</span><span class="n">edge</span><span class="p">[</span><span class="n">cnt</span><span class="p">].</span><span class="n">nxt</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+<span class="w">	</span><span class="n">head</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">=</span><span class="n">cnt</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Tarjan</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">f</span><span class="p">){</span>
+<span class="w">	</span><span class="n">low</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">dfn</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=++</span><span class="n">tim</span><span class="p">;</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">tot</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">head</span><span class="p">[</span><span class="n">x</span><span class="p">];</span><span class="n">i</span><span class="p">;</span><span class="n">i</span><span class="o">=</span><span class="n">edge</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nxt</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="o">=</span><span class="n">edge</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">to</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">dfn</span><span class="p">[</span><span class="n">t</span><span class="p">]){</span>
+<span class="w">			</span><span class="n">Tarjan</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">			</span><span class="n">low</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">min</span><span class="p">(</span><span class="n">low</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">low</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">low</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">dfn</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&amp;&amp;</span><span class="n">f</span><span class="o">!=</span><span class="n">x</span><span class="p">){</span>
+<span class="w">				</span><span class="n">cut</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">				</span><span class="n">tot</span><span class="o">++</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="n">low</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">min</span><span class="p">(</span><span class="n">low</span><span class="p">[</span><span class="n">x</span><span class="p">],</span><span class="n">dfn</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">tot</span><span class="o">&gt;=</span><span class="mi">2</span><span class="o">&amp;&amp;</span><span class="n">x</span><span class="o">==</span><span class="n">f</span><span class="p">){</span><span class="c1">//割点</span>
+<span class="w">		</span><span class="n">cut</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(){</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">head</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">dfn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">low</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">cut</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">cnt</span><span class="o">=</span><span class="n">tim</span><span class="o">=</span><span class="n">ans</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(;</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span><span class="n">init</span><span class="p">()){</span>
+<span class="w">		</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="c1">//处理输入</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="p">;</span><span class="n">u</span><span class="p">;</span><span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">()){</span>
+<span class="w">			</span><span class="n">stringstream</span><span class="w"> </span><span class="n">ss</span><span class="p">;</span>
+<span class="w">			</span><span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
+<span class="w">			</span><span class="n">ss</span><span class="p">.</span><span class="n">str</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">			</span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">ss</span><span class="p">.</span><span class="n">eof</span><span class="p">()){</span>
+<span class="w">				</span><span class="n">ss</span><span class="o">&gt;&gt;</span><span class="n">v</span><span class="p">;</span>
+<span class="w">				</span><span class="n">add</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">);</span>
+<span class="w">				</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">u</span><span class="p">);</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//Tarjan</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">dfn</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+<span class="w">				</span><span class="n">Tarjan</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">cut</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+<span class="w">				</span><span class="n">ans</span><span class="o">++</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">		</span><span class="n">out</span><span class="p">[</span><span class="n">len</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="sc">'\n'</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">fwrite</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">len</span><span class="p">,</span><span class="n">stdout</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>那就再见了 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

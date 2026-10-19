@@ -1,0 +1,19 @@
+name: 计算机系统概论
+name_en: Introduction to Computer Systems
+order: 1
+term: 2026 春
+unit: 次
+columns:
+- homework
+- solution
+show_text: false
+lecture_columns:
+- slide
+- note
+lecture_unit: 讲
+homework_lectures:
+  1: 1–3
+  2: 4–7
+  3: 8–10
+  4: 11–14
+merge_tables: true

@@ -1,0 +1,65 @@
+---
+title: "题解 P6800 【【模板】Chirp Z-Transform】"
+date: 2021-03-04
+category: "题解"
+summary: "Link upd 2021.7.15：修式子和 。 题意 给 n,m,c 和 n-1 次多项式 F(x)，求出 k∈[0,m) F(ck). 解法 首先我们有 F(ck)=Σi"
+math: true
+top: 2
+source: https://www.luogu.com.cn/article/1mgzpsr4
+slug: 1mgzpsr4
+---
+
+[$\text{Link}$](https://www.luogu.com.cn/problem/P6800)
+
+upd 2021.7.15：修式子和 $\LaTeX$。
+## 题意
+给 $n,m,c$ 和 $n-1$ 次多项式 $F(x)$，求出 $\forall k\in[0,m) F(c^k)$.
+
+## 解法
+首先我们有
+$$F(c^k)=\sum_{i=0}^{n-1}a_ic^{ik}$$
+考虑化 $ik$，
+$$ik=\dfrac{2ik}{2}$$
+$$=\dfrac{i^2+2ik+k^2-i-k-i^2+i-k^2+k}{2}$$
+$$=\binom{i+k}{2}-\binom{i}{2}-\binom{k}{2}$$
+于是就有 
+$$F(c^k)=\sum_{i=0}^{n-1}a_ic^{ik}$$
+$$=\sum_{i=0}^{n-1}a_ic^{\binom{i+k}{2}-\binom{i}{2}-\binom{k}{2}}$$
+$$=c^{-\binom{k}{2}}\sum_{i=0}^{n-1}a_ic^{-\binom{i}{2}}c^{\binom{i+k}{2}}$$
+预处理一下可以 $O(n\log n)$。
+
+部分代码：
+```cpp
+n=read(),_c=read(),m=read();
+c[0]=ic[0]=1;
+for(int i=1;i<=n+m;i++){
+	c[i]=1ll*c[i-1]*_c%mod;
+}
+for(int i=1;i<=n+m;i++){
+	c[i]=1ll*c[i-1]*c[i]%mod;
+}
+ic[1]=qpow(_c,mod-2);
+int qq=ic[1];
+for(int i=1;i<=max(n,m);i++){
+	ic[i]=1ll*ic[i-1]*qq%mod;
+}
+for(int i=1;i<=max(n,m);i++){
+	ic[i]=1ll*ic[i-1]*ic[i]%mod;
+}
+f[0]=read();
+for(int i=1;i<n;i++){
+	f[i]=1ll*read()*ic[i-1]%mod;
+}
+init(n+m);
+g[0]=1;
+for(int i=1;i<=n+m;i++){
+	g[i]=c[i-1];
+}
+reverse(f,f+n+1);
+Mul(f,g);
+for(int i=0;i<m;i++){
+	write(1ll*f[i+n]*(i?ic[i-1]:1)%mod);
+	out[len++]=' ';
+}
+```
+再见 qwq~

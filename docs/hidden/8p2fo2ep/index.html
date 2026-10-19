@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>隐藏文章 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/hidden/">隐藏</a> / <a href="/hidden/category/solutions/">题解</a></p>
+      <h1 class="post-title" id="secret-title">隐藏文章</h1>
+      <p class="meta">
+        <span>2020-08-27</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/8p2fo2ep" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+
+    <div class="lock" id="lock-panel">
+      <p class="lede">这篇内容已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+      <form class="lock-form" id="lock-form">
+        <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+        <button type="submit">打开</button>
+        <span class="lock-hint" id="lock-hint"></span>
+      </form>
+    </div>
+
+    <div class="prose" id="secret"></div>
+
+    <p class="post-back">
+      <a href="/hidden/category/solutions/">返回题解的隐藏列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc" id="secret-toc"></aside>
+</div>
+
+<script>window.FFFFYC_SUFFIX = "ffffyc";</script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "AVnYsarnfcuJQlNo", "c": "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"}</script>
+<script src="/assets/lock.js?v=1792427577"></script>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+name: 线性代数
+name_en: Linear Algebra
+order: 1
+term: 2026 秋
+unit: 讲
+columns:
+- note
+- homework
+- solution
+resources:
+- title: Linear Algebra and Its Applications（Lay，4e）
+  file: files/books/linear-algebra/lay-4e.pdf
+- title: Linear Algebra（Friedberg / Insel / Spence，4e）
+  file: files/books/linear-algebra/friedberg-4e.pdf

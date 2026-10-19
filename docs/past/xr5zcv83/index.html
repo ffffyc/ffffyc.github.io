@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSP2024 确有问题记 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
+      <h1 class="post-title">CSP2024 确有问题记</h1>
+      <p class="meta">
+        <span>2024-11-04</span>
+<span class="tag">CSP 2024</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/xr5zcv83" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p>奔着 400 分去的。</p>
+<p>初赛 $96$，不会 Linux 和数数。</p>
+<p>开题看到 A 是个模拟，B 是个模拟，C 是个神秘 DP，D 没有直接的想法。</p>
+<p>先花了 1.5h 过了前三题，2.5h 对线 D，这不稳了？</p>
+<p>花了一个小时写出了一个 $O(Tn^2\log n)$ 的东西，又花了大半个小时优化成了 $O(Tn\log^2 n)$，测测能跑 $T=64$。</p>
+<p>诶诶，时间不够了，这能线性？？</p>
+<p>想到了 $1\log$ 的优化方法，开冲，结果没冲出来。</p>
+<p>$100+100+100+84$。</p>
+<p>后续就是拿到代码发现 DFS 结束时没有回溯，随便改改就写出了 $O(Tn\log n)$，能跑 $T=128$。</p>
+<p>嘛，最后一次 CSP 了，心态也挺平常的。场上确实不会做 D，没调出 $1\log$ 只少了 8pts，没有犯之前同样的错误，也是一种交代了。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/travel/">返回游记列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

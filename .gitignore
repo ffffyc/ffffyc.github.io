@@ -1,0 +1,5 @@
+secret.key
+tools/data/
+__pycache__/
+*.pyc
+static/private/

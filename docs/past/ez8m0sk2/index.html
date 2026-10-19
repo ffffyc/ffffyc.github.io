@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P14230 不连续子串 / subseq — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P14230 不连续子串 / subseq</h1>
+      <p class="meta">
+        <span>2025-10-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/ez8m0sk2" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P14230">$\text{Link}$</a></p>
+<p>2024 NOIP 联考供题。</p>
+<h2 id="s1">题意</h2>
+<p>给你一个长为 $n$ 的序列 $a_{1\dots n}$，你需要求出其所有本质不同非空子序列的本质不同非空子序列数量之和。</p>
+<p>$n\le 8000$。</p>
+<h2 id="s2">题解</h2>
+<p>本题做法很多，此处介绍一种比较巧妙的做法，空间为线性。</p>
+<p>我们不妨<strong>对每一种可能的子序列对钦定一个出现位置进行统计</strong>。</p>
+<p>设外层、内层子序列分别为 $S=\{p_{1},p_2,\dots ,p_{l_1}\},T=\{q_{1},q_2,\dots ,q_{l_2}\}$。</p>
+<p>原先一层的情况下，我们可以要求 $\forall j\in(p_{i-1},p_{i}),a_j\ne a_{p_i}$，即钦定一种子序列在最左的出现位置处统计到。</p>
+<p>那么两层的情况下，我们考虑对内层进行 DP，设 $f_i$ 表示考虑到 $i$ 且钦定 $i$ 在 $T$ 内的答案，那么枚举 $T$ 中上一个位置 $j$，考虑 $(j,i)$ 中的数填入 $S$ 的方案数，有如下限制：</p>
+<ul>
+<li>对于 $j&lt;p&lt;i,a_p=a_i$，要求 $p$ 不能在 $S$ 中。</li>
+<li>令 $l$ 为最大的 $j&lt;l&lt;i$ 使得 $a_l=a_i$，必须存在 $l&lt;q&lt;i$ 使得 $q$ 在 $S$ 中。</li>
+<li>对 $S$ 中每相邻两个数 $p,q$，要求 $\forall k\in(p,q),a_k\ne a_q$。</li>
+</ul>
+<p>其中第一条限制是为了限制 $T$ 为 $S$ 中最左的，后两条限制是为了限制 $S$ 为最左的。</p>
+<p>时间复杂度 $O(n^2)$，空间复杂度 $O(n)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

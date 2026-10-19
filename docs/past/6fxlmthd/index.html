@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 UVA12396【Remoteland】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 UVA12396【Remoteland】</h1>
+      <p class="meta">
+        <span>2021-01-22</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/6fxlmthd" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h3 id="s1">UVA12396 Remoteland</h3>
+<h4 id="s2"><a href="https://www.luogu.com.cn/problem/UVA12396"><em>传送门</em></a></h4>
+<h2 id="s3">翻译</h2>
+<p>选任意个在 $1$~$n$ 之间的互不相同数，使得他们的乘积为完全平方数且最大。</p>
+<p>多组数据，读入到 $0$ 结束。</p>
+<h2 id="s4">思路</h2>
+<p>由于答案要是完全平方数，所以它所有质因数的次数都是偶数。</p>
+<p>考虑枚举 $n$ 以内的质数，由于答案最大为 $n!$ ，于是这个质数在答案里的次数最高也只有它在 $n!$ 中的次数，为了使答案最大，要取到它最大的偶数次数。</p>
+<p>这里给出求一个质数 $p$ 在 $n!$ 中的次数的次数的公式:
+$$f_p=\sum_{i=1}\left\lfloor\dfrac{n}{p^i}\right\rfloor$$
+因为答案要是完全平方数，当 $f_p$ 为奇数时，只能取到 $f_p-1$ 次。</p>
+<p>设 $P$ 为不超过 $n$ 的质数集合，答案就是
+$$\prod_{p\in P}p^{2\left\lfloor\frac{f_p}{2}\right\rfloor}$$</p>
+<h2 id="s5">代码实现</h2>
+<p>我们可以使用线性筛 $O(n)$ 求出集合 $P$，$O(log_pn)$ 求出 $f_p$，其它部分复杂度太玄学，不会分析，代码实现见下：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e7</span><span class="o">+</span><span class="mi">5</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mod</span><span class="o">=</span><span class="mf">1e9</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">p</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">ans</span><span class="p">,</span><span class="n">s</span><span class="p">;</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">shai</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">){</span>
+<span class="w">	</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="o">++</span><span class="n">s</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">s</span><span class="o">&amp;&amp;</span><span class="n">i</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])){</span>
+<span class="w">				</span><span class="k">break</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">qpow</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">y</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">y</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">res</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">		</span><span class="n">x</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">		</span><span class="n">y</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">(){</span>
+<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">f</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&lt;</span><span class="sc">'0'</span><span class="o">||</span><span class="n">ch</span><span class="o">&gt;</span><span class="sc">'9'</span><span class="p">){</span><span class="k">if</span><span class="p">(</span><span class="n">ch</span><span class="o">==</span><span class="sc">'-'</span><span class="p">)</span><span class="w"> </span><span class="n">f</span><span class="o">=</span><span class="mi">-1</span><span class="p">;</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();}</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">ch</span><span class="o">&gt;=</span><span class="sc">'0'</span><span class="o">&amp;&amp;</span><span class="n">ch</span><span class="o">&lt;=</span><span class="sc">'9'</span><span class="p">)</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="p">(</span><span class="n">ch</span><span class="o">^</span><span class="mi">48</span><span class="p">),</span><span class="n">ch</span><span class="o">=</span><span class="n">getchar</span><span class="p">();</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">f</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">shai</span><span class="p">(</span><span class="n">N</span><span class="mi">-5</span><span class="p">);</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">()){</span>
+<span class="w">		</span><span class="n">ll</span><span class="w"> </span><span class="n">ans</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">s</span><span class="o">&amp;&amp;</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="n">p</span><span class="p">;</span><span class="n">j</span><span class="p">;</span><span class="n">j</span><span class="o">/=</span><span class="n">p</span><span class="p">){</span>
+<span class="w">				</span><span class="n">sum</span><span class="o">+=</span><span class="n">j</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">			</span><span class="n">ans</span><span class="o">=</span><span class="n">ans</span><span class="o">*</span><span class="n">qpow</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">sum</span><span class="o">-</span><span class="p">(</span><span class="n">sum</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">))</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">printf</span><span class="p">(</span><span class="s">"%lld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">UVA12396 Remoteland</a><a class="lv4" href="#s2">传送门</a><a class="lv2" href="#s3">翻译</a><a class="lv2" href="#s4">思路</a><a class="lv2" href="#s5">代码实现</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

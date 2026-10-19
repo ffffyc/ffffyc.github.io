@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P3868 【[TJOI2009]猜数字】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P3868 【[TJOI2009]猜数字】</h1>
+      <p class="meta">
+        <span>2021-01-25</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/taa59s5n" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>P3868 [TJOI2009]猜数字</h1>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/P3868"><em>传送门</em></a></h4>
+<p>$\texttt{CRT}$ 的题怎么能不来乱搞呢？</p>
+<p>这种写法很简单，思维难度也不高，也不需要用到快速乘。</p>
+<h2 id="s2">思路</h2>
+<p>我们可以将题目中的要求转化为一个线性同余方程组：
+$$\begin{cases}n\equiv a_1(\mod b_1)\n\equiv a_2(\mod b_2)\n\equiv a_3(\mod b_3)\\...\n\equiv a_k(\mod b_k)\end{cases}$$
+注意这里的 $a_i$ 要先对 $b_i$ 取模.</p>
+<p>由于 $b_i$ 两两互质，我们<s>显然地</s>可以使用 $\texttt{CRT}$，但是不想写怎么办？</p>
+<p>于是我们来乱搞。</p>
+<p>我们依次处理每个同余条件，设现在处理到第 $i$ 个条件，最小的满足前 $i$ 条条件是数为 $s$.</p>
+<p>显然，当 $i=1$ 时，$s=a_1$.</p>
+<p>现在考虑推进至 $i=2$，如果 $s$ 已经与 $a_2$ 在模 $b_2$ 意义下同余，就不操作，继续跳到 $i=3$；否则，我们需要更新 $s$ 以满足条件 $2$，此时我们仍然要满足条件 $1$，于是我们就只能将 $s$ 加上 $b_1$ 的整数倍以满足条件 $2$.</p>
+<p>同理当 $i=3$ 且 $s$ 不满足条件 $3$ 时，只能加上一个数 $l\equiv a_1(\mod b_1)$ 且 $l\equiv a_2(\mod b_2)$ 的整数倍.</p>
+<p>所以，当处理第 $i$ 个条件时，$s$ 所能加上的只能是 $\texttt{lcm}(b_1,b_2,b_3,...,b_{i-1})$。因为 $\gcd(b_1,b_2,b_3,...,b_{i-1})=1$，所以 $\texttt{lcm}(b_1,b_2,b_3,...,b_{i-1})=\prod\limits_{j=1}^{i-1}b_j$.</p>
+<p>由于满足条件时加数的次数不清楚（<s>其实是我不会证</s>），时间复杂度为 $O\texttt{(玄学能过)}$ .</p>
+<p>接下来给出代码。</p>
+<p>$Code:$</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span>
+<span class="w">	</span><span class="c1">//read()</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">;</span>
+<span class="n">ll</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span><span class="n">b</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">%</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">sum</span><span class="o">=</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">ans</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(;</span><span class="n">ans</span><span class="o">%</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="n">ans</span><span class="o">+=</span><span class="n">sum</span><span class="p">);</span>
+<span class="w">		</span><span class="n">sum</span><span class="o">*=</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">printf</span><span class="p">(</span><span class="s">"%lld"</span><span class="p">,</span><span class="n">ans</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>不过这种做法只能解决 $b$ 数组互质的情况，$b$ 数组不互质就只能安心写 $\texttt{EXCRT}$ 了。</p>
+<p>再见了 $qwq$~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P11648「TAOI-3」2236 A.D. — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P11648「TAOI-3」2236 A.D.</h1>
+      <p class="meta">
+        <span>2025-02-06</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/mm4wv57n" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P11648">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给你一颗 $n$ 个结点的树，结点 $1$ 为根，结点有 $[1,k]$ 的颜色 $c_i$。给定序列 $a_{1\sim k}$，定义两个结点 $x,y$ 之间的权值 $f(x,y)$ 为所有在 $x\to y$ 的简单路径上出现过的颜色 $c$ 的 $a_c$ 之积。</p>
+<p>对 $\forall i\in[1,n]$ 求出 $i$ 子树内的点两两的权值之和，对 $998244353$ 取模。</p>
+<p>$n\le 5\times 10^5$，$k\le 15$。</p>
+<h2 id="s2">题解</h2>
+<p>直接对每个颜色集合预处理出其权值 $v_s$，考虑计算 $x$ 的不同子树 $i,j$ 间的答案。</p>
+<p>维护子树 $i$ 内每个点到 $i$ 的路径颜色集合 $S_i$，需要支持两种操作：将集合 $S_i$ 内所有元素并上 $c_x$；查询 $S_i,S_j$ 之间两两元素 $p,q$ 的 $v_{p\cup q}$ 之和，再合并这两个集合。</p>
+<p>一眼可以看出两个暴力，分别是直接枚举和 FWT 卷积，于是考虑根号分治。设置阈值 $b$，若 $S_i,S_j$ 均有 $\ge b$ 个元素便直接卷积；若 $S_i,S_j$ 均有 $\le b$ 个元素则直接枚举；否则对 $S_i$ 内每个元素 $p$ 计算 $\sum_{q\in S_j}cnt_qv_{p\cup q}$，这可以采用 <a href="https://www.luogu.com.cn/problem/P11458">All Pairs Similarity P</a> 的做法，进行 $O(2^kk)$ 预处理 $O(1)$ 回答。</p>
+<hr />
+<p>具体地，设 $f_p$ 表示 $p$ 的答案，集合的包含、并集等条件引出一类做法，考虑设计一辅助状态 $g_s$ 满足：</p>
+<p>$$f_s=\sum_{T⊇S} g_t$$</p>
+<p>仅考虑一个元素 $q\in S_j$，我们希望构造出 $g_t$ 满足其高维后缀和为 $f_s=v_{s\cup q}$。那么我们对 $v_{0\sim 2^k-1}$ 做高维后缀差分得到数组 $w_{0\sim 2^k-1}$ 满足：</p>
+<p>$$v_s=\sum_{T⊇S} w_t$$</p>
+<p>构造 $g_t=[q\sube T]w_{t}$ 即可，容易验证，所有同时是 $p$ 和 $q$ 的超集的数 $t$ 都会作出 $w_{t}$ 的贡献，它们的和正好等于 $v_{p\cup q}$。</p>
+<p>每次预处理都需要做一次高维前缀和和一次高维后缀和，时间复杂度为 $O(2^kk)$，单次查询 $O(1)$。</p>
+<hr />
+<p>注意每次计算完还需要合并，我们对每个集合分别维护一个 $\le b$ 个元素的零散部分和非零散部分的信息，合并后若零散部分大小 $\ge b$ 直接将其重构入非零散部分即可。将集合内的数取并可以直接暴力对零散部分做，维护非零散部分的取并标记。</p>
+<p>重构与卷积次数分别只有 $O(n/b)$ 次，零散部分的枚举量为 $\sum_{i,j}\min(siz_i,b)\min(siz_j,b)$ 即 $O(nb)$。</p>
+<p>取 $b=\sqrt{2^kk}$，时间复杂度 $O(n\sqrt{2^kk})$。</p>
+<hr />
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

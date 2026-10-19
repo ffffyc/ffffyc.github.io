@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>隐藏文章 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/hidden/">隐藏</a> / <a href="/hidden/category/misc/">杂项</a></p>
+      <h1 class="post-title" id="secret-title">隐藏文章</h1>
+      <p class="meta">
+        <span>2021-12-21</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/jdkaclui" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+
+    <div class="lock" id="lock-panel">
+      <p class="lede">这篇内容已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+      <form class="lock-form" id="lock-form">
+        <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+        <button type="submit">打开</button>
+        <span class="lock-hint" id="lock-hint"></span>
+      </form>
+    </div>
+
+    <div class="prose" id="secret"></div>
+
+    <p class="post-back">
+      <a href="/hidden/category/misc/">返回杂项的隐藏列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc" id="secret-toc"></aside>
+</div>
+
+<script>window.FFFFYC_SUFFIX = "ffffyc";</script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "5GLC0jf3+VHkTeHq", "c": "3xPsAuAEqrTmG3Hmbn5lYFsO0iHEDGCj4Qv4Sxeb1dk1v9LuSdnmeH7xkMTy+Pqkvn5G4moJSPtWs7GxOKa51lqxPEicxV891ZaBevQyS/x64NgB8lnmJ7QAtKVIpLPzz38sDwdjsyfYUtduNvSdZCIYhkYlHUdv0loJ6kcDJFGc62i5mO+BmRCASW5v2zBhAyn6m91or40+xSIViMvafX9u6JlAy7Ux/nv07HTRj9nabUHBSOq+Ec1X7I8sBULP3L6grrLDzpO4nOMWYG97Uov7yRgKcemw6McpJtHoxfm3Q6s1SUQRU+9TdqXUjXFrqrJf+azyNFIhZpWRjm8u9SueQQg+Ejs64nFV3naeLIEqOYS6nqx8VHb0ofQ/SD946yHQN8cr4EVdfsVc8jIg0g/CWylMq8QoWZV9tjt44KoQvid4bl7AJSAiOQnHj94kchI1O3+dvQA8ekPRAVUWJik65L1pXQrR0T7FNvMWyF3Bgf+/aX0//DPOQOHgryLzZp7d3MmeQwveDGZDh2qz4fX8HJfeO0YdhiaEhLEta3K6s4alGTah2i8XY6aJyATNua9QfvEue+d6RyBI4f5yMOIGsPmrYIuIzw7LnMA5RE+otA/4eqBZdTJqsjiZOICEMHm6W/XW5Vgw8jHVc4srzY51xmQZJkSBUOUHHBca2vZFPRfWzipSRfck5yCnmxfH0UtW0Z4YPUh/Y98lzF2kwaCV32ELBg684TIrz3rSLnaaJ5/pSxlsp1hzB3jjl5LP5WWVFgzNYVml+L7OfIw94F5e2Hu2ePza7xiXBoiDbEd9XNH1hsYjGw2VPcE2UVhulKZyaqEL0Vu+27sZ6jwCZuBF9PlW5wp9XujCge92UpNjszWCNBgKJ0pp+TJoeszzJqw2xuxrCi9pC8f/7o0yUwmV0/ULgQOJR1HsrtMNPV3/uOvW308s+IME9i7Fu3g5ES465Wzv5+qiXpRFP6uijE6lzWC28iD3teYPRKortpQyLMZJlM2/KocnstWVOn3SEpK0cbMTAYPEeMJMDm8pKftMbShEdngdYX4hGocZ7Eh822gWaS3keDtTkEBrZRHfMwcA3O7D098GQ24uZS6p33XmpTOxpXQM6AkKaNeVqBQHcrLDpmc11Zj5QnBAkZAuw5nBwHXAML0azwgKp7ONFMIhjtdDfTxwPe9HdW81kergQLyEa2BFbGXb3FkXcTYAIT8QC4LOusPQ07ld+rzmijRsMCk3wtE3vw3hggH7BjEtMIhpgbxMt9Vic2NRHvoyqT2pMRfjxslcVDSz4Hw8WWDKOTUg4fn3aWSL62j6YHVqtB9vk2MctYEEI0O8M6qaWWvCwbGYfHZNyepIeEmlnGsIH0nLMt5coaci+H/6Mq3z6WYhs0JgqP0B3Nym6RPe66W8s63e0dRZstsVzX37IFEVUIRj/4q/mvAZi4V1GWaA8cB/AUMlcaw0K/XJbXPfE8LHCqGe3nnsN4ImV9CJyMSjdbuIhedg220UZ0TZ5twxgAYYmLPJgYh9OT2tu6SoAQ0i/agHJOa6piCkXHWXk36mI/+ju7u0JhedCIlg4wKlPD8JLCWi4UKIWQmW+2HyKfNfl2+Si1uOYmgkTdlf6cBirDBz8MmRk+2DvWyWjye4iFUOiVo9ppoMsfehIsCznJL/LJta7/UP200+tGFDavDOJzOe7EPZ/IyPHEyHZzV4yL3ZqK+1adiUDkrYsbm0dmLbvJNe86e7/HgfW9z+kbKUOyisisYTcumZfWOykRaJ8TmTwLWT7DIfQA1+vC+k6jlf9mX8Pvr5Cmq4gXBBddSKZKumkFZuTdRPPWKA0n3dsAzU8rWjwQrR7fPw0Ujisi69OHLDmYgqHECjCt5xZGfgE9d2v9217wfDBgUx5le+xt+/75UkJiOgv+IB6+Tnmm5IAh5dr4x4s0xRSKEgq7Py8/nIa9R+KZDSeoejGFTEx4Csa5svH7U6atHTmH6WAcEjR2+1iDwlh2+vKetOnrwCoiQ8yaqLejv2t0MWhvIYMqcV0/4Ml4DhKm7+zcg9n7ZXK97/yEIUvlFE5aXBL1pFTNu+9EJ1qEsmTp2FoShlsfVI+Wyr+nOUPqMNfqUYzoioMZ+dZL8gDWHICQBNDxNaXSPfsiFK0nIdJ94TRfSd07RXz3tZw7SOEsROG0H4+Hb0puLQzSOPOo/jkBTEIiRqOlA66tPy5EztdT0e36sFUClZDF6/TF/MNPfUQLZcG6cQvjMvsjOCeyRLjVMcj7Pajf6Xh3UTX+h5YaRqPdgivbz3JMCUsPg4J6E+cNvQkW6aXmb9a4NkrKOOEGy23nns0QkRynpDIf6ah4GC7vMwjLMp+HbEZP6YuedbcUsE4Wrbr34Aa6aeg9DjIbGTgpgvig98aOeyng=="}</script>
+<script src="/assets/lock.js?v=1792427577"></script>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

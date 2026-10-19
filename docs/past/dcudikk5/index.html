@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF932G【Palindrome Partition】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF932G【Palindrome Partition】</h1>
+      <p class="meta">
+        <span>2021-07-01</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/dcudikk5" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/CF932G">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给出字符串 $A$ ，求 $A=A_1A_2A_3...A_k$ 的划分满足 $2|k$ 且 $\forall i\in[1,k],A_i=A_{k-i+1}$，对 $10^9+7$ 取模。</p>
+<p>$|A|\le 10^6$.</p>
+<h2 id="s2">思路</h2>
+<p>回文划分的模板题，我觉得 <a href="https://www.luogu.com.cn/blog/ryoku/solution-cf932g">$\text{zhylj}$ 的题解</a>写得很好，我就简述一下吧。</p>
+<hr />
+<p>我们知道，字符串的 $\text{border}$ 集合可以划分为 $O(\log n)$ 个等差数列。</p>
+<p>考虑一个回文串的回文后缀：</p>
+<p>设 $t=s_{k,...n}$，若 $k,t\text{ is palindromic}$，则 $t\text{ is a border of } k$。</p>
+<p>证：</p>
+<p>因为 $k\text{ is palindromic}$，所以 $s_i=s_{|s|-i+1}$;</p>
+<p>因为 $t\text{ is palindromic}$，所以
+$s_i=s_{|s|-i+1}=s_{|s|-(|t|-i+1)+1}=s_{|s|-|t|+1}$；</p>
+<p>所以 $t\text{ is a border of } k$。</p>
+<p>即得到回文串的回文后缀集合可以划分为 $O(\log n)$ 个等差数列。</p>
+<hr />
+<p>在 $\text{PAM}$ 上，记 $diff_x=len_x-len_{fail_x}$，$slink_x$ 表示 $\text{Fail}$ 树上 $x$ 点祖先中离 $x$ 最近的满足 $diff_{a}\ne diff_x$ 的 $a$。</p>
+<p>容易发现，在 $x\to slink_x$ 的路径中，$len_x-len_{fail_x}$ 恒为定值，即在跳一条等差数列，由上面的结论得，$x$ 最多能跳 $O(\log n)$ 次就会达到根节点。</p>
+<hr />
+<p>首先考虑给出字符串 $A$ ，求 $A=A_1A_2A_3...A_k$ 的划分数满足 $\forall i\in[1,k],A_i\text{ is palindromic}$ 应该怎么做。</p>
+<p>我们考虑一个 $\text{dp}$，设 $dp_i$ 表示 $i$ 前缀的答案，则有一个显然的转移方程：</p>
+<p>$$dp_i=\sum_{j,s_{j+1,...,i\text{ is palindromic}}}dp_j$$
+如果枚举 $j$ 只能做到 $O(n^2)$ 的时间复杂度。</p>
+<p>由于回文串的回文后缀又是 $\text{border}$，所以等差数列中的后缀都平移了公差 $diff_x$。</p>
+<p>那么 $dp$ 就成为了 $dp_{i-len_{slink_x}-diff_x}$，于是我们可以记录 $f_x$ 表示 $x\to slink_x$ 中链上回文子串最后一次出现对应的 $dp$ 值，我们可以简单地将 $f_{fail_x}$ 转移至 $f_x$，于是在加入节点时我们就可以跳 $x\to slink_x$，更新 $f_x$ 即可。</p>
+<p>然后回到本题，我们可以考虑构造 $B=a_1a_na_2a_{n-1}...$，问题转化为对 $B$ 的偶回文子串划分。</p>
+<p>那么只在 $2|i$ 时做出贡献即可。</p>
+<p>代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e6</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span><span class="n">mod</span><span class="o">=</span><span class="mf">1e9</span><span class="o">+</span><span class="mi">7</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">f</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">str</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">inp</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Palindromic_Tree</span><span class="p">{</span>
+<span class="w">	</span><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="p">{</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">ch</span><span class="p">[</span><span class="mi">26</span><span class="p">];</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">fail</span><span class="p">,</span><span class="n">len</span><span class="p">,</span><span class="n">diff</span><span class="p">,</span><span class="n">slink</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="n">siz</span><span class="p">;</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(){</span>
+<span class="w">		</span><span class="n">siz</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">last</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fail</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">fail</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getfail</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">!=</span><span class="n">str</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="mi">-1</span><span class="p">])</span>
+<span class="w">			</span><span class="n">p</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">fail</span><span class="p">;</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">insert</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="n">ch</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="o">=</span><span class="n">getfail</span><span class="p">(</span><span class="n">last</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">w</span><span class="o">=</span><span class="n">ch</span><span class="o">-</span><span class="sc">'a'</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">ch</span><span class="p">[</span><span class="n">w</span><span class="p">]){</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">cur</span><span class="o">=++</span><span class="n">siz</span><span class="p">;</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">len</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">len</span><span class="o">+</span><span class="mi">2</span><span class="p">;</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="o">=</span><span class="n">getfail</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">fail</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">fail</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">tmp</span><span class="p">].</span><span class="n">ch</span><span class="p">[</span><span class="n">w</span><span class="p">];</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">ch</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">=</span><span class="n">cur</span><span class="p">;</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">diff</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">len</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">fail</span><span class="p">].</span><span class="n">len</span><span class="p">;</span>
+<span class="w">			</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">slink</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">diff</span><span class="o">==</span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">fail</span><span class="p">].</span><span class="n">diff</span><span class="p">)</span><span class="o">?</span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">fail</span><span class="p">].</span><span class="n">slink</span><span class="o">:</span><span class="n">a</span><span class="p">[</span><span class="n">cur</span><span class="p">].</span><span class="n">fail</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">last</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">p</span><span class="p">].</span><span class="n">ch</span><span class="p">[</span><span class="n">w</span><span class="p">];</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">calc</span><span class="p">(){</span>
+<span class="w">		</span><span class="n">init</span><span class="p">();</span>
+<span class="w">		</span><span class="n">n</span><span class="o">=</span><span class="n">readstr</span><span class="p">(</span><span class="n">inp</span><span class="p">);</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">			</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">			</span><span class="k">return</span><span class="w"> </span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">inp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">		</span><span class="n">reverse</span><span class="p">(</span><span class="n">inp</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">inp</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">inp</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">		</span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="sc">'\n'</span><span class="p">;</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">insert</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">i</span><span class="p">);</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="n">last</span><span class="p">;</span><span class="n">j</span><span class="p">;</span><span class="n">j</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">slink</span><span class="p">){</span>
+<span class="w">				</span><span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">slink</span><span class="p">].</span><span class="n">len</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">diff</span><span class="p">];</span>
+<span class="w">				</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">slink</span><span class="o">!=</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">fail</span><span class="p">){</span>
+<span class="w">					</span><span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">f</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">fail</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">				</span><span class="p">}</span>
+<span class="w">				</span><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">					</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">f</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">]);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span><span class="n">PAM</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">PAM</span><span class="p">.</span><span class="n">calc</span><span class="p">();</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span>
+</code></pre>
+<p><s>居然跑到了洛谷 rk1</s></p>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

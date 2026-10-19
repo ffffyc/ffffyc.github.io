@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P12264『STA - R9』咏叹调调律 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P12264『STA - R9』咏叹调调律</h1>
+      <p class="meta">
+        <span>2025-04-22</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/146z5062" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P12264">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>对于一个字符集为 $\{\tt A,B,C\}$ 的字符串，若其可通过不断删去其中的 $\tt AB,CA,AAA,CCB$ 子序列将其删空，则称该串是好的。</p>
+<p>给定常数 $p,q,r$，对于一个好的串，若其中分别有 $a,b,c$ 个 $\tt A,B,C$，那么定义其权值为 $p^aq^br^c$。</p>
+<p>给定正整数 $n$，对于所有的 $1\le k\le n$，求出所有长为 $k$ 的好的串的权值和，对 $998244353$ 取模。</p>
+<p>$n\le 500$。</p>
+<h2 id="s2">题解</h2>
+<p>首先观察字符 $\tt A$，可以知道必定有一个前缀的 $\tt A$ 匹配 $\tt AB$、一个后缀的 $\tt A$ 匹配 $\tt CA$。如果我们可将 $\tt AAA$ 划分为两部分，那么就可以变为一个前缀的 $\tt A$ 匹配 $\tt AB$ 或 $\tt AAA$ 的前半部分，而剩余后缀中的 $\tt A$ 匹配 $\tt CA$ 或 $\tt AAA$ 的后半部分，接下来将前缀 $\tt A$ 与后缀 $\tt A$ 分别记作 $\tt A_L,A_R$。</p>
+<p>接下来是一个核心观察：<strong>将 $\tt{{ A_L,C,A_R,B}}$ 分别看作两个左括号、一个左括号、一个右括号、两个右括号，则一次操作可删去的串为合法括号串</strong>。注意这只是必要条件，因为我们不能将两个左括号或右括号匹配不同类型的字符，如 $\tt A_LA_RCB$ 是不合法的，我们只能通过括号匹配的思想进行性质推导。</p>
+<p>由于替换后的括号串，其合法首先是一个必要条件，这也告诉我们如果一个字符串合法，其必定唯一对应一种替换 $\tt A$ 为 $\tt A_L,A_R$  的方式。由于单括号的匹配自由度高于双括号的匹配自由度，故四种删除方式的优先级为 $\tt A_LB&gt;A_LA_RA_R/CCB&gt;CA_R$。</p>
+<p>接下来开始考虑 DP。首先必须要记录当前的总长与字符 $\tt A_L$ 与 $\tt C$ 分别剩余的个数 $i,j,k$ 三维，故接下来只能增加一些常数维度：</p>
+<ul>
+<li>需要增加一维 $0/1$ 表示当前的字符 $\tt A$ 对应字符 $\tt A_L$ 还是字符 $\tt A_R$；</li>
+<li>当出现字符 $\tt A_R$ 时，我们优先考虑匹配 $\tt A_LA_R$ 并等待下一个 $\tt A_R$，但由于 $\tt A_LB$ 的优先级高于 $\tt A_LA_RA_R$，故如果当前可匹配 $\tt CA_R$，需要预留一次反悔机会，增加一维 $0/1/2$ 分别表示不存在 $\tt A_LA_R$/存在不可反悔的 $\tt A_LA_R$/存在可反悔的 $\tt A_LA_R$ 即可。</li>
+</ul>
+<p>当出现 $\tt B$ 时，优先考虑与当前未配对的 $\tt A_L$ 匹配，再考虑与当前可反悔的 $\tt A_LA_R$ 进行匹配，最后尝试匹配 $\tt CCB$；若存在已配对的 $\tt A_LA_R$ 时再出现 $\tt A_R$，那么必定将其匹配为 $\tt A_LA_RA_R$，如果不这么做则此时必定存在两个 $\tt C$，下次出现 $\tt B$ 必定可匹配一组 $\tt CCB$。</p>
+<p>直接枚举添加的字符类型做 DP 即可，时间复杂度 $O(n^3)$。</p>
+<hr />
+<p>代码实现需要特别注意匹配顺序，不然就会出现 35 分笑传之错 Code B。</p>
+<pre class="code"><code class="language-cpp"><span class="c1">//f[i][j][k][0/1][0/1][0/1]:填了 i 位, 当前有 j 个可用 A_L, k 个 C, 是否切换至选择 A_R, 是否存在反悔机会, 是否已强制匹配 A_LA_R </span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">p</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">q</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">r</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">,</span><span class="n">t</span><span class="o">^=</span><span class="mi">1</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;=</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">+</span><span class="n">k</span><span class="o">&lt;=</span><span class="n">i</span><span class="p">;</span><span class="n">k</span><span class="o">++</span><span class="p">)</span>
+<span class="w">				</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">;</span><span class="n">a</span><span class="o">++</span><span class="p">)</span>
+<span class="w">					</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">b</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">;</span><span class="n">b</span><span class="o">++</span><span class="p">)</span>
+<span class="w">						</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">c</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">;</span><span class="n">c</span><span class="o">++</span><span class="p">){</span>
+<span class="w">							</span><span class="kt">int</span><span class="w"> </span><span class="n">w</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="o">!</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">c</span><span class="p">];</span>
+<span class="w">							</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">							</span><span class="kt">int</span><span class="w"> </span><span class="n">wa</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">p</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">wb</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">q</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">wc</span><span class="o">=</span><span class="mf">1l</span><span class="n">l</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">r</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">							</span><span class="c1">//A_L</span>
+<span class="w">							</span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="c1">//A_R</span>
+<span class="w">							</span><span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="o">&amp;&amp;</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">][</span><span class="n">k</span><span class="mi">-1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="mi">-1</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">wa</span><span class="p">);</span>
+<span class="w">							</span><span class="c1">//B</span>
+<span class="w">							</span><span class="k">if</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">c</span><span class="p">],</span><span class="n">wb</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">c</span><span class="p">],</span><span class="n">wb</span><span class="p">);</span>
+<span class="w">							</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="mi">-2</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">c</span><span class="p">],</span><span class="n">wb</span><span class="p">);</span>
+<span class="w">							</span><span class="c1">//C</span>
+<span class="w">							</span><span class="n">inc</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">c</span><span class="p">],</span><span class="n">wc</span><span class="p">);</span>
+<span class="w">							</span><span class="n">f</span><span class="p">[</span><span class="o">!</span><span class="n">t</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">						</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">a</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">;</span><span class="n">a</span><span class="o">++</span><span class="p">)</span>
+<span class="w">			</span><span class="n">inc</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">f</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">a</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">ans</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span><span class="n">putc</span><span class="p">(</span><span class="sc">' '</span><span class="p">);</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

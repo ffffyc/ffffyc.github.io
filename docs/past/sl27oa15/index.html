@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P9986【[Ynoi2079] r2pspc】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P9986【[Ynoi2079] r2pspc】</h1>
+      <p class="meta">
+        <span>2024-01-04</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/sl27oa15" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P9986">$\text{Link}$</a></p>
+<p>来个正解复杂度。</p>
+<h2 id="s1">题意</h2>
+<p>给你一个长为 $n$ 的序列，$q$ 次询问给出区间 $[l,r]$，求 $\text{popcount}\left(\displaystyle\sum_{i=l}^r2^{a_i}\right)$。</p>
+<p>$n\le 10^5$，$q\le 10^6$。</p>
+<h2 id="s2">思路</h2>
+<p>值域可以离散化到 $O(n)$。</p>
+<p>考虑暴力，注意到单次操作暴力进位是有均摊分析的，时间复杂度为 $O(n)$。</p>
+<p>那么我们考虑回滚莫队，假设左端点现在处于一块内，块右边的部分直接暴力进位基于势能分析复杂度是正确的，问题是块内要撤销，不能使用基于均摊的暴力。</p>
+<p>考虑值域分块，以每个块内出现过的数作为一个块的块尾。比如说块内有 $2,4,5$，那值域就被分为 $[1,2],[3,4],[5,5],[6,n]$ 几段。那么此时左端点移动带来的更新就只会在块尾进行。</p>
+<p>考虑上一块尾对这一块首的进位，设这一块为 $[l_i,r_i]$，可以发现这部分进位对 $l_i+\log n$ 影响最多为 $1$。块长小于 $\log n$ 平凡，以下不讨论。我们考虑将每个块的前 $\log n$ 位压进一个 <code>int</code> 中存，记为 $low_i$。对于每个块记录其向下一块进位的次数（移动右端点时如果块尾需要进位也记录在此），但不实际进行。撤销时（注意到只会发生在块尾）如果这一位为 $0$ 直接在这一块的进位数里面减一即可。由于可能进的一位，我们还需要维护每个块中最大的 $p_i$ 满足 $[l_i+\log n,p_i]$ 均为 $1$。</p>
+<p>动态维护每块除前 $\log n$ 位的 $1$ 的个数。查询时从小到大逐块处理，假设上一块进位了 $s$，将 $s+low_i$ 的前 $\log n$ 位的 $\text{popcount}$ 加入答案，如果 $s+low_i$ 右移 $\log n$ 位后仍非零，那么 $[l_i+\log n,p_i]$ 会变为 $0$，$p_i+1$ 会变为 $1$。</p>
+<p>设序列块长为 $B$，移动左端点复杂度 $O(1)$，每一块移动右端点复杂度总和 $O(n)$，单次查询复杂度 $O(B)$。总时间复杂度 $O(qB+\dfrac{n^2}B)$，取 $B=\dfrac{n}{\sqrt q}$，时间复杂度 $O(n\sqrt q+q\log q)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

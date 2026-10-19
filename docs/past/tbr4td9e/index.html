@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拉格朗日反演学习笔记 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/diary/">个人记录</a></p>
+      <h1 class="post-title">拉格朗日反演学习笔记</h1>
+      <p class="meta">
+        <span>2021-07-28</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/tbr4td9e" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h3 id="s1">拉格朗日反演</h3>
+<h4 id="s2">复合逆</h4>
+<p>若对于两个多项式 $F,G$ 有 $G(F(x))=x$，则称 $F,G$ 互为复合逆。</p>
+<h4 id="s3">定理证明</h4>
+<p>若对多项式 $F$ 有 $G(F(x))=x$，将 $G(F(x))$ 表为
+$$\sum_{i\ge1}b_iF^i(x)=x$$
+两边求导，注意左边 $F^i$ 是函数 $F(x)$ 和函数 $x^i$ 的复合函数
+$$\sum_{i\ge1}ib_iF^{i-1}(x)F'(x)=1$$
+两边同除 $F^n(x)$，提取 $x^{-1}$ 的系数，有
+$$[x^{-1}]\sum_{i\ge1}ib_iF^{i-n-1}(x)F'(x)=[x^{-1}]\frac1{F^n(x)}$$
+对于 $i\ne n$，有 $F^{i-n-1}(x)F'(x)=\frac1{n-i}(F^{i-n})'(x)$，其 $x^{-1}$ 项必为 $0$，故不考虑。</p>
+<p>当 $i=n$ 时，
+$$\begin{aligned}
+F^{-1}(x)F'(x)
+&amp;=\frac{\sum_{i\ge1}ia_ix^{i-1}}{\sum_{i\ge1}a_ix^i}\\
+&amp;=\frac{\sum_{i\ge1}ia_ix^{i-1}}{a_1x}\cdot\frac1{1+\sum_{i\ge2}\frac{a_i}{a_1}x^{i-1}}\\
+\end{aligned}$$</p>
+<p>于是对于前面那个多项式，其 $x^{-1}$ 次项只能由 $\frac{a_1}{a_1x}$ 得到并且系数为 $1$，后面那个多项式的常数项必定为 $1$，所以 $[x^{-1}]F^{-1}(x)F'(x)=1$。</p>
+<p>代回得到
+$$nb_n=[x^{-1}]\frac1{F^n(x)}$$
+$$[x^n]G(x)=\frac 1 n\cdot[x^{-1}]\frac1{F^n(x)}$$</p>
+<p>换成更好看的形式表为</p>
+<p>$$[x^n]G(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {F^n(x)}$$
+同样有
+$$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {G^n(x)}$$</p>
+<h4 id="s4">扩展拉格朗日反演</h4>
+<p>即 $G(F(x))=H(x)$ 时的特殊形式，有结论：</p>
+<p>$$[x^n]G(x)=\frac 1 n\cdot[x^{n-1}]H'(x)\cdot\frac {x^n} {F^n(x)}$$</p>
+<h3 id="s5">例题</h3>
+<h4 id="s6">$1.\text{BZOJ3684}$ 大朋友和多叉树</h4>
+<p>设 $F$ 为答案的生成函数，不难得出
+$$F=x+\sum_{i\in D}F^i$$
+其中 $x$ 表示单个叶子节点，$F^i$ 表示选择 $i$ 颗树做当前结点的儿子。</p>
+<p>移项一下得到
+$$F-\sum_{i\in D}F^i=x$$
+设函数
+$$G(x)=x-\sum_{i\in D}x^i$$
+则
+$$G(F(x))=x$$
+直接上拉格朗日反演，得到
+$$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {G^n(x)}$$
+$$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac 1 {\left(\frac {G(x)} x\right)^n}$$
+直接求即可，时间复杂度 $O(n\log n)$。</p>
+<h4 id="s7">$2.\text P5828$ 边双连通图计数</h4>
+<p>设有根无向连通图的 $\text{EGF}$ 为 $F(x)$，有根边双连通图的 $\text{EGF}$ 为 $G(x)$。</p>
+<p>我们显然可以使用<a href="https://www.luogu.com.cn/problem/P4841">有标号无向连通图</a>的 $\text{EGF}$ 乘上 $n$ 以得到 $F(x)$，于是考虑用 $F,G$ 互相表示。</p>
+<p>对于一个有根无向连通图，我们可以枚举其根所在的边双大小，再算出所有连向其它部分的边的 $\text{EGF}$。</p>
+<p>对于一条边，我们可以有：其挂着一个无向连通图；可以连在边双中任意一个点上。所以一条边的 $\text{EGF}$ 为 $nF(x)$。（其中 $n$ 为根节点所在的边双的大小）</p>
+<p>由于连的多条边与一条边也可看为集合与元素的关系，可以直接得到
+$$\begin{aligned}
+F(x)&amp;=\sum_{n\ge1}g_n\exp(nF(x))\frac{x^n}{n!}\\
+&amp;=\sum_{n\ge1}\frac{g_n}{n!}x^ne^{nF(x)}\\
+&amp;=\sum_{n\ge1}\frac{g_n}{n!}x^n{e^{F(x)}}^n\\
+&amp;=\sum_{n\ge1}\frac{g_n}{n!}\left(x\exp(F(x))\right)^n\\
+&amp;=G(x\exp(F(x)))
+\end{aligned}$$
+令 $H(x)=x\exp(F(x))$，有 $F(x)=G(H(x))$，根据扩展拉格朗日反演有
+$$\begin{aligned}
+[x^n]G(x)&amp;=\frac 1 n\cdot[x^{n-1}]F'(x)\frac{x^n}{H^n(x)}\\
+&amp;=\frac 1 n\cdot[x^{n-1}]F'(x)\exp(-nF(x))
+\end{aligned}
+$$
+至此直接求解即可。</p>
+<p>时间复杂度 $O(n\log n)$。</p>
+<p>代码实现见<a href="https://www.luogu.com.cn/blog/cyffff/solution-p5828">题解 P5828</a>。</p>
+<h4 id="s8">$3.\text P5827$ 点双连通图计数</h4>
+<p>设有根无向连通图的 $\text{EGF}$ 为 $F(x)$，无根点双连通图的 $\text{EGF}$ 为 $G(x)$。</p>
+<p>我们显然可以使用<a href="https://www.luogu.com.cn/problem/P4841">有标号无向连通图</a>的 $\text{EGF}$ 乘上 $n$ 以得到 $F(x)$，于是考虑用 $F,G$ 互相表示。</p>
+<p>对于一个有根无向连通图，每个点都会被包含在至少 $1$ 个点双中，且每个点双的大小不少于 $2$。注意还需要特判 $n=1$ 时输出 $1$。</p>
+<p>考虑断掉根连出的边，无向连通图被划分成若干连通块，根据 $\exp$ 的集合意义，求出单个连通块的 $\text{EGF}$ 即可。</p>
+<p>对于根所在的任意一个点双连通块，若在其任何除根以外的一点连上一个以该点为根的无向连通图不会影响根所在的任意一个点双的大小，故单个连通块的 $\text{EGF}$ 为
+$$\sum_{n\ge1}g_{n+1}\frac{F^n(x)}{n!}$$
+可以直接得到
+$$\begin{aligned}
+F(x)&amp;=x\exp(\sum_{n\ge1}g_{n+1}\frac{F^n(x)}{n!})\\
+&amp;=x\exp(G'(F(x)))\\
+\ln \frac{F(x)}x&amp;=G'(F(x))
+\end{aligned}$$
+令 $H(x)=\ln\dfrac{F(x)}{x}$，有 $G'(F(x))=H(x)$，根据扩展拉格朗日反演有
+$$\begin{aligned}
+[x^n]G'(x)&amp;=\frac 1 n\cdot[x^{n-1}]H'(x)\frac{x^n}{F^n(x)}\\
+&amp;=\frac 1 n\cdot[x^{n-1}]H'(x)\exp(\ln(\left(\frac{F(x)}{x}\right)^{-n}))\\
+&amp;=\frac 1 n\cdot[x^{n-1}]H'(x)\exp(-nH(x))
+\end{aligned}
+$$
+至此直接求解即可。</p>
+<p>时间复杂度 $O(n\log n)$。</p>
+<p>代码实现见<a href="https://www.luogu.com.cn/blog/cyffff/solution-p5827">题解 P5827</a>。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/diary/">返回个人记录列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">拉格朗日反演</a><a class="lv4" href="#s2">复合逆</a><a class="lv4" href="#s3">定理证明</a><a class="lv4" href="#s4">扩展拉格朗日反演</a><a class="lv3" href="#s5">例题</a><a class="lv4" href="#s6">$1.\text{BZOJ3684}$ 大朋友和多叉树</a><a class="lv4" href="#s7">$2.\text P5828$ 边双连通图计数</a><a class="lv4" href="#s8">$3.\text P5827$ 点双连通图计数</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

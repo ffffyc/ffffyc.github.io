@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P9069【[Ynoi Easy Round 2022] 堕天作战】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P9069【[Ynoi Easy Round 2022] 堕天作战】</h1>
+      <p class="meta">
+        <span>2023-02-18</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/xjk3ha5n" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P9069">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>区间不等于 $x$ 的减 $x$，区间求和。强制在线。</p>
+<p>$n,q\le5\times10^5$，$0\le x,a_i\le 10^9$，时限 6s。</p>
+<h2 id="s2">思路</h2>
+<p>一个不用倍增分块做到同复杂度的做法，当然倍增分块是更具有普适性的。</p>
+<p>考虑一下问题，对于区间内小于 $x$ 的数，因为 $x\ge0$，其减完之后是小于 $0$ 的，之后每次一定都会被操作，可以直接全部取出，另外维护，取出用线段树维护一下最小值和最小值位置（任意）即可。</p>
+<p>现在所有数都 $\ge x$，如果区间最小值大于 $x$ 则直接区间减。如果区间最小值等于 $x$，我们考虑再维护区间次小值，设为 $\text{sec}$。</p>
+<p>如果 $\text{sec}-x&gt;x$ 即 $\text{sec}&gt;2x$，则大小关系不会变化，直接打上区间减 tag，维护两种 tag，一个是区间所有数减的 tag，一个是区间内非最小值被减了多少的 tag，再维护一下区间内最小值个数即可统计变化量。</p>
+<p>如果 $\text{sec}-x\le x$ 即 $\text{sec}\le 2x$，减完后大小关系会发生改变，我们把区间内在 $(x,2x]$ 内的数取出来，这时转化为上面的情况，打完标记我们把被取出的数放回线段树中。维护次小值位置（任意）即可。</p>
+<blockquote>
+<p>upd：这部分其实直接在 $\text{sec}-x\le x$ 的时候继续向两边递归即可。不用特意取出。时间复杂度是不变的。</p>
+</blockquote>
+<p>令 $v=\max(a_i)$。每个数被取出必定会减半，即每个数只会被取出 $O(\log v)$ 次。时间复杂度为 $O(n\log n\log v)$。</p>
+<p>需要代码请私信联系。</p>
+<p>实现的代码吊打倍增分块，单点不超过 1s，直接最优解。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

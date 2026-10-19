@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P7078 [CSP-S2020] 贪吃蛇 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P7078 [CSP-S2020] 贪吃蛇</h1>
+      <p class="meta">
+        <span>2020-11-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/gkdy6yk4" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7078">$\text{Link}$</a></p>
+<p>时隔四年来修订一下这篇题解。</p>
+<h2 id="s1">题意</h2>
+<p>给你一个长为 $n$ 的数组 $a_{1\sim n}$，有 $n$ 条蛇，它们的实力依次为 $a_1,a_2,\dots,a_n$，保证 $a_{1\sim n}$ 升序。接下来每个时刻，实力值最大的蛇可以决定是否吃掉实力值最小的蛇，如果选择吃，那么其实力值将会减去被吃的蛇的实力值。实力值相同时按照编号进行实力的比较。</p>
+<p>每条蛇目标均为在自己不会被吃的前提下尽可能吃最多的蛇，且每条蛇均采用最优策略，求出最后剩余的蛇的数量。多组数据。</p>
+<p>$n\le 10^6$，$T\le 10$。</p>
+<h2 id="s2">思路</h2>
+<p>进行分类讨论。第一类情况是 $a_n-a_1\ge a_2$，即最强的蛇吃完后并非最弱的蛇。假设之后有一时刻其成为了最弱的蛇，那么当前最弱的蛇 $a_2$ 一定被吃了，设吃掉它的是 $a_k$，那么蛇 $k$ 的当前实力为 $a_k-a_2$，又有 $a_k\le a_n,a_2\ge a_1$，所以此时应该是蛇 $k$ 最弱，这与我们的假设矛盾。</p>
+<p>于是我们可以得出结论，如果最强的蛇吃完后不是最弱的蛇，那么它一定会吃，并且在之后的任意时刻不可能<strong>在此类情况中</strong>成为最弱的蛇。</p>
+<p>接下来是第二类情况 $a_n-a_1&lt;a_2$，最强的蛇吃完后成为了最弱的蛇。它会这么做的前提是在当前次强蛇的最优策略中不会吃掉它。则有以下情况：</p>
+<ul>
+<li>$a_{n-1}-(a_n-a_1)\ge a_2$，这种情况下由先前的讨论得知蛇 $n-1$ 一定会选择吃，那么蛇 $n$ 就不会选择吃；</li>
+<li>$a_{n-1}-(a_n-a_1)&lt;a_2$，此时蛇 $n-1$ 成为了最弱的蛇，它会这么做的前提又是当前的蛇 $n-2$ 不会选择吃了。</li>
+</ul>
+<p>对于后者，这是一个递归处理的过程，直到一次判断只剩下两条蛇或者局面为前者，此时当前最强蛇必吃。</p>
+<p>那么进行一些模拟之后我们可以得到，如果递归层数为偶数，当前的最强蛇会选择直接结束；而如果递归层数为奇数，当前的最强蛇会选择吃，此时次强蛇的递归层数为偶数，不会选择继续吃。</p>
+<p>考虑维护这个过程。朴素的想法是使用堆进行维护，时间复杂度为 $O(Tn\log n)$，难以通过本题。</p>
+<p>考虑一个经典的思路，使用两个队列模拟堆。我们用两个双端队列 $p,q$ 分别维护没吃过的蛇、吃过的蛇。由上述推导，队列 $q$ 中的蛇除了最后一次特殊情况外都不可能成为最弱的蛇。</p>
+<p>取出最强的蛇可比较两个队列的末尾，取出最弱的蛇直接从 $p$ 前端取出即可。不断进行第一类情况的模拟直到队列 $p$ 为空或出现第二类情况，此时需要判断当前最强的蛇会不会进行一次吃的操作。</p>
+<p>时间复杂度 $O(Tn)$，可以通过。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

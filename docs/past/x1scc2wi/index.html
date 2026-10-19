@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7472【[NOI Online 2021 入门组] 吃豆人】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7472【[NOI Online 2021 入门组] 吃豆人】</h1>
+      <p class="meta">
+        <span>2021-03-27</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/x1scc2wi" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7472">P7472 [NOI Online 2021 入门组] 吃豆人</a></p>
+<h2 id="s1">题意</h2>
+<p>略</p>
+<h2 id="s2">思路</h2>
+<p>考虑每个点出发会形成什么样的图形，枚举 $n\le 7$ 发现每个第一行的点中 $1,n$ 号点占据两条对角线，其余点从自身出发循环回到自身，覆盖所有点。</p>
+<p>考虑维护 $4$ 个值，表示四个倾斜角度中第 $i$ 层的数的总和，即
+$$s_{1,i}=\sum_{j,k\ge1}a_{j,k}[j+k=i+1]$$
+$$s_{2,i}=\sum_{j,k\ge1,k\le i}a_{j,k}[j-k=n-i]$$
+$$s_{3,i}=\sum_{j,k\ge1,k\le n}a_{j,k}[j+k=2n-i+1]$$
+$$s_{4,i}=\sum_{j,k\ge1,j\le i}a_{j,k}[k-j=n-i]$$
+则第 $1$ 行第 $i$ 个位置的矩形的价值为
+$$val_i=\begin{cases}s_{2,n}&amp;i=1\s_{3,n}&amp;i=n\s_{1,i}+s_{2,n-i+1}+s_{3,i}+s_{4,n-i+1}-a_{1,i}-a_{i,1}-a_{n,n-i+1}-a_{n-i+1,n}&amp;2\le i&lt; n\end{cases}$$
+则最后枚举矩形删去相交点即可。</p>
+<p>时间复杂度 $O(n^2)$。</p>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

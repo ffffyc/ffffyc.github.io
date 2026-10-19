@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="hero">
+  <h1 class="hero-title">{{ site.title }}</h1>
+  {% if site.tagline %}<p class="hero-tagline">{{ site.tagline }}</p>{% endif %}
+  {% if site.description %}<p class="hero-desc">{{ site.description }}</p>{% endif %}
+</section>
+
+{% if posts %}
+<section class="block">
+  <div class="sec-head">
+    <h2 class="sec">最近更新</h2>
+    <a class="sec-more" href="{{ base }}past/">缥缈过往 {{ past_total }} 篇</a>
+  </div>
+  <ul class="postlist">
+    {% for p in posts %}
+    <li>
+      <a class="pl-title" href="{{ p.url }}">{% if p.top and p.top > 2 %}<svg class="pin" viewBox="0 0 16 16" aria-label="置顶" role="img"><path d="M8 13.2V3.4"/><path d="M3.8 7.6 8 3.4l4.2 4.2"/></svg>{% endif %}{{ p.title }}</a>
+      <span class="pl-date">{{ p.date_text }}</span>
+      {% if p.summary %}<p class="pl-sum">{{ p.summary }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if subjects %}
+<section class="block">
+  <div class="sec-head">
+    <h2 class="sec">彷徨当下</h2>
+  </div>
+  <div class="cards">
+    {% for s in subjects %}
+    <a class="card" href="{{ base }}notes/{{ s.slug }}/">
+      <h3 class="card-title">{{ s.name }}</h3>
+      {% if s.name_en %}<p class="card-en">{{ s.name_en }}</p>{% endif %}
+      {% if s.count %}<p class="card-count">{{ s.count }} 项</p>{% endif %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

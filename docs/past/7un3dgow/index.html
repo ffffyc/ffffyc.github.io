@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P11694 [JRKSJ ExR] 淇宝的划分 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P11694 [JRKSJ ExR] 淇宝的划分</h1>
+      <p class="meta">
+        <span>2025-01-05</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/7un3dgow" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P11694">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给你一个长为 $n$ 的有序序列 $a_{1\sim n}$，你需要将它划分为两个非空可重集 $S,T$，使得集合 $S$ 内所有元素的 $\gcd$ 与集合 $T$ 内所有元素的 $\text{lcm}$ 之差最小。多组数据。</p>
+<p>$T\le 10^4$，$n\le 10^6$，$\sum n\le 5\times 10^6$。</p>
+<h2 id="s2">题解</h2>
+<h3 id="s3">初步观察</h3>
+<p>首先对 $n$ 个数求出它们的 $\gcd,\text{lcm}$ 的复杂度事实上是 $O(n+\log v)$ 的，当然求 $\text{lcm}$ 需要限制其值域。</p>
+<p>集合 G 指 $\gcd$ 集合，集合 L 指 $\text{lcm}$ 集合。</p>
+<p>假如存在 $a_i&lt;a_j$ 且将 $a_i$ 划入集合 G 且将 $a_j$ 划入集合 L，那么此时一定有 $\text{lcm}$ 部分大于 $\gcd$ 部分的值。</p>
+<p>由显然的观察可得，不可能存在 $a_i&lt;a_j&lt;a_k$ 且 $i,j,k$ 分别划分入集合 GLL，这是因为 $a_j\ne a_k$ 就会导出 $\text{lcm}(a_j,a_k)\ge 2a_j$，由于 $\gcd\le a_i&lt;a_j$，将 $a_k$ 划入集合 G 最坏情况下也会把答案减小 $a_j-a_i&gt;0$。</p>
+<hr />
+<h3 id="s4">初步讨论</h3>
+<p>故只剩下三种情形：</p>
+<ul>
+<li>形如 <code>LLLLGGGG</code>，选择一个前缀的 L；</li>
+<li>形如 <code>LLLGGLGG</code>，选择一个前缀与一个单点的 L；</li>
+<li>形如 <code>GGGLGGGG</code>，选择一个单点的 L。</li>
+</ul>
+<p><strong>其中的「单点」指的是连续一段相同的数</strong>。</p>
+<p>情形一是简单的，我们只需要控制前缀 $\text{lcm}$ 不超过二倍值域，求前缀 $\text{lcm}$ 与 $\gcd$ 同样是 $O(n+\log v)$ 的。</p>
+<hr />
+<h3 id="s5">情形二</h3>
+<p>接下来考虑情形二，我们需要导出更多的结论。</p>
+<p>设选取了前缀 $i$ 与单点 $p$，我们首先有 $a_p$ 是 $\text{lcm}(a_1,\dots,a_i)$ 的倍数，否则 $\text{lcm}\ge 2a_p$，不优于单独将 $p$ 划入集合 L。</p>
+<p>由此还可以导出一个显然的性质：固定 $p$，会选择最长的前缀 $i$ 使得  $\text{lcm}(a_1,\dots,a_i)$ 是 $a_p$ 的因数，于是有用的前缀 $i$ 的数量降为 $O(\log v)$。</p>
+<p><strong>接下来的部分为作者个人做法，较为繁杂，若不感兴趣可直接跳至「更加强大的结论」部分。</strong></p>
+<hr />
+<p>其次，我们只需要考虑 $a_p$ 为最小的序列中的满足 $a_p$ 是 $\text{lcm}(a_1,\dots,a_i)$ 的倍数的数的情况。记序列中其余部分的 $\gcd$ 为 $x$，前缀 $i$ 的 $\text{lcm}$ 为 $y$，$a_p=c_0y$，$a_q=c_1y$。</p>
+<p>接下来我们说明选择前缀 $i$ 与单点 $a_q$ 一定不优于选择只前缀 $i$。需证明：</p>
+<p>$$c_1y-\gcd(x,c_0y)\ge y-\gcd(x,c_0y,c_1y)$$
+$$(c_1-1)y\ge \gcd(x,c_0y)-\gcd(x,c_0y,c_1y)$$
+由于 $c_0&lt;c_1$，放缩至
+$$c_0y\ge \gcd(x,c_0y)-\gcd(x,c_0y,c_1y)$$</p>
+<p>由于右侧是两个不超过 $c_0y$ 的正整数相减，不可能比 $c_0y$ 还大，得证。还需证明：</p>
+<p>$$c_1y-\gcd(x,c_0y)\ge \gcd(x,c_0y,c_1y)-y$$
+$$(c_1+1)y\ge \gcd(x,c_0y)+\gcd(x,c_0y,c_1y)$$
+$$(c_1+1)y\ge \gcd(x,c_0y)+\gcd(x,c_0y,(c_1-c_0)y)$$</p>
+<p>右侧两个数分别不超过 $c_0y,(c_1-c_0)y$，得证。</p>
+<p>接下来我们需要对这 $O(\log v)$ 个前缀 $i$ 找到其后最近的是 $\text{lcm}(a_1,\dots,a_i)$ 的倍数的 $a_p$。此处有明显的单调性，可以双指针求出。</p>
+<p>下一个任务是求出区间 $(i,p)$ 内的 $\gcd$，这部分做法应该很多，我只提供一种。记这些前缀分别为 $p_{1\sim k}$，预处理一个数组 $f_{1\sim n}$，对于 $\forall i\in(p_c,p_{c+1}]$，$f_i$ 的值为 $\gcd_{j=p_c+1}^i a_j$，那么区间 $(i,p)$ 划分为 $O(\log v)$ 段，直接做连续 $\gcd$ 的复杂度即为 $O(\log v)$。预处理 $f_{1\sim n}$ 时同样做了 $O(\log v)$ 次总长为 $n$ 的连续 $\gcd$，复杂度正确。</p>
+<hr />
+<h3 id="s6">情形三</h3>
+<p>接下来考虑情形三，瓶颈在于求一个前缀与一个后缀的 $\gcd$。注意到前缀、后缀 $\gcd$ 均只有 $O(\log^2v)$ 种取值，我们只需要预处理这 $O(\log^2v)$ 个点对的 $\gcd$ 结果。</p>
+<p>注意多组数据 $T\le 10^4$ 不允许我们单次 $O(\log^3v)$。由于后缀 $\gcd$ 序列 $s_{1\sim k}$ 满足 $s_i$ 整除 $s_{i+1}$，所以对于一个前缀 $\gcd$，倒序枚举后缀 $\gcd$ 做连续 $\gcd$ 即可。</p>
+<hr />
+<h3 id="s7">更加强大的结论</h3>
+<p>第二类情况有一个更加强大的结论：若选择前缀 $i$，则只需要考虑选择 $i$ 向后第二个单点的情况。</p>
+<p>不妨讨论如下情况：令 $n=4$，集合 L 为 $\{a_1,a_4\}$，集合 G 为 $\{a_2,a_3\}$。那么令 $d=\gcd(a_2,a_3)$，有 $a_4-a_2&gt; a_3-a_2\ge d$，即 $a_4-d&gt;a_2$，将两个集合选择为 $\{a_2\},\{a_1,a_3,a_4\}$ 得到的答案显然不超过 $a_2$，得证。</p>
+<p>换句话说，不可能存在 $a_i&lt;a_j&lt;a_k$ 且 $i,j,k$ 分别划分入集合 GGL，这样情形三都无需特殊处理了。</p>
+<p>由这个结论就可以导出非常简单的做法了：只需对 $O(\log v)$ 个有效前缀与其后第二个单点求解答案。</p>
+<p>上述做法均可达到总时间复杂度 $O(n+\log^2 v)$，可以通过。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a><a class="lv3" href="#s3">初步观察</a><a class="lv3" href="#s4">初步讨论</a><a class="lv3" href="#s5">情形二</a><a class="lv3" href="#s6">情形三</a><a class="lv3" href="#s7">更加强大的结论</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

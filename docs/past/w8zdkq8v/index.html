@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P8945【Inferno】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P8945【Inferno】</h1>
+      <p class="meta">
+        <span>2023-01-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/w8zdkq8v" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8945">$\text{Link}$</a></p>
+<p>第一次 $\text{AK div.2}$，水个题解不过分吧（</p>
+<h2 id="s1">题意</h2>
+<p>给一个仅包含 $-1,0,1$ 的序列 $a$。在为 $0$ 的位置中选 $k$ 个更改为 $1$，其余更改为 $-1$，使得最大子段和最大，求最大子段和的最大值。</p>
+<p>$k\le n\le 10^7$。</p>
+<h2 id="s2">思路</h2>
+<p>看数据范围像几个前缀和就做完了。</p>
+<p>枚举左端点减一，设为 $i$。考虑右端点 $j$。</p>
+<p>记原序列前缀和为 $pr_i$。</p>
+<p>我们考虑定义 $c$ 表示 $[i,j]$ 中 $0$ 的数量。我们肯定尽可能填 $1$，再填 $-1$，则对 $c$ 的大小分类讨论：</p>
+<ul>
+<li>$c\le k$，这段的子段和为 $pr_j-pr_i+c$；</li>
+<li>$c&gt;k$，这段的子段和为 $pr_j-pr_i+2k-c$。</li>
+</ul>
+<p>我们定义 $pos_i$ 为第 $i$ 个 $0$ 的位置，$l_i$ 为 $i$ 左方（不含 $i$）的最后一个 $0$ 是第几个 $0$。则当 $j\in(i,pos_{l_i+k+1})$ 时 $c\le k$，$j\in[pos_{l_i+k+1},n]$ 时 $c&gt;k$。</p>
+<p>考虑将 $c$ 从式子中消掉。我们定义 $p_{-1,i}$ 表示将 $0$ 全部换为 $-1$ 后的前缀和，$p_{1,i}$ 表示将 $0$ 全部换为 $1$ 后的前缀和。则两种情况的答案分别变成了$p_{1,j}-p_{1,i}$ 和 $p_{-1,j}-p_{-1,i}+2k$。</p>
+<p>对于后者，我们直接维护 $p_{-1,i}$ 的后缀 $\max$。对于前者，为一段区间求 $\max$，且左右端点单调不减，维护 $p_{1,j}$ 的单调队列即可。注意边界问题。</p>
+<p>时间复杂度 $O(n)$。</p>
+<p>代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e7</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">bel</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">cnt</span><span class="p">,</span><span class="n">pos</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">ans</span><span class="p">,</span><span class="n">pm</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">sm</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">p0</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">p1</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="p">{</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span><span class="n">stk</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">hd</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tl</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">las</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="n">bel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">las</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+<span class="w">			</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">			</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">		</span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">			</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">			</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">			</span><span class="n">pos</span><span class="p">[</span><span class="o">++</span><span class="n">cnt</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="p">,</span><span class="n">las</span><span class="o">=</span><span class="n">cnt</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">pm</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">sm</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mf">-2e9</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">)</span>
+<span class="w">		</span><span class="n">pm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">pm</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+<span class="w">		</span><span class="n">sm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">sm</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">lp</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">while</span><span class="p">(</span><span class="n">hd</span><span class="o">&lt;=</span><span class="n">tl</span><span class="o">&amp;&amp;</span><span class="n">stk</span><span class="p">[</span><span class="n">hd</span><span class="p">].</span><span class="n">p</span><span class="o">&lt;</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="n">hd</span><span class="o">++</span><span class="p">;</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="o">=</span><span class="n">bel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">id</span><span class="o">&gt;</span><span class="n">cnt</span><span class="p">)</span><span class="w"> </span><span class="n">ans</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span><span class="n">pm</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">		</span><span class="k">else</span><span class="p">{</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">np</span><span class="o">=</span><span class="n">pos</span><span class="p">[</span><span class="n">id</span><span class="p">];</span>
+<span class="w">			</span><span class="k">for</span><span class="p">(;</span><span class="n">lp</span><span class="o">&lt;=</span><span class="n">np</span><span class="mi">-1</span><span class="p">;</span><span class="n">lp</span><span class="o">++</span><span class="p">){</span>
+<span class="w">				</span><span class="k">while</span><span class="p">(</span><span class="n">hd</span><span class="o">&lt;=</span><span class="n">tl</span><span class="o">&amp;&amp;</span><span class="n">stk</span><span class="p">[</span><span class="n">tl</span><span class="p">].</span><span class="n">v</span><span class="o">&lt;</span><span class="n">p1</span><span class="p">[</span><span class="n">lp</span><span class="p">])</span><span class="w"> </span><span class="n">tl</span><span class="o">--</span><span class="p">;</span>
+<span class="w">				</span><span class="n">stk</span><span class="p">[</span><span class="o">++</span><span class="n">tl</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="n">p1</span><span class="p">[</span><span class="n">lp</span><span class="p">],</span><span class="n">lp</span><span class="p">};</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">			</span><span class="n">ans</span><span class="o">=</span><span class="n">max</span><span class="p">({</span><span class="n">ans</span><span class="p">,</span><span class="n">stk</span><span class="p">[</span><span class="n">hd</span><span class="p">].</span><span class="n">v</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">sm</span><span class="p">[</span><span class="n">np</span><span class="p">]</span><span class="o">-</span><span class="n">p0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">});</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">write</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

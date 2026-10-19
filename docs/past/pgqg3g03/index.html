@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>模意义 01 背包的快速做法 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
+      <h1 class="post-title">模意义 01 背包的快速做法</h1>
+      <p class="meta">
+        <span>2025-04-21</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/pgqg3g03" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p>来自 <a href=""><strong>[广东省队集训 2025] 操作</strong></a>。</p>
+<p>记模数为 $m$。</p>
+<p>考虑加入一个数，这会让我们执行两次对位或操作，其中对位或操作为指定两个长度相等的区间 $[l_1,r_1],[l_2,r_2]$，将前者中为一的位置在后者中的对应位置也标一。</p>
+<p>考虑分治，将两个区间均分作两段并分别递归，若执行对位或操作的区间完全相等则返回。</p>
+<p>考虑这样做的时间复杂度，每出现对位的 $(1,0)$，整个数组中的 $1$ 的数量就会减少 $1$，根据势能分析递归总次数即为 $O(m\log m)$。</p>
+<p>但是还有可能出现对位 $(0,1)$，这会导致上述分析出现一些问题。考虑我们是模意义 01 背包，不断加 $v$ 会出现若干个环，那么每一组的对位 $(0,1)$ 均会在其环上对应一组对位 $(1,0)$，故势能分析依然正确。</p>
+<p>使用树状数组维护区间哈希值判区间相等，时间复杂度 $O(m\log^2 m)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/theory/">返回算法·理论列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

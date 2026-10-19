@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P8944【The Da Vinci Code】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P8944【The Da Vinci Code】</h1>
+      <p class="meta">
+        <span>2023-01-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/6adh9iip" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8944">$\text{Link}$</a></p>
+<p>和官方题解不同的解释方法。</p>
+<h2 id="s1">题意</h2>
+<p>有一个排列 $a_i=i$。有 $k$ 次操作，每次操作均匀随机选取 $i,j\in[1,n]$，交换 $a_i,a_j$。$x$ 在 $[1,n]$ 中以 $b_i$ 为权随机，求 $k$ 次操作后 $x=a_i$ 的概率。对质数 $3221225473$ 取模。</p>
+<p>$n\le 2\times 10^7$，$k&lt;2^{64}$。</p>
+<h2 id="s2">思路</h2>
+<p>交换 $a_i,a_j$ 和交换 $b_i,b_j$ 是相同的。</p>
+<p>考虑进行一次操作后 $b_i$ 的期望。用总和除以方案数求。总方案为 $n^2$，其中有 $n^2-2n$ 种与 $b_i$ 无关。剩下的 $b_i$ 与 $b_j,j\in[1,n]$ 交换各两种。</p>
+<p>$$b_i\gets \dfrac{(n^2-2n)b_i+2\sum b}{n^2}$$</p>
+<p>注意到 $\sum b=1$。</p>
+<p>$$b_i\gets \dfrac{(n-2)}{n}b_i+\dfrac{2}{n^2}$$</p>
+<p>我们定义 $f(x)=\dfrac{(n-2)}nx+\dfrac{2}{n^2}$，$f^{(k)}(x)=f(f^{(k-1)}(x))$，则最终 $b_i$ 等于 $f^{(k)}(b_i)$。我们只需要求出 $f^{(k)}(x)$ 的解析式，将每个 $b_i$ 代入即可。</p>
+<p>显然，$f^{(k)}(x)$ 也是一次函数，我们设 $f(x)=px+q$，归纳可得 $f^{(k)}(x)=p^kx+q(\sum_{i=0}^{k-1}p^i)$，我们所需的只有求逆元，等比数列求和，写个快速幂即可。注意特判 $k=1$。</p>
+<p>时间复杂度 $O(n+\log\bmod)$。</p>
+<p>代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="cp">#define ull unsigned long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">	</span>
+<span class="p">}</span>
+<span class="k">typedef</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uint</span><span class="p">;</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3221225473u</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20000010</span><span class="p">;</span>
+
+<span class="n">ull</span><span class="w"> </span><span class="n">seed</span><span class="p">;</span>
+
+<span class="n">ull</span><span class="w"> </span><span class="nf">getnext</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">	</span><span class="n">seed</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span>
+<span class="w">	</span><span class="n">seed</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">17</span><span class="p">;</span>
+<span class="w">	</span><span class="n">seed</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">seed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">seed</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">uint</span><span class="w"> </span><span class="nf">rd</span><span class="p">(</span><span class="n">uint</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">getnext</span><span class="p">()</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">l</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="n">ull</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="n">uint</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+
+<span class="kr">inline</span><span class="w"> </span><span class="n">uint</span><span class="w"> </span><span class="nf">qpow</span><span class="p">(</span><span class="n">uint</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="n">uint</span><span class="w"> </span><span class="n">b</span><span class="p">){</span>
+<span class="w">	</span><span class="n">uint</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">b</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">b</span><span class="o">&amp;</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">res</span><span class="o">=</span><span class="p">(</span><span class="n">ull</span><span class="p">)</span><span class="n">res</span><span class="o">*</span><span class="n">a</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">		</span><span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="n">ull</span><span class="p">)</span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">		</span><span class="n">b</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//bi=(n-2)/nbi+2/n^2</span>
+<span class="n">ull</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">	</span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">k</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">seed</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="n">ull</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rd</span><span class="p">(</span><span class="mi">2u</span><span class="p">,</span><span class="w"> </span><span class="n">mod</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">mod</span><span class="p">;</span>
+<span class="w">	</span><span class="n">b</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mod</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span>
+<span class="w">	</span><span class="n">uint</span><span class="w"> </span><span class="n">in</span><span class="o">=</span><span class="n">qpow</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">mod</span><span class="mi">-2</span><span class="p">),</span><span class="n">in2</span><span class="o">=</span><span class="p">(</span><span class="n">ull</span><span class="p">)</span><span class="n">in</span><span class="o">*</span><span class="n">in</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">	</span><span class="n">uint</span><span class="w"> </span><span class="n">k1</span><span class="o">=</span><span class="p">(</span><span class="n">ull</span><span class="p">)(</span><span class="n">n</span><span class="mi">-2</span><span class="p">)</span><span class="o">*</span><span class="n">in</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">b1</span><span class="o">=</span><span class="p">(</span><span class="n">ull</span><span class="p">)</span><span class="mi">2</span><span class="o">*</span><span class="n">in2</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">	</span><span class="n">uint</span><span class="w"> </span><span class="n">k2</span><span class="p">,</span><span class="n">b2</span><span class="p">;</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">k</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span><span class="n">k2</span><span class="o">=</span><span class="n">k1</span><span class="p">,</span><span class="n">b2</span><span class="o">=</span><span class="n">b1</span><span class="p">;}</span>
+<span class="w">	</span><span class="k">else</span><span class="p">{</span>
+<span class="w">		</span><span class="n">uint</span><span class="w"> </span><span class="n">ki</span><span class="o">=</span><span class="n">qpow</span><span class="p">(((</span><span class="n">ull</span><span class="p">)</span><span class="n">k1</span><span class="o">%</span><span class="n">mod</span><span class="o">+</span><span class="n">mod</span><span class="mi">-1</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">mod</span><span class="mi">-2</span><span class="p">);</span>
+<span class="w">		</span><span class="n">k2</span><span class="o">=</span><span class="n">qpow</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span><span class="n">k</span><span class="o">%</span><span class="p">(</span><span class="n">mod</span><span class="mi">-1</span><span class="p">)),</span><span class="n">b2</span><span class="o">=</span><span class="p">((</span><span class="n">ull</span><span class="p">)</span><span class="n">k2</span><span class="o">+</span><span class="n">mod</span><span class="mi">-1</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="o">*</span><span class="n">ki</span><span class="o">%</span><span class="n">mod</span><span class="o">*</span><span class="n">b1</span><span class="o">%</span><span class="n">mod</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">((</span><span class="n">ull</span><span class="p">)</span><span class="n">k2</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">%</span><span class="n">mod</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span><span class="o">%</span><span class="n">mod</span><span class="p">,</span><span class="n">ans</span><span class="o">^=</span><span class="p">(</span><span class="n">ull</span><span class="p">)</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">i</span><span class="p">;</span>
+<span class="w">	</span><span class="n">write</span><span class="p">(</span><span class="n">ans</span><span class="p">);</span>
+<span class="w">	</span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

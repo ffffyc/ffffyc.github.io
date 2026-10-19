@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>隐藏文章 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/hidden/">隐藏</a> / <a href="/hidden/category/misc/">杂项</a></p>
+      <h1 class="post-title" id="secret-title">隐藏文章</h1>
+      <p class="meta">
+        <span>2021-07-14</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/xtuqsqo4" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+
+    <div class="lock" id="lock-panel">
+      <p class="lede">这篇内容已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+      <form class="lock-form" id="lock-form">
+        <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+        <button type="submit">打开</button>
+        <span class="lock-hint" id="lock-hint"></span>
+      </form>
+    </div>
+
+    <div class="prose" id="secret"></div>
+
+    <p class="post-back">
+      <a href="/hidden/category/misc/">返回杂项的隐藏列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc" id="secret-toc"></aside>
+</div>
+
+<script>window.FFFFYC_SUFFIX = "ffffyc";</script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "PGYTG5pSwL9XS/E4", "c": "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"}</script>
+<script src="/assets/lock.js?v=1792427577"></script>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

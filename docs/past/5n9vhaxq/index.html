@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7771【【模板】欧拉路径】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7771【【模板】欧拉路径】</h1>
+      <p class="meta">
+        <span>2021-07-31</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/5n9vhaxq" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7771">$\text{Link}$</a></p>
+<p>$\text{upd2021.8.1}:$修改时间复杂度错误的代码，通过评论区的 $\text{hack}$。</p>
+<p>$\text{upd2021.8.5}:$增加时间复杂度更优的做法。</p>
+<h2 id="s1">题意</h2>
+<p>给出一个有 $n$ 个点，$m$ 条边构成的有向图，求其字典序最小的欧拉路径。</p>
+<p>$1\le n\le10^5,1\le m\le2\times10^5$</p>
+<h2 id="s2">思路</h2>
+<p>是新模板，写个题解。</p>
+<p>首先，我们需要了解什么是<strong>欧拉路径</strong>。</p>
+<blockquote>
+<p><strong>通过图中所有边恰好一次且行遍所有顶点的通路</strong>称为欧拉路径，又称欧拉通路、欧拉道路。</p>
+</blockquote>
+<p>如何判断一个图是否存在欧拉路径？</p>
+<p>当然，如果图是欧拉图的话，即有欧拉回路时肯定存在欧拉路径。对于其余情况，考虑欧拉路径中相邻两个结点之间有边相连，除了路径中第 $1$ 个和第 $m+1$ 个点，每个点都会被进入一次、离开一次，且每条边都被遍历过。即<strong>除了起点、终点，每个点的入度都等于出度</strong>。<strong>对于起点，入度比出度少一，对于终点，入度比出度大一</strong>。</p>
+<p>至此，我们就可以 $O(n+m)$ 判断是否有解了。若有解，还可求出起点与终点。</p>
+<p>考虑求解，从起点开始 $\text{dfs}$，对于当前搜到的点，随意选择一条以前未选过的与其相连的边继续搜索，退出搜索时压入栈中，最后将栈中所有元素输出即可。</p>
+<p>显然，连入每个点和其连出的边都会被遍历一次，对于求任意一条欧拉路径，我们无需考虑每个点被遍历的先后顺序，每次搜至某一点都会使其入度减少一，继续搜时有两种情况：</p>
+<ul>
+<li>若有回到该点的环，即该点还有入度：
+<ul>
+<li>回到该点的环，则此次遍历环使得其入度、出度均减一；</li>
+<li>进入其他环内，则由于连向此点的点还有出度，必有入度，能够对进入的环进行此分析，最终将进入的环内的点的入度均变为 $0$（若里面有终点，其入度为  $1$）后必可回到该点（因为已经证明有欧拉路径）；</li>
+</ul>
+</li>
+<li>没有回到该点的环，则此时入度已为 $0$，出度只可能为 $1$，向下搜之后此点出、入度均变为 $0$。</li>
+</ul>
+<p>最终每个点的入度、出度均变为 $0$，故此算法是正确的，时间复杂度为 $O(n+m)$。</p>
+<p>考虑原问题，即求字典序最小的欧拉路径。</p>
+<p>考虑贪心，靠前的位置应尽可能小，使每次转移的点尽量小即可，可以预先将每个点连出的所有点按照编号大小排序，时间复杂度 $O(n+m\log m)$。</p>
+<p>其中有一个细节：若每扫边次都从 $0$ 开始，即以下搜索代码：</p>
+<pre class="code"><code class="language-cpp"><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">].</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">vis</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">]){</span>
+<span class="w">            </span><span class="n">vis</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">dfs</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ans</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>的复杂度可以通过构造 $10^5$ 条 $1\to2$，$10^5$ 条 $2\to1$ 的边卡到 $O(m^2)$。</p>
+<p>解决方案就是记录目前删到第几条边，从删到的下一条边开始枚举，时间复杂度才能正确。</p>
+<p>$O(n+m\log m)$ 代码：</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define ll long long</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span><span class="c1">//by cyffff</span>
+<span class="w">    </span>
+<span class="p">}</span>
+<span class="cp">#define mpr make_pair</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">cnt</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">ind</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">oud</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">vis</span><span class="p">[</span><span class="n">N</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">stack</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="n">ans</span><span class="p">;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">x</span><span class="p">];</span><span class="n">i</span><span class="o">&lt;</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">].</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">x</span><span class="p">])){</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">t</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">vis</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">]){</span>
+<span class="w">            </span><span class="n">vis</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">st</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">dfs</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ans</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">m</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="o">=</span><span class="n">read</span><span class="p">(),</span><span class="n">v</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">        </span><span class="n">oud</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">++</span><span class="p">,</span><span class="n">ind</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="n">a</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">mpr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">i</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="n">oud</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+<span class="w">            </span><span class="n">cnt</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">oud</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">                </span><span class="n">s</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">ind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">oud</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">                </span><span class="n">t</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">cnt</span><span class="o">!=</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="n">cnt</span><span class="o">!=</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">puts</span><span class="p">(</span><span class="s">"No"</span><span class="p">),</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">cnt</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">s</span><span class="o">=</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="o">||!</span><span class="n">t</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">puts</span><span class="p">(</span><span class="s">"No"</span><span class="p">),</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">        </span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">begin</span><span class="p">(),</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">end</span><span class="p">());</span>
+<span class="w">    </span><span class="n">dfs</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">ans</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
+<span class="w">    	</span><span class="n">write</span><span class="p">(</span><span class="n">ans</span><span class="p">.</span><span class="n">top</span><span class="p">()),</span><span class="n">putc</span><span class="p">(</span><span class="sc">' '</span><span class="p">);</span>
+<span class="w">    	</span><span class="n">ans</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">    </span><span class="n">flush</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>当然，如果使用计数排序/基数排序等方法可以将时间复杂度降至 $O(n+m)$，但由于常数原因，在实际运行中没有 <code>sort</code> 快，具体代码见<a href="https://www.luogu.com.cn/paste/0l5qyep4">这里</a>。</p>
+<p>再见 qwq~</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

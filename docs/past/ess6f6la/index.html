@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P11368 [Ynoi2024] After god — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P11368 [Ynoi2024] After god</h1>
+      <p class="meta">
+        <span>2024-12-05</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/ess6f6la" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P11368">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>你需要维护两个长为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$，初值均为 $0$。接下来 $m$ 次操作，每次操作中给出 $x,y$，依次执行：</p>
+<ul>
+<li>令 $a_x\gets y$；</li>
+<li>令 $\forall i\in[1,n],b_i\gets b_i+\displaystyle\max_{j=1}^i a_j$；</li>
+<li>查询 $\displaystyle\sum_{i=1}^x b_i$。</li>
+</ul>
+<p>$n,m\le 10^6$。</p>
+<h2 id="s2">题解</h2>
+<p>直接维护前缀最大值需要单侧递归上传，复杂度过高不做考虑。</p>
+<p>令 $a_{i,t}$ 为时刻 $t$ 对应的 $a_i$，$c_{i,t}$ 为时刻 $t$ 中前缀 $a_{1\sim i,t}$ 的最大值。所求为 $\sum_{i=1}^x\sum_{j=1}^t c_{i,j}$。</p>
+<p>考虑<strong>交换求和顺序，对序列维做扫描线</strong>。设当前扫描到 $i$，则维护所有的 $c_{i,t}$ 以及其历史和 $\sum_{j=1}^ic_{j,t}$，对位置 $i$ 的若干次修改构成对 $c_{i,t}$ 的若干次区间取 $\max$ 操作，而一次查询即为前缀历史和查询。写一个维护历史和的吉司机线段树即可维护。</p>
+<p>时间复杂度 $O(n\log n)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

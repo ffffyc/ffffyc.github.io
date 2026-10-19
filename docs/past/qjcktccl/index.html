@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7333【[JRKSJ R1] JFCA】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7333【[JRKSJ R1] JFCA】</h1>
+      <p class="meta">
+        <span>2021-01-14</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/qjcktccl" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h3 id="s1">T1 JFCA</h3>
+<h4 id="s2">Subtask 1</h4>
+<p>这个 $Subtask$ 中 $n \leqslant 10^3$ ,暴力 $O(n^2)$ 向左右拓展即可，但是由于没有 $O2$，只能通过数据点 $1$ 至 $4$ 数据点（数据点 $4$ 可极限通过），期望得分 $20$.</p>
+<h4 id="s3">Subtask 2</h4>
+<p>采用捆绑测试，$10^5$ 的数据可以想到要用 $O(n\log n)$ 的算法。</p>
+<p>于是我们可以想到二分，但是 $a_j$ 没有单调性。于是我们可以维护区间最大值，满足单调性。</p>
+<p>由于题目说这是一个环，我们可以使用分类讨论或者断环为链，这篇题解主要讲断环为链。</p>
+<p>我们将每个数存 $3$ 遍，即 $a_{i+n+n}=a_{i+n}=a_i$.</p>
+<p>定义 $f(i,j)=\max_{k=i}^j a_k$，我们设当前处理的是序号为 $i$ 的数，则 $check(x)=\max(f(i-x,i-1),f(i+1,i+x))$ 。</p>
+<p>我们对于$i+n$ 二分一次即可。</p>
+<p>注意事项：</p>
+<ul>
+<li>1.断环为链时，我们复制 $3$ 遍的原因是处理较后的数时可能会造成数组越界错误。</li>
+<li>2.我们可以使用 $ST$表 平衡复杂度到 $n\log n$，也可以使用其他数据结构如线段树做到 $n\log^2 n$ 的复杂度。</li>
+<li>3.由于 $i\ne j$，求区间最大值时不能直接算 $f(i-x,i+x)$。</li>
+</ul>
+<p>接下来就可以愉快的二分了，不理解的和剩余的内容可以结合代码理解。</p>
+<p>$std$:</p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">3e5</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="mi">30</span><span class="p">],</span><span class="n">lg</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">{</span>
+<span class="w">	</span><span class="c1">//read(),write()</span>
+<span class="p">}</span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">IO</span><span class="p">;</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">q</span><span class="o">=</span><span class="n">lg</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">q</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">q</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">q</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">ef</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">){</span><span class="c1">//二分</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">n</span><span class="p">;</span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="n">l</span><span class="o">&lt;</span><span class="n">r</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="o">=</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">max</span><span class="p">(</span><span class="n">query</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">mid</span><span class="p">,</span><span class="n">i</span><span class="mi">-1</span><span class="p">),</span><span class="n">query</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="n">mid</span><span class="p">))</span><span class="o">&gt;=</span><span class="n">x</span><span class="p">){</span>
+<span class="w">			</span><span class="n">r</span><span class="o">=</span><span class="n">mid</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">			</span><span class="n">l</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">l</span><span class="o">==</span><span class="n">n</span><span class="o">?</span><span class="mi">-1</span><span class="o">:</span><span class="n">l</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">n</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//断环为链</span>
+<span class="w">    	</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">	    </span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">lg</span><span class="p">[</span><span class="n">i</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">ln</span><span class="o">=</span><span class="n">lg</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="p">];</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">ln</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//ST表预处理</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">j</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">)</span><span class="mi">-1</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="o">+</span><span class="n">n</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">max</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="mi">-1</span><span class="p">],</span><span class="n">st</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="mi">-1</span><span class="p">)][</span><span class="n">i</span><span class="mi">-1</span><span class="p">]);</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="n">read</span><span class="p">();</span>
+<span class="w">		</span><span class="kt">int</span><span class="w"> </span><span class="n">a2</span><span class="o">=</span><span class="n">ef</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="n">n</span><span class="p">);</span>
+<span class="w">		</span><span class="n">write</span><span class="p">(</span><span class="n">a2</span><span class="p">);</span>
+<span class="w">		</span><span class="n">out</span><span class="p">[</span><span class="n">len</span><span class="o">++</span><span class="p">]</span><span class="o">=</span><span class="sc">' '</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">fwrite</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">len</span><span class="p">,</span><span class="n">stdout</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>这道题作为 $T1$ 还是很水的，后面的题就很毒瘤了。</p>
+<p>感谢大家参与这场比赛！</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">T1 JFCA</a><a class="lv4" href="#s2">Subtask 1</a><a class="lv4" href="#s3">Subtask 2</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

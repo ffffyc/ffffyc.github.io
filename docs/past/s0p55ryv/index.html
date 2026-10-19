@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF143B 【Help Kingdom of Far Far Away 2】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF143B 【Help Kingdom of Far Far Away 2】</h1>
+      <p class="meta">
+        <span>2020-09-29</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/s0p55ryv" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>CF143B Help Kingdom of Far Far Away 2</h1>
+<h4 id="s1"><a href="https://www.luogu.com.cn/problem/CF143B"><em>传送门</em></a></h4>
+<h2 id="s2">题意</h2>
+<p>给出一个数，对这个数做以下操作：</p>
+<ul>
+<li>
+<p>加上一个字符（加上它$\LaTeX$就会炸掉，自己看题面吧）；</p>
+</li>
+<li>
+<p>小数点前，从个位开始，每三位分一段，用<code>','</code>隔开；</p>
+</li>
+<li>
+<p>保留两位小数，超过省去，不足补零；</p>
+</li>
+<li>
+<p>如果这个数是负数，将它取绝对值并用括号括起来。</p>
+</li>
+</ul>
+<h2 id="s3">思路</h2>
+<p>这道题是一道不错的字符串模拟<s>水</s>题。</p>
+<h4 id="s4">一、处理输入</h4>
+<p>由于位数问题与处理困难，所以我们用<code>string</code>或<code>char</code>数组存储就行了（以下用<code>a</code>表示这个输入的字符串，<code>len</code>表示它的长度）。</p>
+<h4 id="s5">二、负数</h4>
+<p>这点也比较简单，直接判断<code>a[0]</code>就可以了（字符串下标从 $0$ 开始）。</p>
+<h4 id="s6">三、小数</h4>
+<p>首先判断小数，从 $0$ 循环到 $len-1$，判断每一位是不是<code>'.'</code>就行了。</p>
+<pre class="code"><code class="language-cpp"><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">len</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">'.'</span><span class="p">){</span>
+<span class="w">		</span><span class="n">dot</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+<span class="w">		</span><span class="n">len</span><span class="o">=</span><span class="n">i</span><span class="p">;</span>
+<span class="w">		</span><span class="k">break</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>然后是处理保留小数的问题。</p>
+<p>如果这个数不是小数，直接输出<code>.00</code>就行了。</p>
+<p>否则，从找到小数的地方（这里我把<code>len</code>设为了小数点位置的下标，见上面的代码）开始，循环到 $min(strlen(a),len+3)$ （有可能这个小数只有一位，循环到 $len+3$ 会溢出），每次输出这个下标上的字符。再有一次补位循环，从 $strlen(a)-len$ 循环到 $2$，每次都输出一个<code>'0'</code>。</p>
+<pre class="code"><code class="language-cpp"><span class="k">if</span><span class="p">(</span><span class="n">dot</span><span class="p">){</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">min</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">len</span><span class="o">+</span><span class="mi">3</span><span class="p">);</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">putchar</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"> </span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">-</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="n">putchar</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">	</span><span class="n">printf</span><span class="p">(</span><span class="s">".00"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id="s7">四、分段</h4>
+<p>从第一个数字字符循环到 $len-1$，每次循环输出自己，再做一次判断，如果 $(len-i-1)mod\enspace3==0$并且$i!=len-1$ （$i$ 为循环的数）,就要输出一个逗号。</p>
+<pre class="code"><code class="language-cpp"><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">+</span><span class="n">neg</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">	</span><span class="n">putchar</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">	</span><span class="k">if</span><span class="p">((</span><span class="n">len</span><span class="o">-</span><span class="n">i</span><span class="mi">-1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="n">i</span><span class="o">!=</span><span class="n">len</span><span class="mi">-1</span><span class="p">){</span>
+<span class="w">		</span><span class="n">putchar</span><span class="p">(</span><span class="sc">','</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>那么，我们把上述内容整理起来，进入</p>
+<h2 id="s8">完整代码</h2>
+<p><em>注释中会给出一些操作的目的的解释</em></p>
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="mf">1e3</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">neg</span><span class="p">,</span><span class="n">dot</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span><span class="n">a</span><span class="p">);</span><span class="c1">//输入</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="sc">'-'</span><span class="p">){</span><span class="c1">//判断正负</span>
+<span class="w">		</span><span class="n">neg</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">len</span><span class="o">=</span><span class="n">strlen</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="o">=</span><span class="n">len</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">len</span><span class="mi">-1</span><span class="p">;</span><span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">--</span><span class="p">){</span>
+<span class="w">		</span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="sc">'.'</span><span class="p">){</span>
+<span class="w">			</span><span class="n">dot</span><span class="o">=</span><span class="nb">true</span><span class="p">;</span><span class="c1">//是小数</span>
+<span class="w">			</span><span class="n">len</span><span class="o">=</span><span class="n">i</span><span class="p">;</span><span class="c1">//保存小数点下标</span>
+<span class="w">			</span><span class="k">break</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">neg</span><span class="p">){</span><span class="c1">//执行负数操作</span>
+<span class="w">		</span><span class="n">printf</span><span class="p">(</span><span class="s">"("</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">printf</span><span class="p">(</span><span class="s">"$"</span><span class="p">);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">+</span><span class="n">neg</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//如果这个数是负数，则第一位'-'不因算进一位，要加一</span>
+<span class="w">		</span><span class="n">putchar</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">		</span><span class="k">if</span><span class="p">((</span><span class="n">len</span><span class="o">-</span><span class="n">i</span><span class="mi">-1</span><span class="p">)</span><span class="o">%</span><span class="mi">3</span><span class="o">==</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="n">i</span><span class="o">!=</span><span class="n">len</span><span class="mi">-1</span><span class="p">){</span>
+<span class="w">			</span><span class="n">putchar</span><span class="p">(</span><span class="sc">','</span><span class="p">);</span><span class="c1">//分段</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">dot</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">min</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">len</span><span class="o">+</span><span class="mi">3</span><span class="p">);</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//保留两位小数</span>
+<span class="w">			</span><span class="n">putchar</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"> </span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="o">-</span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span><span class="c1">//补零</span>
+<span class="w">			</span><span class="n">putchar</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="w">		</span><span class="n">printf</span><span class="p">(</span><span class="s">".00"</span><span class="p">);</span><span class="c1">//直接补两位零</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">neg</span><span class="p">){</span>
+<span class="w">		</span><span class="n">printf</span><span class="p">(</span><span class="s">")"</span><span class="p">);</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/*</span>
+<span class="cm">代码长度：647B</span>
+<span class="cm">用时：2.59s </span>
+<span class="cm">内存：16.00KB </span>
+<span class="cm">*/</span>
+</code></pre>
+<p>那就再见了qwq</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">题意</a><a class="lv2" href="#s3">思路</a><a class="lv4" href="#s4">一、处理输入</a><a class="lv4" href="#s5">二、负数</a><a class="lv4" href="#s6">三、小数</a><a class="lv4" href="#s7">四、分段</a><a class="lv2" href="#s8">完整代码</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

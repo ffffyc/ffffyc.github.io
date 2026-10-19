@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GDOI2023 游记 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
+      <h1 class="post-title">GDOI2023 游记</h1>
+      <p class="meta">
+        <span>2023-04-05</span>
+<span class="tag">GDOI 2023</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/dpfunh13" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p>前一周因为有些忙，所以没有拿太多时间复习省选，NOIP 考得也很差，所以有些摆。</p>
+<h3 id="s1">$\text{Day1/2023.4.1}$</h3>
+<p>开考。</p>
+<p>看完 $\text A$，以为读错了，很快就写完了。测了大样例就没管了。</p>
+<p>看 $\text B$，找不到任何思路，此时看错部分分，以为树的部分是链，乱写了一行先跳过了。</p>
+<p>看 $\text C$，发现有很多样例和数据点，看了看决定写大概是 $nm$ 的做法，边写边想，写了个 $O(nm\log^2n)$ 的启发式合并，测了 $\text{sub }8,11$ 能过，就先不管了。</p>
+<p>看 $\text B$，先补了一个 $O(2^m)$ 的爆搜，但第二个样例没对，想做 $k=0$ 却无从下手，很难受。</p>
+<p>看 $\text C$，如果解决了 $\text A$，套个线段树分治就做完了。想 $\text{A}+\text{B}$ 性质怎么做，结果想不出来。</p>
+<p>在 $\text A$ 注释里写了写抽象话，还有监考员说不要写恶意语言，呃呃。</p>
+<p>出场时期望得分 $100+[20,30]+48$，突然想到 $\text B$ 的特殊性质不是链，这下只有 $100+[0,10]+48$ 了。</p>
+<p>在云斗学院测出来 $100+0+48$，大众分大概是 $100+25+48$ 吧。连大众分都拿不到，挺难受的，实力还是很弱。</p>
+<p>晚上开摆。</p>
+<h3 id="s2">$\text{Day2/2023.4.2}$</h3>
+<p>看完 $\text A$，看完发现不会，很慌，想了想一些性质，没搞出来，于是先去看下一题了。</p>
+<p>看 $\text B$，还是不会。看 $\text C$，还是不会。</p>
+<p>就先去写 $\text A$ 了。判了几个 corner，写了几个部分分就想不出来了。</p>
+<p>于是去写看起来可做一点的 $\text B$，拿到大暴力和 $\text A$ 的分就也不会了。</p>
+<p>想拿 $\text C$ 的第一问的分，写了个 dp，突然发现只能解决 $1\sim2$ 的第一问，很难受。</p>
+<p>出场期望得分 $?+28+2$。在云斗测出来 $[30,55]+28+2$。</p>
+<p>两天下来我发现自己上点难度就只会打暴力，还是不要着眼以前的那些微不足道的东西，认真学习才是正道。</p>
+<p>祝学长们好运。</p>
+<h3 id="s3">$\text{2023.4.10}$</h3>
+<p>$100+5+48+40+28+2=223$/cf</p>
+<p>恭喜两位学长进队！</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/travel/">返回游记列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv3" href="#s1">$\text{Day1/2023.4.1}$</a><a class="lv3" href="#s2">$\text{Day2/2023.4.2}$</a><a class="lv3" href="#s3">$\text{2023.4.10}$</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

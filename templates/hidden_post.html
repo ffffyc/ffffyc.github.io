@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}隐藏文章 — {{ site.title }}{% endblock %}
+{% block main %}
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="{{ base }}hidden/">隐藏</a> / <a href="{{ base }}hidden/category/{{ post.category_key }}/">{{ post.category }}</a></p>
+      <h1 class="post-title" id="secret-title">隐藏文章</h1>
+      <p class="meta">
+        <span>{{ post.date_text }}</span>
+        {% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        {% if post.source %}<a class="tag tag-link" href="{{ post.source }}" target="_blank" rel="noopener">洛谷原文</a>{% endif %}
+      </p>
+    </header>
+
+    <div class="lock" id="lock-panel">
+      <p class="lede">这篇内容已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+      <form class="lock-form" id="lock-form">
+        <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+        <button type="submit">打开</button>
+        <span class="lock-hint" id="lock-hint"></span>
+      </form>
+    </div>
+
+    <div class="prose" id="secret"></div>
+
+    <p class="post-back">
+      <a href="{{ base }}hidden/category/{{ post.category_key }}/">返回{{ post.category }}的隐藏列表</a>
+      <a href="{{ base }}past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc" id="secret-toc"></aside>
+</div>
+
+<script>window.FFFFYC_SUFFIX = "{{ site.title }}";</script>
+<script id="lock-data" type="application/json">{{ payload }}</script>
+<script src="{{ base }}assets/lock.js?v={{ site.v }}"></script>
+{% endblock %}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P9663【[ICPC2021 Macao R] Permutation on Tree】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P9663【[ICPC2021 Macao R] Permutation on Tree】</h1>
+      <p class="meta">
+        <span>2024-02-17</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/6wliyqd4" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P9663">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给定一颗叶向树，求所有合法拓扑序 $p$ 的 $\sum_{i=2}^n|p_i-p_{i-1}|$ 之和，对 $10^9+7$ 取模。</p>
+<p>$n\le200$。</p>
+<h2 id="s2">思路</h2>
+<p>考虑求一颗树的拓扑序数量，定义 $g_x$ 为 $x$ 子树内拓扑序的数量，$sz_x$ 为 $x$ 子树大小。考虑 $x$ 不同子树之间无限制，而 $x$ 必须摆在第一位，显然有</p>
+<p>$$g_x=\binom{sz_x-1}{sz_{t_1},sz_{t_2},\dots,sz_{t_k}}\prod_{i=1}^kg_{t_i}$$</p>
+<p>其中 $t_{1\sim k}$ 为 $x$ 的儿子，多重组合数 $\binom{n}{s_1,s_2,\dots.s_k}$ 意义为把 $n$ 个数划分成 $k$ 个大小给定集合的方案数。</p>
+<p>根据此式，我们可以算出 $\text{reduce}(x,p_1,\dots)$ 表示求 $x$ 子树去掉 $p_1,\dots$ 子树后合法拓扑序数量，其中 $p_{1\sim k}$ 均为 $x$ 的儿子，此函数时间复杂度为 $O(k)$，预处理 $g_x$ 逆元即可。</p>
+<p>考虑枚举 $a,b$，计算它们在所有合法拓扑序中相邻的次数。</p>
+<ul>
+<li>$a,b$ 有祖先后代关系。那么此时 $a$ 一定是 $b$ 的父亲，考虑 $a$ 子树内所有拓扑序，那么 $b$ 一定在第二位，方案数为 $\text{reduce}(a,b)\cdot\binom{sz_a-2}{sz_b-1}\cdot g_b$。</li>
+<li>$a,b$ 无祖先后代关系。设 $c=\text{LCA}(a,b)$，$a',b'$ 分别为 $c$ 的 $a,b$ 方向的儿子。由于 $a,b$ 相邻，不妨先把 $a,b$ 子树拓扑序合并，方案数为 $\binom{sz_a+sz_b-2}{sz_a-1}\cdot g_ag_b$。考虑令 $f(u,v)$ 表示 $u,v$ 子树拓扑序拼起来有几个是 $a,b$ 相邻的，则 $f(fa_u,v)\gets f(u,v)\cdot\text{reduce}(fa_u,u)\cdot\binom{sz_{fa_u}+sz_v-2}{sz_u+sz_v-1}$，$f(u,v)\to f(u,fa_v)$ 同理。最后 $c$ 子树内 $a,b$ 相邻方案数就是 $f(a',b')\cdot\text{reduce}(c,a',b')\cdot\binom{c-2}{sz_{a'}+sz_{b'}-1}$。</li>
+</ul>
+<p>子树内方案数容易推至全树方案数，总时间复杂度 $O(n^4)$。</p>
+<p>考虑 $a,b$ 在 $f$ 转移式中无体现，考虑令原来 $a,b$ 时的 $f(u,v)$ 记作 $f'(a,b,u,v)$，新定义 $f(u,v)$ 为 $\sum_{a\in S_u}\sum_{b\in S_v}|a-b|f'(a,b,u,v)$，转移式不变，在 $fa_u=fa_v$ 时统计贡献，注意不能转移至 $u,v$ 有祖先后代关系的状态。子树方案数也可加起来一起推至全树，总时间复杂度 $O(n^2)$。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

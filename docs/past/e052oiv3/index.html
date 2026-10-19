@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P7427【[THUPC2017] 玩游戏】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P7427【[THUPC2017] 玩游戏】</h1>
+      <p class="meta">
+        <span>2021-03-10</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/e052oiv3" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h4 id="s1"><a href="https://www.luogu.com.cn/problem/P7427"><em>传送门</em></a></h4>
+<p><s>我为什么会无聊到写这种题的题解？</s></p>
+<h2 id="s2">题意</h2>
+<p><s>我直接复制题面好了</s></p>
+<p>两个人在玩游戏，这个游戏共有 $n$ 轮，在第 $i$ 轮获胜会获得 $i$ 分，没有平局。</p>
+<p>现在分别给出两个人的得分，求是否有一种方案符合当前得分并输出方案。</p>
+<h2 id="s3">思路</h2>
+<p>玩了 $n$ 轮，总分一定为 $\dfrac{n(n+1)}2$，如果 $a+b$ 不能表示成这种形式，那么一定无解。</p>
+<p>那么接下来怎么构造解呢？</p>
+<p>我们令 $i$ 从 $n$ 向 $1$ 扫，如果当前的 $a\ge i$，就输出 $i$，并 $a\gets a-i$。</p>
+<p>证明这样构造一定有解：</p>
+<p>首先目标为 $a=0$，那么假设 $a$ 无法变为 $0$，即 $a\ge 1$，那么 $a$ 要减去 $1$，若仍不能达到答案，则 $a\ge2$，那么 $a$ 要减去 $2$，以此递推，又 $a\le \dfrac{n(n+1)}2$，所以假设不成立。</p>
+<p>最后一定不要输出行末空格、回车啊！</p>
+<p><s>这种题需要代码吗？</s></p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">题意</a><a class="lv2" href="#s3">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 CF681B 【Economy Game】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 CF681B 【Economy Game】</h1>
+      <p class="meta">
+        <span>2020-08-26</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/kza60cp5" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><h1>CF681B Economy Game</h1>
+<p><a href="https://www.luogu.com.cn/problem/CF681B">原题链接</a></p>
+<h2 id="s1">题面</h2>
+<p>给定一个正整数 $n$ $(1&lt;n&lt;10^9)$ ，判断是否存在自然数 $a,b,c$ 满足 $a×1234567+b×123456+c×1234=n$。</p>
+<h2 id="s2">思路</h2>
+<p>十分明显，这道题就是道暴力枚举的题目。<s>没想到这道题是怎么上黄的。</s> 当然，直接三重循环枚举 $a,b,c$ 是否满足条件会超时，不过循环$2$次以 $a,b$ 求 $c$可否满足是可以过的。不说了，直接上代码。</p>
+<hr />
+<pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
+<span class="cp">#define LL long long</span><span class="c1">//没必要开long long，数据在1e9范围内</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">	</span><span class="n">LL</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">	</span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">n</span><span class="p">;</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="n">LL</span><span class="w"> </span><span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">a</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">/</span><span class="mi">1234567</span><span class="p">;</span><span class="n">a</span><span class="o">++</span><span class="p">){</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="n">LL</span><span class="w"> </span><span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">b</span><span class="o">&lt;=</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="mi">1234567</span><span class="p">)</span><span class="o">/</span><span class="mi">123456</span><span class="p">;</span><span class="n">b</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="k">if</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="mi">1234567</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="mi">123456</span><span class="p">)</span><span class="o">%</span><span class="mi">1234</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span><span class="c1">//判断c是否可取整</span>
+<span class="w">				</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"YES"</span><span class="p">;</span>
+<span class="w">				</span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">			</span><span class="p">}</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">"NO"</span><span class="p">;</span><span class="c1">//没找到满足条件的c</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p>轻松AC，数据点最多也只用了$15ms$，整道题总用时也只有$662ms$，还是比较少时间的，排在最优解第二名，也算不错了。一道黄题就<s>水</s>做完了，再见qwq。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题面</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

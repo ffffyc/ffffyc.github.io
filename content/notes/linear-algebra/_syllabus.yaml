@@ -1,0 +1,5 @@
+# 每周/每讲涉及的课程内容，键是周次或讲次；留空则不显示
+1: "线性方程组（systems of linear equations）、行化简与阶梯形（row reduction and echelon forms）、向量方程（vector equations）与矩阵方程（matrix equations）"
+2: "域（field）、向量空间（vector space）、子空间（subspace）、线性无关（linear independence）、基（basis）与维数（dimension）"
+3: "线性变换（linear transformation）、核空间与值域（null space and range）、线性变换的矩阵表示（the matrix representation of a linear transformation）"
+4: "线性变换的复合（composition of linear transformations）、矩阵乘法（matrix multiplication）、可逆性（invertibility）与同构（isomorphism）"

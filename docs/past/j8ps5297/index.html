@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P8145【[JRKSJ R4] kth】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P8145【[JRKSJ R4] kth】</h1>
+      <p class="meta">
+        <span>2022-02-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/j8ps5297" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8145">$\text{Link}$</a></p>
+<p>$\text{Update2024.8.16}$：大幅度修改，优化表述。</p>
+<h2 id="s1">题意</h2>
+<p>给你一个 $n$ 阶排列 $p$，任选一个起始点，走 $m-1$ 步，并将走过的所有数按走到的顺序写下，形成一个长度为 $m$ 的序列。求出所有以上面的方法生成的序列中字典序第 $k$ 小的序列的所有元素的和。</p>
+<p>$n\le2\times 10^7$，$m,k\le10^{18}$。</p>
+<h2 id="s2">思路</h2>
+<p>先特判掉 $n\le 2$ 的情况，接下来默认 $n\ge 3$。</p>
+<p>设 $f_{i,j}$ 表示从 $i$ 出发走 $j$ 步的方案数，转移显然。按 $p_i$ 从小到大枚举起始点，如果 $f_{i,m-1}&lt;k$ 则将 $k$ 减去 $f_{i,m-1}$，否则我们就确认了起始点为 $i$ 即序列第一位为 $p_i$。接下来的每一步也是类似的，对第 $i$ 步，不妨设现在在 $x$ 且 $p_{x-1}&lt;p_{x+1}$，则判断 $f_{x-1,m-i}$ 与 $k$ 的大小关系即可。</p>
+<p>时间复杂度 $O(nm)$，无法通过。</p>
+<p>$f_{i,j}$ 的值可能很大，而 $k\le 10^{18}$ 且我们只需要比较 $f_{i,j}$ 与 $k$ 的大小关系。于是当 $f_{i,j}\ge k$ 时，不妨令 $f_{i,j}=+\infty$。注意到 $j\ge 2\log k$ 时 $f_{i,j}$ 必然为 $+\infty$（这个下界只在 $n=3$ 时取到）。令 $c=2\log k$，可以发现除了最后 $c$ 步需要决策，其余全部向相邻位置中较小的走。</p>
+<p>考虑前面的部分，一定是走到某个地方开始在 $i$ 和 ${i+1}$ 之间反复走。所以我们可以 $O(n)$ 走完前面的步数，最后 $c$ 步按照决策来走。</p>
+<p>时间复杂度 $O(n\log k)$，无法通过，瓶颈仍在计算所有 $f_{i,j}$。</p>
+<p>继续优化 $f_{i,j}$ 的预处理。由于我们只需要求走不超过 $c$ 步的方案数，所以如果 $c&lt;i&lt;n-c$，则 $i$ 走 $c$ 步的过程中不可能碰到边界，即 $f_{i,j}=2^j$。于是我们只需要求 $i\le c$ 和 $i\ge n-c$ 的这 $O(\log k)$ 个位置的 $f_{i,j}$ 即可。</p>
+<p>时间复杂度 $O(n+\log^2k)$，可以通过。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

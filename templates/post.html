@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ site.title }}{% endblock %}
+{% block main %}
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <h1 class="post-title">{{ post.title }}</h1>
+      <p class="meta">
+        <span>{{ post.date_text }}</span>
+        {% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+      </p>
+    </header>
+    <div class="prose">{{ post.html|safe }}</div>
+    <p class="back"><a href="{{ base }}blog/">返回文章列表</a></p>
+  </article>
+
+  {% if toc %}
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+    {% for t in toc %}<a class="lv{{ t.level }}" href="#{{ t.id }}">{{ t.text }}</a>{% endfor %}
+  </aside>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解：P8299 [COCI2012-2013#2] INFORMACIJE — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解：P8299 [COCI2012-2013#2] INFORMACIJE</h1>
+      <p class="meta">
+        <span>2025-01-08</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/8y64wizx" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8299">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>构造一个长为 $n$ 的排列 $p_{1\sim n}$，使得其满足给出的 $m$ 条限制，每条限制形如：</p>
+<ul>
+<li><code>1 l r v</code>，要求 $p_{l\sim r}$ 的最大值为 $v$。</li>
+<li><code>2 l r v</code>，要求 $p_{l\sim r}$ 的最小值为 $v$。</li>
+</ul>
+<p>无解输出 <code>-1</code>。</p>
+<p>$n\le200$。</p>
+<p>Bonus：$n\le 2\times 10^4$。</p>
+<h2 id="s2">思路</h2>
+<p>记 $p_{1\sim n}$ 的逆排列为 $q_{1\sim n}$，则题目的要求可转化为 $2n$ 条限制：$p_i\in[l_i,r_i]$，$q_v\in[a_v,b_v]$，不难看出可转化为二分图匹配问题，可以通过本题。</p>
+<p>在平面直角坐标系上画出水平线段与竖直线段各 $n$ 条，分别为：</p>
+<ul>
+<li>$x=i$，$l_i\le y\le r_i$；</li>
+<li>$y=v$，$a_v\le x\le b_v$。</li>
+</ul>
+<p>则水平线段 $i$ 与竖直线段 $v$ 连边当且仅当两条线段相交，可以使用主席树优化建图，对横坐标做扫描线，在端点出插入删除水平线段，扫到一个横坐标时将该竖直线段与当前区间内存在的水平线段连边。</p>
+<p>点数与边数均为 $O(n\log n)$。</p>
+<p>考虑一个点 $i$ 能连向哪些值 $v$，若值 $v$ 未在任意限制中出现，则可直接建出这类值的线段树，对每个位置 $i$ 使用普通线段树优化建图连向区间内的这类值。</p>
+<p>否则注意到对于一个 $p_i\in[l,r]$，位置 $i$ 可取且覆盖位置 $i$ 的限制的值只可能为 $l$ 或者 $r$，我们只需要根据 $q_l,q_r$ 的条件判断 $p_i$ 是否可取到值 $l,r$ 便可。</p>
+<p>点数为 $O(n)$，边数为 $O(n\log n)$。</p>
+<p>使用 Dinic 算法即可通过 $n\le 2\times 10^4$ 版本。</p>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

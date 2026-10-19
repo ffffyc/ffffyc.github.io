@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>题解 P8885【「JEOI-R1」子序列】 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1792427577">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792427577">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="/assets/math.js?v=1792427577"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+</head>
+<body class="wide">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/" class="on">过往文章</a>
+        <a href="/notes/">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wide">
+<div class="post-layout">
+  <article class="post">
+    <header class="post-head">
+      <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
+      <h1 class="post-title">题解 P8885【「JEOI-R1」子序列】</h1>
+      <p class="meta">
+        <span>2023-11-15</span>
+<a class="tag tag-link" href="https://www.luogu.com.cn/article/02pcppl3" target="_blank" rel="noopener">洛谷原文</a>      </p>
+    </header>
+    <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8885">$\text{Link}$</a></p>
+<h2 id="s1">题意</h2>
+<p>给定一个长为 $n$ 的仅包含 <code>0</code>、<code>1</code> 和 <code>?</code> 的字符串 $s$，你需要将字符串中的每个 <code>?</code> 分别替换成 <code>0</code> 或 <code>1</code> 之一。称一个序列是<strong>好的</strong>当且仅当其恰好拥有奇数个本质不同的<strong>子序列</strong>（包含空串），称一个序列是<strong>极好的</strong>当且仅当其拥有奇数个好的非空<strong>子串</strong>。每次询问给出 $s$ 的一个子串 $[l,r]$，求其有多少种替换方案，使得这个子串是<strong>极好的</strong>。</p>
+<p>$n\le 5\times10^4$，$m\le 5\times 10^5$。</p>
+<h2 id="s2">题解</h2>
+<p>校内模拟赛出了这题的加强版，将字符集扩大为 $3$ 并增大了 $m$ 的数据范围。</p>
+<p>令 $v$ 等于字符集大小 $2$。</p>
+<p>首先我们考虑描述好的序列。本质不同子序列有广为人知的 $\text{dp}$：令 $f_i$ 表示以 $i$ 结尾的本质不同子序列个数，$f_s$ 表示 $\sum f_i+1$，则在序列后加入字符 $c$ 的时候令 $f_i\gets f_s$。考虑在 $\bmod2$ 意义下，显然初始时 $f_i=0,f_s=1$，加入一个字符 $c$ 就会交换 $f_s,f_c$。显然一个好的序列进行完 $\text{dp}$ 后 $f_s=1$。</p>
+<p>先思考全局询问的做法。注意到这个 $\text{dp}$ 只拥有 $v+1$ 个状态（$1$ 分别在 $1\dots v$ 或者 $s$） 处。状态数少，考虑 $\text{dp}$ 套 $\text{dp}$。令 $g_{i,f_0,f_1,f_s,t}$ 表示前缀 $i$ 有多少个后缀的 $\text{dp}$ 状态为 $1$ 在 $f_0,f_1,f_s$ 处，前缀 $i$ 有 $t$ 个子串是好的，其中后四维都是在模 $2$ 意义下的。考虑转移，枚举位置 $i$ 能填的字符 $c$（不妨假设 $c=0$），则有转移 $g_{i,f_0,f_1,f_s,t}\to g_{i+1,f_s\oplus1,f_1,f_0,t\oplus f_0}$，$c=1$ 同理。最终答案就是 $\sum g_{n,*,*,*,1}$。</p>
+<p>令 $V=2^{v+2}$，后面四维可以压缩成一个 $[0,V)$
+的数，转移可以用 $V\times V$ 的矩阵描述，用线段树维护矩阵可做到 $O(V^3n+V^3m\log n)$，非常糟糕。</p>
+<p>$n,m$ 不同阶，考虑减少合并次数，使用二区间合并（猫树分治），对于分治区间 $[l,r]$ 与其中点 $mid$，记录 $s_i=\prod_{j=i}^{mid}A_j$，$p_i=\prod_{j=mid+1}^iA_j$（$A_j$ 表示 $j$ 处的转移矩阵），询问直接求 $s_lp_r$，可做到 $O(V^3n\log n+V^3m)$ 的复杂度，后文将直接用 $T(A,B)$ 来代替 $O(An\log n+Bm)$。</p>
+<p>考虑将询问时相乘的矩阵变成向量，定义 $1\times V$ 的向量 $S_{0,i}=[i=0]$
+，$V\times 1$ 的向量 $T_{i,0}=[2^{v+1}\subset i]$，不难发现 $[l,r]$ 的答案就是 $Ss_lp_rT$，不妨先令 $s_i\gets Ss_i$，$p_i\gets p_iT$，则复杂度降低为 $T(V^3,V)$。</p>
+<p>继续优化，可以发现猫树中每层都重新算 $s,p$ 浪费很大，考虑在相邻两层间递推 $s,p$，不难发现对于 $i\in[l,mid]$，$s_i\gets s_i\prod_{j=mid+1}^rA_j$，$i\in[mid+1,r]$，$p_i\gets \prod_{j=l}^{mid}A_jp_i$。$\prod_{j=l}^{mid}A_j$ 和 $\prod_{j=mid+1}^rA_j$ 可以简单求，注意到此处是向量乘矩阵，时间复杂度被我们优化到了 $T(V^2,V)$。</p>
+<p>总时间复杂度 $O(V^3n+V^2n\log n+Vm+m\log n)$，快速求猫树两点 $\text{LCA}$ 可以将后面的 $m\log n$ 去掉。矩阵稀疏，只有 $O(V)$ 个点，利用此点可继续优化复杂度至 $O(V^2n\log n+Vm)$，本题中 $V=16$。可以通过 $v=3,m=10^6$ 的加强版（$V=32$）。</p>
+<p>核心代码：</p>
+<pre class="code"><code class="language-cpp"><span class="n">Matrix</span><span class="w"> </span><span class="n">ml</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">pr</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">sf</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+<span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">rt</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
+<span class="w">	</span><span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">==</span><span class="n">r</span><span class="p">){</span>
+<span class="w">		</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">mt</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">l</span><span class="p">]];</span>
+<span class="w">		</span><span class="n">sf</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">S</span><span class="o">*</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">],</span><span class="n">pr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="n">T</span><span class="p">;</span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="p">;</span>
+<span class="w">	</span><span class="p">}</span>
+<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="o">=</span><span class="n">l</span><span class="o">+</span><span class="n">r</span><span class="o">&gt;&gt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">	</span><span class="n">solve</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span><span class="n">l</span><span class="p">,</span><span class="n">mid</span><span class="p">),</span><span class="n">solve</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">r</span><span class="p">);</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="n">qr</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">fir</span><span class="o">==</span><span class="n">i</span><span class="p">;</span><span class="n">j</span><span class="o">++</span><span class="p">){</span>
+<span class="w">			</span><span class="n">pii</span><span class="w"> </span><span class="n">tmp</span><span class="o">=</span><span class="n">qr</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">sec</span><span class="p">;</span>
+<span class="w">			</span><span class="k">if</span><span class="p">(</span><span class="n">tmp</span><span class="p">.</span><span class="n">fir</span><span class="o">&gt;</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+<span class="w">			</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="o">=</span><span class="n">tmp</span><span class="p">.</span><span class="n">fir</span><span class="p">;</span>
+<span class="w">			</span><span class="n">ans</span><span class="p">[</span><span class="n">tmp</span><span class="p">.</span><span class="n">sec</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">sf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">pr</span><span class="p">[</span><span class="n">r</span><span class="p">])[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">			</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">		</span><span class="p">}</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">l</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">mid</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">sf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">sf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">ml</span><span class="p">[</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="n">r</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">		</span><span class="n">pr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="n">pr</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">=</span><span class="n">ml</span><span class="p">[</span><span class="n">l</span><span class="p">]</span><span class="o">*</span><span class="n">ml</span><span class="p">[</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+    <p class="post-back">
+      <a href="/past/category/solutions/">返回题解列表</a>
+      <a href="/past/">返回缥缈过往</a>
+    </p>
+  </article>
+
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a>  </aside>
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+</body>
+</html>

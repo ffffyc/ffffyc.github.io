@@ -1,0 +1,21 @@
+name: 高等微积分 I
+name_en: Advanced Calculus
+order: 2
+term: 2026 秋
+unit: 周
+columns:
+- record
+- note
+- homework
+- solution
+- tutorial
+- tutorial_solution
+resources:
+- title: 《高等微积分》讲义（艾颖华）
+  file: files/books/advanced-calculus-1/lecture-notes.pdf
+- title: 2026 年秋季课程安排
+  file: files/books/advanced-calculus-1/schedule.pdf
+- title: 数学分析教程（上册，常庚哲 / 史济怀）
+  file: files/books/advanced-calculus-1/analysis-textbook.pdf
+- title: 全国大学生数学竞赛分类题目
+  file: files/books/advanced-calculus-1/contest-problems.pdf
