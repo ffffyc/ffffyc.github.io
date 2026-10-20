@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
       <h1 class="post-title">GDKOI2024 唐氏游记</h1>
@@ -42,14 +42,14 @@
     <div class="prose"><p>学了一个半月的文化课，OI 好唐。</p>
 <p>不跟学校大部队住，一家跑出去住豪华大酒店，赢。</p>
 <p>又是没有大样例的一年。</p>
-<h4 id="s1">Day 1</h4>
+<h4 id="s1">Day 1<a class="anchor" href="#s1" aria-label="本节链接">#</a></h4>
 <p>A 胡了个先求一个完美匹配，在其它边里强制选一条边（取消两组点的匹配，加上一组）再增广一条指定边权异或和的路径出来调整的算法。把边随机打乱，只要选出答案里的一条边就能成功调整（是这样吗？），期望复杂度 $O(\dfrac{m^2}{n})=O(n^3)$。</p>
 <p>B 一眼看上去，我去这不是我们 P8512 吗（记错题笑死了）？记得是个 polylog 来着。然后这数据范围看上去也不像根号，就磕了一场的 polylog，遗憾暴力分。</p>
 <p>C 打了个搜子，$m=1$ 也看不出什么，弃。</p>
 <p>期望得分 $100+60+10=170$。</p>
 <p>走出考场突然发现 A 的 $-1$ 情况我会枚举完所有 $m$ 条边时间复杂度就假了（需要在检查 $O(n)$ 条边后直接退出），不过边权随机应该是能过的。</p>
 <p>实际得分 $60+60+10=130$。</p>
-<h4 id="s2">Day 2</h4>
+<h4 id="s2">Day 2<a class="anchor" href="#s2" aria-label="本节链接">#</a></h4>
 <p>A 直接把 Monster Hunt 反过来排检查一下可不可行，不管 $\sum b&gt;\sum a$ 条件的情况下合法的区间是可以双指针的，线段树搞一下再求区间内有多少个满足这个条件的即可。</p>
 <p>B 那个函数模拟赛出现过乐。大概要再循环卷积下求一个 $[x^0]\left[\prod_{i=1}^m(x^i+1)\right]^v$，直接暴力 $O(Tm^2\log v)$ 可以过 $65$。</p>
 <p>C 考场觉得巨不可做，直接写了个 $n=2$ 丢了，最后几分钟才想起来可以高斯消元，痛失 $15\sim 30$。</p>
@@ -69,12 +69,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv4" href="#s1">Day 1</a><a class="lv4" href="#s2">Day 2</a>  </aside>
+    <a class="toc-doc" href="#top">GDKOI2024 唐氏游记</a>
+<a class="lv4 d0 top" href="#s1"><span>Day 1</span></a><a class="lv4 d0 top" href="#s2"><span>Day 2</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

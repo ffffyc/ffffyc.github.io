@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P8934【[JRKSJ R7] TSM eerT】</h1>
@@ -40,13 +40,13 @@
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/nbr6ll01" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8934">$\text{Link}$</a></p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>对于一个 $n$ 个结点的带边权的树 $T$，定义 $\text{dis}(x,y)$ 为 $T$ 中 $x\to y$ 路径上的边权和。再定义一个 $n$ 个结点的无向完全图 $p(T)=G$，其中 $\forall x,y\in [1,n]$，$G$ 中边 $(x,y)$ 的边权为 $\text{dis}(x,y)$。</p>
 <p>定义 $f(T)$ 为 $p(T)$ 的最大生成树。特别的，若 $p(T)$ 的最大生成树不唯一，请立刻判断出并报告。</p>
 <p>给定树 $T_0$ 和整数 $k$，求 $f^k(T_0)$。<strong>边权为正整数。</strong></p>
 <p>若 $\exists x\in[0,k-1]$ 使得 $p(f^x(T_0))$ 的最大生成树不唯一，输出 $-1$。否则，输出 $f^k(T_0)$ 的所有边权和对 $2^{32}$ 取模的结果。</p>
 <p>$n\le 10^6$，$1\le k\le 10^7$。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>来补个严谨证明。</p>
 <p>考虑 $k=1$ 的部分分。</p>
 <p>使用 $\operatorname{Boruvka}$ 算法。我们对每个点找到距离它最远的点并与其连边。很显然，经过一次 $\operatorname{Boruvka}$ 算法，所有的点已经连通。原因是树上每个点距离最远的点为直径两端点之一，而直径两端点互相连接。</p>
@@ -202,12 +202,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P8934【[JRKSJ R7] TSM eerT】</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

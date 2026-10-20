@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
       <h1 class="post-title">THUSC2023 旅游记</h1>
@@ -39,12 +39,12 @@
         <span>2023-05-08</span>
 <span class="tag">THUSC 2023</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/kyjg82nl" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h3 id="s1">$\text{Day0}/2023.5.5$</h3>
+    <div class="prose"><h3 id="s1">$\text{Day0}/2023.5.5$<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
 <p>到了南京，酒店挺好的，<s>发现这里很多标语</s>。</p>
 <p>下午报道，学校是 NFLS，领了口罩、衣服、卡套什么的。可能看到了一眼 @<a href="https://www.luogu.com.cn/user/116664">Daniel_lele</a>，挺帅的。</p>
 <p>晚上在外面吃了点饭，感觉去的那家不太行。</p>
 <p>突然发现用的不是 NOI Linux，只有 $\text{VScode}$ 能用，试图学习结果不会，学长说试机的时候教我们，就先丢了。</p>
-<h3 id="s2">$\text{Day1}/2023.5.6$</h3>
+<h3 id="s2">$\text{Day1}/2023.5.6$<a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <p>早上试机，发现随便点几个键就能用了，松了口气，不过不会加编译指令，把传统 A 加 B 和第二个交互题过了，打了几个板子。</p>
 <p>然后就是一堆人拍照。然后去学科报告，没说什么有用的，不过是 dX 拍照会。</p>
 <p>中午午餐饭票 $30$ 块，怎么只能吃价值 $10$ 元的套餐。</p>
@@ -54,7 +54,7 @@
 <p>继续加状态，发现复杂度是 $O(n^3m^2)$，先滚动数组搞搞空间，时间应该是能简单优化掉一个 $m$ 的，不过一直还是 WA，直到 $7:30$ 才发现一次可能会过很多个中转站，来不及写了。</p>
 <p>Pretest：$68+16+16+10=110$，这下尴尬了。</p>
 <p>出去发现 $\text A$ 正负不用分开算，黄题没过，尴尬了。没到大众分，感觉第二天随缘了。</p>
-<h3 id="s3">$\text{Day2}/2023.5.7$</h3>
+<h3 id="s3">$\text{Day2}/2023.5.7$<a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <p>工程题场。</p>
 <p>早上一早就过去了，紧张等题，希望不是那种计算几何让我被区分。</p>
 <p>$8:30$ 拿到题，发现是造 $\text{CPU}$，松了口气，至少能拿些分。</p>
@@ -75,12 +75,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">$\text{Day0}/2023.5.5$</a><a class="lv3" href="#s2">$\text{Day1}/2023.5.6$</a><a class="lv3" href="#s3">$\text{Day2}/2023.5.7$</a>  </aside>
+    <a class="toc-doc" href="#top">THUSC2023 旅游记</a>
+<a class="lv3 d0 top" href="#s1"><span>$\text{Day0}/2023.5.5$</span></a><a class="lv3 d0 top" href="#s2"><span>$\text{Day1}/2023.5.6$</span></a><a class="lv3 d0 top" href="#s3"><span>$\text{Day2}/2023.5.7$</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

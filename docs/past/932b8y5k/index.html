@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P4898【[IOI2018] seats 排座位】</h1>
@@ -40,16 +40,16 @@
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/932b8y5k" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P4898">$\text{Link}$</a></p>
-<h4 id="s1">前言</h4>
+<h4 id="s1">前言<a class="anchor" href="#s1" aria-label="本节链接">#</a></h4>
 <p>这道题并不是我自己思考出来的，而是借助了其余题解的帮助。</p>
 <p>写这个题解主要为了加深理解，想不看题解自己写一遍出来，确认自己已经懂了这道题。您可以将这篇题解看成我的做题记录。</p>
 <p>尽可能地写得清晰一些，哪部分看不懂可以留言提醒。</p>
 <p>$\text{Update 2022.6.29}$：修正一处笔误。</p>
-<h2 id="s2">题意</h2>
+<h2 id="s2">题意<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>有一个 $n\times m$ 的点构成的 $n\times m$ 的矩阵，设 $S(i)$ 表示编号为 $1$ 至 $i$ 的点是否构成矩形，$q$ 次操作，每次交换两个编号的点的位置，然后求出 $|\{i|S(i)\}|$。</p>
 <p>$1\le n\times m\le 10^6,1\leq q\le5\times 10^4$.</p>
-<h2 id="s3">思路</h2>
-<h4 id="s4">$\text{Section 1}$ 转化</h4>
+<h2 id="s3">思路<a class="anchor" href="#s3" aria-label="本节链接">#</a></h2>
+<h4 id="s4">$\text{Section 1}$ 转化<a class="anchor" href="#s4" aria-label="本节链接">#</a></h4>
 <p>首先我们思考怎么对于一个 $i$ 求出 $S(i)$。</p>
 <p>与其他题解一样，我们将前 $i$ 个点染为黑色，其余染成白色。</p>
 <p>我们考虑使用染出来的颜色设计出 $S(i)$ 为真的充要条件。</p>
@@ -67,7 +67,7 @@
 <li>对于所有白点，与其四连通的点内有不少于两个黑点的个数为 $0$。</li>
 </ul>
 <p>于是我们可以依次计算。</p>
-<h4 id="s5">$\text{Section 2}$ 优化</h4>
+<h4 id="s5">$\text{Section 2}$ 优化<a class="anchor" href="#s5" aria-label="本节链接">#</a></h4>
 <p>我们设点 $(i,j)$ 的编号为 $num_{(i,j)}$，编号为 $i$ 的点为 $(x_i,y_i)$。</p>
 <p>考虑对于 $\text{Section 1}$ 的算法将 $i$ 由 $1$ 枚举到 $n\times m$，则 $(i,j)$ 被染为黑色的时间点为 $num_{(i,j)}$。</p>
 <p>我们考虑对于点 $(a,b)$，其满足条件 $1$、$2$ 的时间段。</p>
@@ -87,13 +87,13 @@
 </ul>
 <p>对这些条件取并集，即 $i\in[\text{secmin}(num_{(a-1,b)},num_{(a,b-1)},num_{(a+1,b)},num_{(a,b+1)}),num_{(a,b)})$。</p>
 <p>此处需要搞清楚点被染黑点的条件、点被染成黑色的时间段等概念，不能混淆。</p>
-<h4 id="s6">$\text{Section 3}$ 数据结构</h4>
+<h4 id="s6">$\text{Section 3}$ 数据结构<a class="anchor" href="#s6" aria-label="本节链接">#</a></h4>
 <p>我们需要一种数据结构，支持上面的操作。</p>
 <p>对于每个点我们维护 $[$ 满足条件 $1\,]+[$ 满足条件 $2\,]$，那么我们对于每个合法区间进行 $+1$，查询全局有几个 $1$。</p>
 <p>我们可以将满足条件一的点数设为 $x$，满足条件二的点数设为 $y$。</p>
 <p>显然 $x\ge 1,y\ge0$，即 $x+y\ge 1$。</p>
 <p>所以维护区间最小值及出现次数即答案.</p>
-<h4 id="s7">$\text{Section 4}$ 实现细节</h4>
+<h4 id="s7">$\text{Section 4}$ 实现细节<a class="anchor" href="#s7" aria-label="本节链接">#</a></h4>
 <ul>
 <li>
 <p>1.线段树初始最小值为 $0$ 情况的处理：</p>
@@ -250,12 +250,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv4" href="#s1">前言</a><a class="lv2" href="#s2">题意</a><a class="lv2" href="#s3">思路</a><a class="lv4" href="#s4">$\text{Section 1}$ 转化</a><a class="lv4" href="#s5">$\text{Section 2}$ 优化</a><a class="lv4" href="#s6">$\text{Section 3}$ 数据结构</a><a class="lv4" href="#s7">$\text{Section 4}$ 实现细节</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P4898【[IOI2018] seats 排座位】</a>
+<a class="lv4 d0 top" href="#s1"><span>前言</span></a><a class="lv2 d0 top" href="#s2"><span>题意</span></a><a class="lv2 d0 top" href="#s3"><span>思路</span></a><a class="lv4 d1" href="#s4"><span>$\text{Section 1}$ 转化</span></a><a class="lv4 d1" href="#s5"><span>$\text{Section 2}$ 优化</span></a><a class="lv4 d1" href="#s6"><span>$\text{Section 3}$ 数据结构</span></a><a class="lv4 d1" href="#s7"><span>$\text{Section 4}$ 实现细节</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

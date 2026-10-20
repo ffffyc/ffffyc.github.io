@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/tools/">工具</a></p>
       <h1 class="post-title">常用黑盒</h1>
@@ -39,7 +39,7 @@
         <span>2024-02-26</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/i05llgn0" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h1>扫描线维护区间 mex</h1>
+    <div class="prose"><h1 id="s1">扫描线维护区间 mex<a class="anchor" href="#s1" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="cp">#define pii pair&lt;int,int&gt;</span>
 <span class="cp">#define mpr make_pair</span>
 <span class="cp">#define fir first</span>
@@ -165,7 +165,7 @@
 <span class="p">}</span>
 </code></pre>
 <p>时间复杂度 $O(n\log n)$。</p>
-<h1>FHQ-Treap 维护凸分段一次函数</h1>
+<h1 id="s2">FHQ-Treap 维护凸分段一次函数<a class="anchor" href="#s2" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="p">;</span>
 <span class="k">const</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">INF</span><span class="o">=</span><span class="mf">1e16</span><span class="p">;</span>
 <span class="k">namespace</span><span class="w"> </span><span class="nn">FHQ_Func</span><span class="p">{</span>
@@ -316,7 +316,7 @@
 <p><code>split1</code> 将分裂出 $[l,l+k]$，<code>split2</code> 将把差分序列中 $\le v$ 的前缀分裂出。<code>merge1</code> 将对两个值域不交的凸分段函数做 $(\min,+)$ 卷积，即归并差分序列，<code>merge1s</code> 将对两个值域相交的凸分段函数做 $(\min,+)$ 卷积，<code>merge2</code> 将对两个定义域相同的凸分段函数做加法。</p>
 <p>如要求值，需要手动维护定义域左端点处值。</p>
 <p>时间复杂度未知，不超过 $O(n\log^2 n)$，常数较小。</p>
-<h1>KTT 维护直线</h1>
+<h1 id="s3">KTT 维护直线<a class="anchor" href="#s3" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">const</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">INF</span><span class="o">=</span><span class="mf">1e18</span><span class="p">;</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Func</span><span class="p">{</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
@@ -397,7 +397,7 @@
 <p><code>update</code> 令 $\forall i\in[l,r],x_i\gets x_i+k(k&gt;0)$，<code>query</code> 求 $\max_{i=l}^r f_i(x_i)$。</p>
 <p>支持单点修改直线。</p>
 <p>时间复杂度 $O(n\log^2n+m\log^3 n+q\log n)$。</p>
-<h1>区间加区间历史和</h1>
+<h1 id="s4">区间加区间历史和<a class="anchor" href="#s4" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="o">=</span><span class="p">;</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Line</span><span class="p">{</span>
 <span class="w">	</span><span class="n">ll</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
@@ -471,7 +471,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">}</span><span class="n">T</span><span class="p">;</span>
 </code></pre>
-<h1>哈希表</h1>
+<h1 id="s5">哈希表<a class="anchor" href="#s5" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">P</span><span class="p">,</span><span class="k">class</span><span class="w"> </span><span class="nc">Q</span><span class="o">&gt;</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HashTable</span><span class="p">{</span>
 <span class="w">	</span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mod</span><span class="o">=</span><span class="mf">5e5</span><span class="o">+</span><span class="mi">9</span><span class="p">,</span><span class="n">L</span><span class="o">=</span><span class="n">mod</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
@@ -540,7 +540,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
-<h1>矩阵乘法</h1>
+<h1 id="s6">矩阵乘法<a class="anchor" href="#s6" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">Matrix</span><span class="p">{</span>
 <span class="w">	</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="n">a</span><span class="p">;</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">m</span><span class="p">;</span>
@@ -644,7 +644,7 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
-<h1>定值矩阵光速幂</h1>
+<h1 id="s7">定值矩阵光速幂<a class="anchor" href="#s7" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="n">Matrix</span><span class="w"> </span><span class="n">P0</span><span class="p">[</span><span class="n">Bc</span><span class="p">],</span><span class="n">P1</span><span class="p">[</span><span class="n">Bc</span><span class="p">],</span><span class="n">P2</span><span class="p">[</span><span class="n">Bc</span><span class="p">],</span><span class="n">P3</span><span class="p">[</span><span class="n">Bc</span><span class="p">];</span>
 <span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="n">Matrix</span><span class="w"> </span><span class="n">C</span><span class="p">){</span>
 <span class="w">	</span><span class="n">P0</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Einit</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">n</span><span class="p">),</span><span class="n">P1</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Einit</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">n</span><span class="p">),</span><span class="n">P2</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Einit</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">n</span><span class="p">),</span><span class="n">P3</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Einit</span><span class="p">(</span><span class="n">C</span><span class="p">.</span><span class="n">n</span><span class="p">);</span>
@@ -657,7 +657,7 @@
 <span class="w">	</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="o">*</span><span class="n">P3</span><span class="p">[</span><span class="n">c</span><span class="o">/</span><span class="n">B3</span><span class="p">]</span><span class="o">*</span><span class="n">P2</span><span class="p">[(</span><span class="n">c</span><span class="o">%</span><span class="n">B3</span><span class="p">)</span><span class="o">/</span><span class="n">B2</span><span class="p">]</span><span class="o">*</span><span class="n">P1</span><span class="p">[(</span><span class="n">c</span><span class="o">%</span><span class="n">B2</span><span class="p">)</span><span class="o">/</span><span class="n">B</span><span class="p">]</span><span class="o">*</span><span class="n">P0</span><span class="p">[</span><span class="n">c</span><span class="o">%</span><span class="n">B</span><span class="p">];</span>
 <span class="p">}</span>
 </code></pre>
-<h1>反射容斥</h1>
+<h1 id="s8">反射容斥<a class="anchor" href="#s8" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">Calc</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">ans</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
 <span class="w">	</span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">;</span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">ans</span><span class="o">=</span><span class="n">add</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span><span class="n">C</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">r</span><span class="o">-</span><span class="n">l</span><span class="p">)));</span>
@@ -682,7 +682,7 @@
 <p>允许向右或向上走，计算从 $(0,0)$ 到达 $(n,m)$ 且不<strong>触碰</strong> $y=x+l$ 和 $y=x+r$ 的路径数。</p>
 <p>允许向右上或向右下走，计算从 $(0,0)$ 到达 $(n,m)$ 且不<strong>触碰</strong> $y=l$ 和 $y=r$ 的路径数。</p>
 <p>时间复杂度 $O(\dfrac{n+m}{r-l})$。</p>
-<h1>最近公共祖先</h1>
+<h1 id="s9">最近公共祖先<a class="anchor" href="#s9" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">ST_table</span><span class="p">{</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">dep</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">dfn</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">tim</span><span class="p">,</span><span class="n">st</span><span class="p">[</span><span class="mi">19</span><span class="p">][</span><span class="n">N</span><span class="p">];</span>
 <span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">fa</span><span class="p">){</span>
@@ -716,7 +716,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">}</span><span class="n">st</span><span class="p">;</span>
 </code></pre>
-<h1>虚树</h1>
+<h1 id="s10">虚树<a class="anchor" href="#s10" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">namespace</span><span class="w"> </span><span class="nn">FT</span><span class="p">{</span>
 <span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="nf">cmp</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">u</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="p">){</span>
 <span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">dfn</span><span class="p">[</span><span class="n">u</span><span class="p">]</span><span class="o">&lt;</span><span class="n">st</span><span class="p">.</span><span class="n">dfn</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
@@ -756,7 +756,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h1>范围随机数生成</h1>
+<h1 id="s11">范围随机数生成<a class="anchor" href="#s11" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">namespace</span><span class="w"> </span><span class="nn">rad</span><span class="p">{</span>
 <span class="w">	</span><span class="n">mt19937_64</span><span class="w"> </span><span class="nf">R</span><span class="p">(</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">().</span><span class="n">time_since_epoch</span><span class="p">().</span><span class="n">count</span><span class="p">());</span>
 <span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">Rand</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">){</span>
@@ -766,7 +766,7 @@
 <span class="p">}</span>
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">rad</span><span class="p">;</span>
 </code></pre>
-<h1>拉格朗日插值</h1>
+<h1 id="s12">拉格朗日插值<a class="anchor" href="#s12" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">namespace</span><span class="w"> </span><span class="nn">PolyC</span><span class="p">{</span>
 <span class="w">    </span><span class="cp">#define Poly vector&lt;int&gt;</span>
 <span class="w">    </span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">qpow</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span>
@@ -897,7 +897,7 @@
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre>
-<h1>压位布尔数组</h1>
+<h1 id="s13">压位布尔数组<a class="anchor" href="#s13" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">Bitset</span><span class="p">{</span>
 <span class="w">	</span><span class="n">ull</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="n">S</span><span class="p">];</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">N</span><span class="p">;</span>
@@ -945,7 +945,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
-<h1>可删堆</h1>
+<h1 id="s14">可删堆<a class="anchor" href="#s14" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">template</span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">ND</span><span class="o">&gt;</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Set</span><span class="p">{</span>
 <span class="w">	</span><span class="n">priority_queue</span><span class="o">&lt;</span><span class="n">ND</span><span class="o">&gt;</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">;</span>
@@ -959,7 +959,7 @@
 <span class="w">	</span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">pop</span><span class="p">(){</span><span class="w"> </span><span class="n">upd</span><span class="p">();</span><span class="n">p</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
-<h1>zkw 线段树</h1>
+<h1 id="s15">zkw 线段树<a class="anchor" href="#s15" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">Segment_Tree</span><span class="p">{</span>
 <span class="w">    </span><span class="cp">#define ls (rt&lt;&lt;1)</span>
 <span class="w">    </span><span class="cp">#define rs (rt&lt;&lt;1|1)</span>
@@ -1101,7 +1101,7 @@
 <span class="p">}</span><span class="n">T</span><span class="p">;</span>
 </code></pre>
 <p>区间加区间最大值。</p>
-<h1>颜色段均摊</h1>
+<h1 id="s16">颜色段均摊<a class="anchor" href="#s16" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">node</span><span class="p">{</span>
 <span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="p">;</span>
 <span class="w">	</span><span class="k">mutable</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">;</span>
@@ -1125,7 +1125,7 @@
 <span class="w">	</span><span class="n">tr</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">itl</span><span class="p">,</span><span class="n">itr</span><span class="p">),</span><span class="n">tr</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">node</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">v</span><span class="p">));</span>
 <span class="p">}</span>
 </code></pre>
-<h1>迭代分块</h1>
+<h1 id="s17">迭代分块<a class="anchor" href="#s17" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="k">struct</span><span class="w"> </span><span class="nc">BLK1</span><span class="p">{</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="n">v1</span><span class="p">[</span><span class="n">N</span><span class="o">+</span><span class="mi">256</span><span class="p">],</span><span class="n">v2</span><span class="p">[(</span><span class="n">N</span><span class="o">&gt;&gt;</span><span class="mi">6</span><span class="p">)</span><span class="o">+</span><span class="mi">256</span><span class="p">],</span><span class="n">v3</span><span class="p">[(</span><span class="n">N</span><span class="o">&gt;&gt;</span><span class="mi">12</span><span class="p">)</span><span class="o">+</span><span class="mi">256</span><span class="p">];</span>
 <span class="w">    </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">){</span>
@@ -1169,7 +1169,7 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span><span class="n">T2</span><span class="p">;</span>
 </code></pre>
-<h1>强连通分量</h1>
+<h1 id="s18">强连通分量<a class="anchor" href="#s18" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="kt">int</span><span class="w"> </span><span class="n">tim</span><span class="p">,</span><span class="n">dfn</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">low</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">bel</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">stk</span><span class="p">[</span><span class="n">N</span><span class="p">],</span><span class="n">top</span><span class="p">,</span><span class="n">blk</span><span class="p">;</span>
 <span class="kt">bool</span><span class="w"> </span><span class="n">inc</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
 <span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Tarjan</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">){</span>
@@ -1188,7 +1188,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
-<h1>斜率优化</h1>
+<h1 id="s19">斜率优化<a class="anchor" href="#s19" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="kr">inline</span><span class="w"> </span><span class="n">pii</span><span class="w"> </span><span class="k">operator</span><span class="o">-</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">pii</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">pii</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">mpr</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">fir</span><span class="o">-</span><span class="n">b</span><span class="p">.</span><span class="n">fir</span><span class="p">,</span><span class="n">a</span><span class="p">.</span><span class="n">sec</span><span class="o">-</span><span class="n">b</span><span class="p">.</span><span class="n">sec</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
 <span class="kr">inline</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="k">operator</span><span class="o">*</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">pii</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="n">pii</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">fir</span><span class="o">*</span><span class="n">b</span><span class="p">.</span><span class="n">sec</span><span class="o">-</span><span class="n">a</span><span class="p">.</span><span class="n">sec</span><span class="o">*</span><span class="n">b</span><span class="p">.</span><span class="n">fir</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="k">struct</span><span class="w"> </span><span class="nc">Convex_Hull</span><span class="p">{</span>
@@ -1207,7 +1207,7 @@
 <span class="w">	</span><span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
-<h1>组合数</h1>
+<h1 id="s20">组合数<a class="anchor" href="#s20" aria-label="本节链接">#</a></h1>
 <pre class="code"><code class="language-cpp"><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">&gt;=</span><span class="n">mod</span><span class="o">?</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">-</span><span class="n">mod</span><span class="o">:</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">dec</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="o">&gt;=</span><span class="n">y</span><span class="o">?</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="o">:</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="o">+</span><span class="n">mod</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 <span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">inc</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">,</span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">){</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
@@ -1240,11 +1240,49 @@
     </p>
   </article>
 
+  <aside class="toc">
+    <p class="toc-title">目录</p>
+    <a class="toc-doc" href="#top">常用黑盒</a>
+<a class="lv1 d0 top" href="#s1"><span>扫描线维护区间 mex</span></a><a class="lv1 d0 top" href="#s2"><span>FHQ-Treap 维护凸分段一次函数</span></a><a class="lv1 d0 top" href="#s3"><span>KTT 维护直线</span></a><a class="lv1 d0 top" href="#s4"><span>区间加区间历史和</span></a><a class="lv1 d0 top" href="#s5"><span>哈希表</span></a><a class="lv1 d0 top" href="#s6"><span>矩阵乘法</span></a><a class="lv1 d0 top" href="#s7"><span>定值矩阵光速幂</span></a><a class="lv1 d0 top" href="#s8"><span>反射容斥</span></a><a class="lv1 d0 top" href="#s9"><span>最近公共祖先</span></a><a class="lv1 d0 top" href="#s10"><span>虚树</span></a><a class="lv1 d0 top" href="#s11"><span>范围随机数生成</span></a><a class="lv1 d0 top" href="#s12"><span>拉格朗日插值</span></a><a class="lv1 d0 top" href="#s13"><span>压位布尔数组</span></a><a class="lv1 d0 top" href="#s14"><span>可删堆</span></a><a class="lv1 d0 top" href="#s15"><span>zkw 线段树</span></a><a class="lv1 d0 top" href="#s16"><span>颜色段均摊</span></a><a class="lv1 d0 top" href="#s17"><span>迭代分块</span></a><a class="lv1 d0 top" href="#s18"><span>强连通分量</span></a><a class="lv1 d0 top" href="#s19"><span>斜率优化</span></a><a class="lv1 d0 top" href="#s20"><span>组合数</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

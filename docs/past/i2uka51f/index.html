@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解：P9047 [PA2021] Poborcy podatkowi</h1>
@@ -41,10 +41,10 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P9047">$\text{Link}$</a></p>
 <p>大概是对第一篇题解的补充。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给定一棵 $n$ 个点的树，你可以选择若干条长度为 $4$ 的链，要求没有一条边同时属于两条选出的链，最大化选出的所有边的边权和。</p>
 <p>$n\le 2\times 10^5$。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>设 $f_{x,i}$ 表示 $x$ 子树的答案，要求 $x$ 下挂了一条长为 $i$ 的链。</p>
 <p>考虑在 $x$ 处进行合并。如果选了 $a,b,c$ 条 $1,2,3$ 的链，则我们要对 $\forall p\in[-1,1],q\in[0,1]$ 求出 $a-c=p$，$b\equiv q\pmod2$ 时的最大价值。实际上，这可以看成一个背包问题。假如没有第二条限制，则将 $0,1,2,3$ 的链分别看成重量为 $1,0,1,2$ 的物品即可。加上第二条限制只需要加一个 $0/1$ 维即可。</p>
 <p>这是重量较小时的 $(\max,+)$ 背包问题，我们有如下解法：设重量为 $i$ 时的答案为 $w_i$，则 $w_{0,2,\dots,2k}$ 和 $w_{1,3,\dots,2k+1}$ 分别是凸的。前者考虑将重量为 $1$ 的物品的价值从大到小排序并两两分组，转化为重量为 $1$ 的背包，显然答案为凸的。后者同理。</p>
@@ -168,12 +168,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解：P9047 [PA2021] Poborcy podatkowi</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

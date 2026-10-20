@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P7980【[JRKSJ R3] a question】</h1>
@@ -40,16 +40,16 @@
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/9wh9x82i" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7980">$\text{Link}$</a></p>
-<h3 id="s1">$\text{Subtask 1}$</h3>
+<h3 id="s1">$\text{Subtask 1}$<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
 <p>$n\le 10^3$。</p>
 <p>考虑直接建图再跑 $\text{Floyd}$，注意是答案需要取模，而不是取模后的最短路。时间复杂度 $O(n^3)$。</p>
-<h3 id="s2">$\text{Subtask 2}$</h3>
+<h3 id="s2">$\text{Subtask 2}$<a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <p>$n\le 10^4$。</p>
 <p>考虑若 $\text T$ 中 $u,v$ 两点不相连，则 $\text G$ 中 $u,v$ 直接有边，距离可以 $\text {RMQ}-\text{LCA}$ $O(1)$ 求出。否则直接分类讨论，这个可以看后面的做法。这里可以直接搜两层，时间复杂度 $O(n^2)$。</p>
-<h3 id="s3">$\text{Subtask 3}$</h3>
+<h3 id="s3">$\text{Subtask 3}$<a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <p>$n\le 2\times 10^6$，树为菊花图。</p>
 <p>根节点显然没有贡献，直接忽略。考虑两点 $u,v,(u,v\ne1)$，它们肯定相邻，距离为 $w_{1,u}+w_{1,v}$，考虑每条边会被计算几次，所以答案为 $\displaystyle(n-2)\sum w$，时间复杂度 $O(n)$。</p>
-<h3 id="s4">$\text{Subtask 4}$</h3>
+<h3 id="s4">$\text{Subtask 4}$<a class="anchor" href="#s4" aria-label="本节链接">#</a></h3>
 <p>$n\le 2\times 10^6$，树为链。</p>
 <p>问题即为树上每次转移只得走 $\ge2$ 格，求路径最小和，考虑分类算贡献：</p>
 <ol>
@@ -63,7 +63,7 @@
 <li>向下走 $2$ 格再向上走 $3$ 格再往下走 $2$ 格，如图 $2$。注意需要存向下走两格的最小值和次小值，方便算贡献。</li>
 </ul>
 <p>取 $\min$ 即可，答案为两种贡献和再减掉多余的 $\displaystyle \sum w$ 的贡献，时间复杂度 $O(n)$。</p>
-<h3 id="s5">$\text{Subtask 5}$</h3>
+<h3 id="s5">$\text{Subtask 5}$<a class="anchor" href="#s5" aria-label="本节链接">#</a></h3>
 <p>$n\le 2\times 10^6$。</p>
 <p>上一个 $\text{Subtask}$ 中第二种情况由于每个点至多两个儿子只需维护向下 $2$ 格的 $\min$ 和 $\text{secmin}$ 就能计算，但是最小 $2$ 个值可能都是第一步走 $u$，所以需要维护<strong>以 $v$ 向下走两格，且第一格不是 $u$ 的最小权值</strong>，这点可以给 $v$ 的儿子编号，算出<strong>以 $v$ 向下走两格，且第一格是 $u$ 的最小权值</strong>，维护前后缀 $\min$，就能计算了，时间复杂度 $O(n)$。</p>
 <p>这题思路简单，但实现细节繁多，并且有些卡常。</p>
@@ -179,12 +179,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">$\text{Subtask 1}$</a><a class="lv3" href="#s2">$\text{Subtask 2}$</a><a class="lv3" href="#s3">$\text{Subtask 3}$</a><a class="lv3" href="#s4">$\text{Subtask 4}$</a><a class="lv3" href="#s5">$\text{Subtask 5}$</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P7980【[JRKSJ R3] a question】</a>
+<a class="lv3 d0 top" href="#s1"><span>$\text{Subtask 1}$</span></a><a class="lv3 d0 top" href="#s2"><span>$\text{Subtask 2}$</span></a><a class="lv3 d0 top" href="#s3"><span>$\text{Subtask 3}$</span></a><a class="lv3 d0 top" href="#s4"><span>$\text{Subtask 4}$</span></a><a class="lv3 d0 top" href="#s5"><span>$\text{Subtask 5}$</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
       <h1 class="post-title">GDOI2023 游记</h1>
@@ -40,7 +40,7 @@
 <span class="tag">GDOI 2023</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/dpfunh13" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p>前一周因为有些忙，所以没有拿太多时间复习省选，NOIP 考得也很差，所以有些摆。</p>
-<h3 id="s1">$\text{Day1/2023.4.1}$</h3>
+<h3 id="s1">$\text{Day1/2023.4.1}$<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
 <p>开考。</p>
 <p>看完 $\text A$，以为读错了，很快就写完了。测了大样例就没管了。</p>
 <p>看 $\text B$，找不到任何思路，此时看错部分分，以为树的部分是链，乱写了一行先跳过了。</p>
@@ -51,7 +51,7 @@
 <p>出场时期望得分 $100+[20,30]+48$，突然想到 $\text B$ 的特殊性质不是链，这下只有 $100+[0,10]+48$ 了。</p>
 <p>在云斗学院测出来 $100+0+48$，大众分大概是 $100+25+48$ 吧。连大众分都拿不到，挺难受的，实力还是很弱。</p>
 <p>晚上开摆。</p>
-<h3 id="s2">$\text{Day2/2023.4.2}$</h3>
+<h3 id="s2">$\text{Day2/2023.4.2}$<a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <p>看完 $\text A$，看完发现不会，很慌，想了想一些性质，没搞出来，于是先去看下一题了。</p>
 <p>看 $\text B$，还是不会。看 $\text C$，还是不会。</p>
 <p>就先去写 $\text A$ 了。判了几个 corner，写了几个部分分就想不出来了。</p>
@@ -60,7 +60,7 @@
 <p>出场期望得分 $?+28+2$。在云斗测出来 $[30,55]+28+2$。</p>
 <p>两天下来我发现自己上点难度就只会打暴力，还是不要着眼以前的那些微不足道的东西，认真学习才是正道。</p>
 <p>祝学长们好运。</p>
-<h3 id="s3">$\text{2023.4.10}$</h3>
+<h3 id="s3">$\text{2023.4.10}$<a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <p>$100+5+48+40+28+2=223$/cf</p>
 <p>恭喜两位学长进队！</p>
 </div>
@@ -72,12 +72,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">$\text{Day1/2023.4.1}$</a><a class="lv3" href="#s2">$\text{Day2/2023.4.2}$</a><a class="lv3" href="#s3">$\text{2023.4.10}$</a>  </aside>
+    <a class="toc-doc" href="#top">GDOI2023 游记</a>
+<a class="lv3 d0 top" href="#s1"><span>$\text{Day1/2023.4.1}$</span></a><a class="lv3 d0 top" href="#s2"><span>$\text{Day2/2023.4.2}$</span></a><a class="lv3 d0 top" href="#s3"><span>$\text{2023.4.10}$</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

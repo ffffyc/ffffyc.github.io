@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P7291 【人赢】</h1>
@@ -39,24 +39,24 @@
         <span>2021-01-27</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/n10x7n9z" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h1>P7291 人赢</h1>
+    <div class="prose"><h1 id="s1">P7291 人赢<a class="anchor" href="#s1" aria-label="本节链接">#</a></h1>
 <p>「EZEC-5」人赢 加强版</p>
-<h4 id="s1"><a href="https://www.luogu.com.cn/problem/P7286"><em>弱化版传送门</em></a></h4>
-<h4 id="s2"><a href="https://www.luogu.com.cn/problem/P7291"><em>传送门</em></a></h4>
+<h4 id="s2"><a href="https://www.luogu.com.cn/problem/P7286"><em>弱化版传送门</em></a><a class="anchor" href="#s2" aria-label="本节链接">#</a></h4>
+<h4 id="s3"><a href="https://www.luogu.com.cn/problem/P7291"><em>传送门</em></a><a class="anchor" href="#s3" aria-label="本节链接">#</a></h4>
 <p><s>本来想去弱化版发题解的，但是题解区一下就满了...</s></p>
 <p>原题被最后几个点卡着的 dalao 们可以去 <a href="https://www.luogu.com.cn/problem/U149812"><em>这里</em></a> 测试，这几组就是我造的 hack 数据。</p>
 <p>显然 $n\leqslant 10^7$ 的数据范围要求了我们用 $\texttt{O}(n)$ 的算法。</p>
-<h2 id="s3">思路</h2>
-<h4 id="s4">$\texttt{O}(n^2)$</h4>
+<h2 id="s4">思路<a class="anchor" href="#s4" aria-label="本节链接">#</a></h2>
+<h4 id="s5">$\texttt{O}(n^2)$<a class="anchor" href="#s5" aria-label="本节链接">#</a></h4>
 <p>我们显然可以暴力枚举 $x,y$ 求最大值。</p>
-<h4 id="s5">$\texttt{O}(n \log n)$</h4>
+<h4 id="s6">$\texttt{O}(n \log n)$<a class="anchor" href="#s6" aria-label="本节链接">#</a></h4>
 <p>我们可以将每个数按照值域从大到小排序，从前到后扫一遍，在路上求出原始编号的前缀最大值，直接求 $f$ 函数即可。</p>
 <p>正确性证明：由于现在扫到的数一定比前面的数小，所以要使编号尽量大才能使 $f$ 函数最大。</p>
 <p>代码很好写，就<s>咕</s>了，想看可以去其它题解或原题题解。</p>
-<h4 id="s6">$\texttt{O}(n)$</h4>
-<h4 id="s7">方法 1</h4>
+<h4 id="s7">$\texttt{O}(n)$<a class="anchor" href="#s7" aria-label="本节链接">#</a></h4>
+<h4 id="s8">方法 1<a class="anchor" href="#s8" aria-label="本节链接">#</a></h4>
 <p>我们发现 $\texttt{O}(n \log n)$ 做法的扫一遍是 $\texttt{O}(n)$ 的，复杂度瓶颈在排序的 $\texttt{O}(n \log n)$，于是我们可以使用基数排序，期望复杂度 $\texttt{O}(n)$，但是常数巨大，无法通过本题。</p>
-<h4 id="s8">方法2</h4>
+<h4 id="s9">方法2<a class="anchor" href="#s9" aria-label="本节链接">#</a></h4>
 <p>在 $\texttt{O}(n \log n)$ 的做法中，我们为了保证正确性，我们给原序列排了序，现在我们要在 $\texttt{O}(n \log n)$ 的做法中找到一个正确的做法保证正确性。</p>
 <p>我在这里先给出方法：先取出 $k_x\times x$ 的最大值，再从前后分别扫一遍，分别取前后缀的 $k_i\times i$ 的最大值，再路上求 $(i+x)\times \min(k_i,k_x)$ 的最大值即可。</p>
 <p>正确性证明：我们假设最终的答案为 $(x,y)$ ，如果我们在这种方法下我们没法取到 $(x,y)$ 当且仅当存在 $x&lt;z&lt;y$ 满足：</p>
@@ -108,12 +108,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv4" href="#s1">弱化版传送门</a><a class="lv4" href="#s2">传送门</a><a class="lv2" href="#s3">思路</a><a class="lv4" href="#s4">$\texttt{O}(n^2)$</a><a class="lv4" href="#s5">$\texttt{O}(n \log n)$</a><a class="lv4" href="#s6">$\texttt{O}(n)$</a><a class="lv4" href="#s7">方法 1</a><a class="lv4" href="#s8">方法2</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P7291 【人赢】</a>
+<a class="lv1 d0 top" href="#s1"><span>P7291 人赢</span></a><a class="lv4 d1" href="#s2"><span>弱化版传送门</span></a><a class="lv4 d1" href="#s3"><span>传送门</span></a><a class="lv2 d1" href="#s4"><span>思路</span></a><a class="lv4 d2" href="#s5"><span>$\texttt{O}(n^2)$</span></a><a class="lv4 d2" href="#s6"><span>$\texttt{O}(n \log n)$</span></a><a class="lv4 d2" href="#s7"><span>$\texttt{O}(n)$</span></a><a class="lv4 d2" href="#s8"><span>方法 1</span></a><a class="lv4 d2" href="#s9"><span>方法2</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

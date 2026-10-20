@@ -84,63 +84,84 @@ def read_doc(path: Path) -> tuple[dict, str]:
 
 
 MATH_RE = re.compile(r"\$\$.+?\$\$|\$(?:[^$\\]|\\.)+?\$", re.S)
-CONTAINER_OPEN = re.compile(r"^:::(\w+)(?:\[(.*?)\])?\s*$")
+CONTAINER_OPEN = re.compile(r"^:::(\w+)(?:\[(.*?)\])?(?:\{([^}]*)\})?\s*$")
 SLOT = '<div class="fold-slot" data-i="%d"></div>'
-HEAD_RE = re.compile(r"<h([1-4])>(.*?)</h\1>", re.S)
+HEAD_RE = re.compile(r"<h([1-6])>(.*?)</h\1>", re.S)
 
 
 def build_toc(html: str) -> tuple[str, list[dict]]:
-    """给二到四级标题加锚点，并生成侧栏目录。"""
+    """给一至六级标题加锚点，并生成侧栏目录。
+
+    不动原文的标题等级；目录的缩进按「相对本篇最浅一级」计算，跳级也不会错位。
+    """
     toc: list[dict] = []
 
     def rep(m: re.Match) -> str:
         level = int(m.group(1))
         inner = m.group(2)
         text = re.sub(r"<[^>]+>", "", inner).strip()
-        if level < 2 or not text:
+        if not text:
             return m.group(0)
         anchor = f"s{len(toc) + 1}"
         toc.append({"level": level, "text": text, "id": anchor})
-        return f'<h{level} id="{anchor}">{inner}</h{level}>'
+        mark = f'<a class="anchor" href="#{anchor}" aria-label="本节链接">#</a>'
+        return f'<h{level} id="{anchor}">{inner}{mark}</h{level}>'
 
-    return HEAD_RE.sub(rep, html), toc
+    html = HEAD_RE.sub(rep, html)
+    if toc:
+        # 按大纲栈算缩进：只比父级深一层，跳过空层不会再叠加缩进
+        stack: list[int] = []
+        for t in toc:
+            while stack and stack[-1] >= t["level"]:
+                stack.pop()
+            t["depth"] = min(3, len(stack))
+            t["top"] = t["depth"] == 0
+            stack.append(t["level"])
+    return html, toc
+
+
+def make_fold(md: MarkdownIt, kind: str, title: str, flags: str, buf: list[str], state: list[str]) -> str:
+    """生成折叠块；`{open}` 表示默认展开。"""
+    inner = render_md(md, "\n".join(buf), state).strip()
+    open_attr = " open" if "open" in flags.replace(" ", "").split(",") else ""
+    return (
+        f'<details class="fold fold-{kind}"{open_attr}><summary>{title or "展开"}</summary>'
+        f'<div class="fold-body">{inner}</div></details>'
+    )
 
 
 def expand_containers(md: MarkdownIt, text: str, state: list[str]) -> str:
-    """把 :::info[标题] … ::: 转成折叠块，支持嵌套。"""
+    """把 :::info[标题]{open} … ::: 转成折叠块，支持嵌套与默认展开。"""
     if ":::" not in text:
         return text
     out: list[str] = []
-    stack: list[tuple[str, str, list[str]]] = []
+    stack: list[tuple[str, str, str, list[str]]] = []
 
     for line in text.split("\n"):
         open_m = CONTAINER_OPEN.match(line.strip())
         if open_m:
-            stack.append((open_m.group(1) or "info", open_m.group(2) or "", []))
+            stack.append(
+                (
+                    open_m.group(1) or "info",
+                    open_m.group(2) or "",
+                    open_m.group(3) or "",
+                    [],
+                )
+            )
             continue
         if line.strip() == ":::" and stack:
-            kind, title, buf = stack.pop()
-            inner = render_md(md, "\n".join(buf), state).strip()
-            box = (
-                f'<details class="fold fold-{kind}"><summary>{title or "展开"}</summary>'
-                f'<div class="fold-body">{inner}</div></details>'
-            )
-            state.append(box)
-            target = stack[-1][2] if stack else out
+            kind, title, flags, buf = stack.pop()
+            state.append(make_fold(md, kind, title, flags, buf, state))
+            target = stack[-1][3] if stack else out
             target.extend(["", SLOT % (len(state) - 1), ""])
             continue
-        (stack[-1][2] if stack else out).append(line)
+        (stack[-1][3] if stack else out).append(line)
 
     # 原文偶尔少一个结尾标记，这里从内向外补上
     while stack:
-        kind, title, buf = stack.pop()
-        inner = render_md(md, "\n".join(buf), state).strip()
-        box = (
-            f'<details class="fold fold-{kind}"><summary>{title or "展开"}</summary>'
-            f'<div class="fold-body">{inner}</div></details>'
-        )
-        state.append(box)
-        target = stack[-1][2] if stack else out
+        kind, title, flags, buf = stack.pop()
+        state.append(make_fold(md, kind, title, flags, buf, state))
+        target = stack[-1][3] if stack else out
         target.extend(["", SLOT % (len(state) - 1), ""])
     return "\n".join(out)
 

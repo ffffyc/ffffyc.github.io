@@ -8,8 +8,8 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
@@ -49,12 +49,23 @@
 </article>
 
 <script>window.FFFFYC_SUFFIX = "ffffyc";</script>
-<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "cGlvgYWIMfJuW9IZ", "c": "YnEJMoXCfzvsEM4Nw6sa5Iy2cH9DKhpHnsrACD6D4OMsGkay4kopLs/QJHTr04JqgKGTbiWH86RfvuZa5d8AONDnb+0HDKLJg5ha5d1DpTi57Um+GVHNVrd6zB3zi5dMruD136T5bacM9HarFovgYarvZp2FZVWIUyY="}</script>
-<script src="/assets/lock.js?v=1792495802"></script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "qXTS59hBU9hCBLyf", "c": "qVgtHzYDP+7bS+UnQiZ6P633WbDPbnQHIJJAz7j9ByIvDEsN+c8OypT0yn1iWkQf7ZcekqGhxSIG+98vKCuH+Twc/5ag98iw8eNlnoazvsGAEzG0h7E0bBD4slnMJc+PNic3cyHuuKRBYtc/UNfOv9jbz69VHhg1xBw="}</script>
+<script src="/assets/lock.js?v=1792497809"></script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

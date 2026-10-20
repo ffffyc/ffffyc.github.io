@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解：P10717「KDOI-05」简单的树上问题</h1>
@@ -40,7 +40,7 @@
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/ey2vcl8i" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P10717">$\text{Link}$</a></p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给你一颗 $n$ 个结点的树，有 $k$ 次操作，第 $i$ 次操作：</p>
 <ul>
 <li>每个点初始都处于未激活状态；</li>
@@ -49,7 +49,7 @@
 </ul>
 <p>给出 $v_{i,s}$ 表示当 $i$ 在 $s$ 这些操作被激活时的权值。对于某种可能的情况，记 $S_i$ 为结点 $i$ 在哪些操作中被激活了，整棵树的权值为 $\prod_{i=1}^nv_{i,S_i}$。请求出这棵树的权值的期望。</p>
 <p>$n\le 100$，$k\le 8$。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>考虑 $k=1$，这和<a href="https://www.luogu.com.cn/problem/P10674">上一场梦熊周赛的 C</a> 完全一致，令 $f_{u,0/1/2}$ 分别表示「$u$ 子树内没有结点被激活」/「$u$ 子树内有结点被激活且钦定子树外没有结点被激活」/「$u$ 子树内有结点被激活且钦定子树外有结点被激活」时 $u$ 子树内的期望权值。</p>
 <p>和该题一样，我们在合并子树的过程中需要将仅有一个子树内有结点被激活与有大于等于两个子树内有结点被激活分开讨论。不妨为后者新建一个状态 $3$，注意到状态 $3$ 由若干 $0/2$ 状态合并而来，此时子树外是否有结点被激活均可。令 $t_{0/1/2/3}$ 分别表示已经合并的子树的信息，转移如下，其中 $(a,b)\to c$ 表示 $t_a\times f_{v,b}\to t_c'$：</p>
 <ul>
@@ -195,12 +195,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解：P10717「KDOI-05」简单的树上问题</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

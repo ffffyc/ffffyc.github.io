@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P8852：[JRKSJ R5] Concvssion</h1>
@@ -41,13 +41,13 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P8852">$\text{Link}$</a></p>
 <p>$\text{Update} 2026.1.5$：重构全文，删除多余的部分，<a href="https://www.luogu.com.cn/paste/x665tptu">原文留档</a>。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给定长度为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$，满足 $\forall i\in[1,n],a_i,b_i\in[1,n]$。</p>
 <p>定义一次操作为，对 $\forall i\in[1,n]$ 执行 $b_i\gets a_{b_i}$。</p>
 <p>你需要依次进行 $n$ 次操作，每次操作后求出 $\displaystyle\sum_{i=1}^n b_i$，对 $998244353$ 取模。</p>
 <p>$n\le 3\times10^5$。</p>
-<h2 id="s2">题解</h2>
-<h3 id="s3">子问题：$a_{1\sim n}$ 为排列</h3>
+<h2 id="s2">题解<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
+<h3 id="s3">子问题：$a_{1\sim n}$ 为排列<a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <p>建出 $(i,a_i)$ 组成的图，可知是若干个环。</p>
 <p>对于一个长为 $l$ 的环，我们可以用一次差卷积求出其对答案的第 $1\sim l$ 时刻的贡献，此后的贡献也是以 $l$ 为周期重复。</p>
 <p>具体地，记 $p_i,c_i$ 分别为环上第 $i$ 个点的编号与环上第 $i$ 个点处关键点的数量，那么时刻 $k$ 的答案即为：
@@ -56,14 +56,14 @@ $$f_k=\sum_{i=0}^{l-1} c_ip_{(i+k)\bmod l}$$</p>
 <p>当存在多个环时，还需要考虑将每个环的贡献求和。</p>
 <p>由于环长只有 $O(\sqrt n)$ 种，我们可以将环长相同的答案加起来，并统一贡献至答案，时间复杂度 $O(n\sqrt n)$。</p>
 <p>事实上也可以通过分治 FFT 做到 $O(n\log^2 n)$，不过不是必要的，在数据范围下也无法与按环长分类做出区分。</p>
-<h3 id="s4">子问题：$1\le a_i\le \max(i-1,1)$</h3>
+<h3 id="s4">子问题：$1\le a_i\le \max(i-1,1)$<a class="anchor" href="#s4" aria-label="本节链接">#</a></h3>
 <p>建出 $(i,a_i)$ 组成的图，可知会形成一颗带一个自环的树。</p>
 <p>一个位于 $x$ 的关键点在执行 $dep_x$ 次操作后会持续贡献 $a_1$，而两个深度相同的关键点 $x,y$ 在同时到达它们的 $\text{LCA}$ 后将始终贡献同一个值。</p>
 <p>如果将 $x$ 处的关键点移动到 $y$ 处，我们只需要修正跳至它们的 $\text{LCA}$ 之前这一段时刻的贡献。</p>
 <p>我们对树<strong>进行长链剖分</strong>，对于 $x$ 的子树，我们将其中<strong>在 $\bm x$ 的非长链上的关键点移动至关键点上</strong>，其中修正贡献只需要做这条非长链长度的一次差卷积。</p>
 <p>最终我们将所有关键点移动到了一条链上，而一条链上的贡献是好做的，可以通过进行前缀差分等方式解决。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
-<h3 id="s5">原问题</h3>
+<h3 id="s5">原问题<a class="anchor" href="#s5" aria-label="本节链接">#</a></h3>
 <p>当不存在特殊性质时，对于一个连通块，我们还需要处理一个环上挂有若干条链的情况。</p>
 <p>此时，将环上的点依次写下，直到链的长度，我们就可以用类似的方式将链上的关键点移动到环上对应位置，并用差卷积修正时刻小于等于链长时的贡献。</p>
 <p>进行完修正，我们就将所有关键点移动到了环上，问题变为只有环的子问题。</p>
@@ -78,12 +78,47 @@ $$f_k=\sum_{i=0}^{l-1} c_ip_{(i+k)\bmod l}$$</p>
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">题解</a><a class="lv3" href="#s3">子问题：$a_{1\sim n}$ 为排列</a><a class="lv3" href="#s4">子问题：$1\le a_i\le \max(i-1,1)$</a><a class="lv3" href="#s5">原问题</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P8852：[JRKSJ R5] Concvssion</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>题解</span></a><a class="lv3 d1" href="#s3"><span>子问题：$a_{1\sim n}$ 为排列</span></a><a class="lv3 d1" href="#s4"><span>子问题：$1\le a_i\le \max(i-1,1)$</span></a><a class="lv3 d1" href="#s5"><span>原问题</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

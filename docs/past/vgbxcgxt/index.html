@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/ideas/">解题思路</a></p>
       <h1 class="post-title">解题思路分析</h1>
@@ -39,8 +39,8 @@
         <span>2024-03-05</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/vgbxcgxt" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h1>计数</h1>
-<h3 id="s1"><a href="https://www.luogu.com.cn/problem/P10141">Merging Cells P</a></h3>
+    <div class="prose"><h1 id="s1">计数<a class="anchor" href="#s1" aria-label="本节链接">#</a></h1>
+<h3 id="s2"><a href="https://www.luogu.com.cn/problem/P10141">Merging Cells P</a><a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个初始大小为 $s_{1\dots n}$ 的细胞从左到右排成一行。当存在多个细胞时，均匀地随机选择一对相邻细胞，其中较大的细胞会吞掉较小的细胞，若它们大小相同则编号较大的细胞会吞掉编号较小的细胞。对 $\forall i\in[1,n]$ 求出最终 $i$ 细胞存活的概率。</p>
 <p>$n\le 5000$。</p>
 <hr />
@@ -49,7 +49,7 @@
 <p>$$f_{l,r}=\sum_{1\le k&lt;l}^{s(k,l-1)\le s(l,r)}\dfrac{f_{k,r}}{r-k}+\sum_{r&lt;k\le n}^{s(r+1,k)&lt;s(l,r)}\dfrac{f_{l,k}}{k-l}$$</p>
 <p>时间复杂度 $O(n^3)$，需要继续优化。显然对于一个区间 $[l,r]$ 只有一个区间内的 $k$ 是合法的，可以双指针求出。以合适的方式选择前缀和、后缀和优化即可做到 $O(n^2)$。</p>
 <hr />
-<h3 id="s2"><a href="https://www.luogu.com.cn/problem/P10707">永恒 / Eternity</a></h3>
+<h3 id="s3"><a href="https://www.luogu.com.cn/problem/P10707">永恒 / Eternity</a><a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <p>对于一个由自然数组成的可重集 $S$，定义其权值为子集异或和的最大值。求有多少大小为 $n$ 的可重集 $S$ 满足其权值为 $m$。</p>
 <p>$n\le 10^5$，$m\le 2^{60}$。</p>
 <hr />
@@ -70,7 +70,7 @@
 <p>显然，$g_i=\displaystyle\binom{2^i+n-1}{n}-\sum_{j=0}^{i-1}h_{i,j}g_j$，答案即为 $\displaystyle \sum_{i=0}^{\log m+1}f_{0,i}g_i$，时间复杂度 $O(n\log m)$。</p>
 <p>一个重要的思考方向是如何<strong>规定转移顺序以消除后效性</strong>。</p>
 <hr />
-<h3 id="s3"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2189&amp;pid=0">[2024 联考 II Day12] 自然选择号</a></h3>
+<h3 id="s4"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2189&amp;pid=0">[2024 联考 II Day12] 自然选择号</a><a class="anchor" href="#s4" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的网格图，格子有黑白二色。给出 $b_{1\dots m}$ 表示第 $i$ 列的黑格数量，令 $a_{1\dots n}$ 表示第 $i$ 行的黑格数量，求出有多少种可能的 $a$，对 $10^9+7$ 取模。</p>
 <p>$n,m\le 80$。</p>
 <hr />
@@ -82,7 +82,7 @@
 </ul>
 <p>两个结果是等价的，于是对 $a$ 的限制就是 $a$ 中前 $i$ 大的和需要小于等于 $r_i$，直接 DP 即可做到 $O(n^5)$，可以通过。</p>
 <hr />
-<h3 id="s4"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2002&amp;pid=0">[2023 NOI模拟 Day10] Hitori 的旅行</a></h3>
+<h3 id="s5"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2002&amp;pid=0">[2023 NOI模拟 Day10] Hitori 的旅行</a><a class="anchor" href="#s5" aria-label="本节链接">#</a></h3>
 <p>给你一个 $n$ 个点 $m$ 条边的有向无环图以及一个整数 $w$，每个点有点权 $v_i(v_i\le w)$，定义一种旅行方案为选定一个起始点 $s$，从 $s$ 引三条不同的路径到达三个点 $a,b,c$，定义该方案的权值为 $v_a+v_b+v_c$。对于 $\forall k\in[1,3w]$ 求出权值为 $w$ 的方案数量。答案对 $10^9+7$ 取模。</p>
 <p>$n\le 10^4$，$m\le 3\times 10^4$，$w\le 400$，$T\le 5$。</p>
 <hr />
@@ -93,7 +93,7 @@
 <p>注意到多项式次数较低，但是运算次数较高，<strong>考虑拉格朗日插值，那么只需要维护点值序列</strong>。</p>
 <p>时间复杂度 $O((n+m)w+w^2)$，可以通过。</p>
 <hr />
-<h3 id="s5"><a href="https://www.luogu.com.cn/problem/P10221">[省选联考 2024] 重塑时光</a></h3>
+<h3 id="s6"><a href="https://www.luogu.com.cn/problem/P10221">[省选联考 2024] 重塑时光</a><a class="anchor" href="#s6" aria-label="本节链接">#</a></h3>
 <p>给定整数 $n,k$。对于一个长为 $n$ 的排列 $p$，其有 $n+1$ 个间隙，将 $k$ 块隔板分别插入某个间隙，得到 $k+1$ 段可以为空的子段。</p>
 <p>给定 $m$ 条限制 $(u,v)$，定义一个排列 $p$ 是好的当且仅当对于所有限制 $(u,v)$，$p$ 中 $u$ 的出现位置均早于 $v$ 的。求对于随机的排列 $p$ 以及随机的间隙插入方法，有多大的概率可以重排子段使得重排后的排列为好的。答案对 $998244353$ 取模。</p>
 <p>$n\le 15$，$m\le \frac{n(n-1)}{2}$。</p>
@@ -107,7 +107,7 @@ $$g_{s,i}h_{t,j}[\text{in}(s)\cap t=\varnothing]\cdot (-1)^{j+1}\to g_{s\cup t,i
 <p>其中 $g$ 的转移为枚举出点为 $0$ 的颜色对应的点集。直接枚举超集计算可以做到 $O(3^nn^2)$。</p>
 <p>我们要求的只有 $g_{u,i}$，<strong>注意到这是一个类似背包的问题，则不妨将第二维看为多项式，代入 $\bm{k+2}$ 个点值计算转移，最终拉插即可</strong>，时间复杂度 $O(3^nn+2^nn^2)$。</p>
 <hr />
-<h3 id="s6"><a href="https://codeforces.com/gym/542554/problem/J">[2024 联考 III ACM] Xiang</a></h3>
+<h3 id="s7"><a href="https://codeforces.com/gym/542554/problem/J">[2024 联考 III ACM] Xiang</a><a class="anchor" href="#s7" aria-label="本节链接">#</a></h3>
 <p>求有多少 $n$ 个点的有标号无根树满足每个点度数不超过 $d$ 且存在一条链同时包含节点 $1\sim k$。对 $998244353$ 取模。</p>
 <p>$n\le 500$。</p>
 <hr />
@@ -118,7 +118,7 @@ $$g_{s,i}h_{t,j}[\text{in}(s)\cap t=\varnothing]\cdot (-1)^{j+1}\to g_{s\cup t,i
 <p>由 Prufer 序列，如果 $i$ 的度数为 $d_i$，那么构成树的方案数为 $\displaystyle\binom{n-2}{d_1-1,d_2-1\dots,d_n-1}$。考虑求 $f_i$，设 $t_{i,j,0/1}$ 表示考虑完前 $i$ 个点，他们的度数和为 $j$，是否已经钦定了一个非 $1$ 一度点即可。$g,h$ 同理。</p>
 <p>求出 $f,g,h$ 后做个背包就能求出答案，总时间复杂度 $O(n^3)$。</p>
 <hr />
-<h3 id="s7"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2007&amp;pid=0">[2023 NOI模拟 Day15] 矩形</a></h3>
+<h3 id="s8"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2007&amp;pid=0">[2023 NOI模拟 Day15] 矩形</a><a class="anchor" href="#s8" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的矩形，每个格子上有一个数，这些数构成 $1\sim nm$ 的排列。定义一个子矩形为选取一个行的集合和一个列的集合，保留所有同时属于两个集合的格子所形成的矩形。求有多少个子矩形满足每一行和每一列均单增或单减。</p>
 <p>$n,m\le 20$。</p>
 <hr />
@@ -127,7 +127,7 @@ $$g_{s,i}h_{t,j}[\text{in}(s)\cap t=\varnothing]\cdot (-1)^{j+1}\to g_{s\cup t,i
 <p>进一步地，我们将状态改为 $f_{s,i}$ 表示选取的最后一列为 $i$ 且行状态为 $s$ 的方案数，虽然状态数很大，但是只需枚举选取的最后一列即可确定 $s$。</p>
 <p>时间复杂度 $O(2^nn^2)$。</p>
 <hr />
-<h3 id="s8"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2034&amp;pid=2">[2023 NOI模拟 Day23] 匹配</a></h3>
+<h3 id="s9"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2034&amp;pid=2">[2023 NOI模拟 Day23] 匹配</a><a class="anchor" href="#s9" aria-label="本节链接">#</a></h3>
 <p>给定四个整数 $n,m,l,r$ 和一个数组 $p_{1\dots 2n,0\dots m}$，你需要构造一张以 $1\sim n$ 为左部点、$n+1\sim 2n$ 为右部点的二分图满足其边数为 $m$ 且最大匹配在 $[l,r]$ 中，记该二分图中点 $i$ 的度数为 $\text{deg}(i)$，求出 $\sum_{i=1}^{2n}p_{i,\text{deg}(i)}$ 的最小值。保证有解。</p>
 <p>$n,m\le 40$。</p>
 <hr />
@@ -142,7 +142,7 @@ $$\begin{cases}l\le |A|+|D|\le r\\sum_{p=1}^n\text{deg}(p)=\sum_{q=n+1}^{2n}\tex
 <p>于是设 $f_{i,a,b,c,d}$ 表示考虑了前 $i$ 个点，后四维分别为 $\sum_{p=1}^i\text{deg}(p)$，$|A|$，$\sum_{p\in A}\text{deg}(p)$，$\sum_{p\in B}[\text{deg}(p)\ne 0]$ 时的最小代价即可。</p>
 <p>令 $n,m$ 同阶，时间复杂度 $O(n^6)$，可以通过。</p>
 <hr />
-<h3 id="s9"><a href="https://www.luogu.com.cn/problem/P10717">简单的树上问题</a></h3>
+<h3 id="s10"><a href="https://www.luogu.com.cn/problem/P10717">简单的树上问题</a><a class="anchor" href="#s10" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个结点的树，有 $k$ 次操作，第 $i$ 次操作：</p>
 <ul>
 <li>每个点初始都处于未激活状态；</li>
@@ -173,7 +173,7 @@ $$\begin{cases}l\le |A|+|D|\le r\\sum_{p=1}^n\text{deg}(p)=\sum_{q=n+1}^{2n}\tex
 <p>接下来就是最为困难的第一部分了，我们依旧尝试用类似的思路解决。注意到 $0/2/3$ 是好求的，因为这些状态不会向外转移。由此我们发现 <strong>$3$ 状态的信息可由 $0/2/3$ 减去 $0/2$ 得到</strong>，我们转移前使用高维前缀和将每一维为 $0/2$ 的状态加给 $3$ 状态，只考虑 $0/1/2$ 的 $5$ 种转移和 $(3,3)\to 3$ 共 $6$ 种转移，转移完再做高维前缀差分。加入一个子树复杂度降至 $O(6^k)$。</p>
 <p>总复杂度 $O(n6^k+nk4^k)$，可以通过。</p>
 <hr />
-<h3 id="s10"><a href="https://www.luogu.com.cn/problem/CF1842G">Tenzing and Random Operations</a></h3>
+<h3 id="s11"><a href="https://www.luogu.com.cn/problem/CF1842G">Tenzing and Random Operations</a><a class="anchor" href="#s11" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$ 和一整数 $v$，对该序列进行 $m$ 次操作。</p>
 <p>每次操作中，等概率地随机选择一整数 $i \in [1, n]$，对所有的 $j \in [i, n]$，赋值 $a_j \gets a_j+v$，求出 $m$ 次操作后 $\prod_{i=1}^n a_i$ 的期望值。答案对 $10^9+7$ 取模。</p>
 <p>$n\le5000$，$m\leq10^9$。</p>
@@ -184,7 +184,7 @@ $$\begin{cases}l\le |A|+|D|\le r\\sum_{p=1}^n\text{deg}(p)=\sum_{q=n+1}^{2n}\tex
 <p>我们发现最后乘入贡献的操作数量只有不超过 $n$ 个，而未乘入贡献的操作并不需要关心其位置。<strong>考虑贡献延后计算，在将值乘入贡献时再为其确定是哪一次操作、操作的位置是什么</strong>。设 $f_{i,j}$ 表示已经考虑了前 $i$ 个位置，已经确定了 $j$ 次操作及其位置的贡献和，可以转移。</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s11"><a href="https://www.luogu.com.cn/problem/CF1437F">Emotional Fishermen</a></h3>
+<h3 id="s12"><a href="https://www.luogu.com.cn/problem/CF1437F">Emotional Fishermen</a><a class="anchor" href="#s12" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，定义一个排列 $p_{1\sim n}$ 是好的当且仅当对于 $\forall i\in[1,n]$ 均有：</p>
 <ul>
 <li>令 $x=a_{p_i},y=\max_{j=1}^{i-1}a_{p_j}$，满足 $2x\le y$ 或 $2y\le x$。</li>
@@ -196,7 +196,7 @@ $$\begin{cases}l\le |A|+|D|\le r\\sum_{p=1}^n\text{deg}(p)=\sum_{q=n+1}^{2n}\tex
 <p><strong>考虑最终序列的所有前缀最大值，设其为 $b_{1\dots k}$，尝试向其中插入序列剩余的数</strong>。由题目的限制及前缀最值的限制，所有 $2a_j&gt;b_{i-1}$ 且不为 $b_{i-1}$ 的数均在 $b_i$ 后面。观察限制的形式，发现其不会成环，可将其看作<strong>树拓扑序计数问题</strong>。</p>
 <p>后缀和优化 DP 即可，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s12"><a href="https://www.luogu.com.cn/problem/CF1810G">The Maximum Prefix</a></h3>
+<h3 id="s13"><a href="https://www.luogu.com.cn/problem/CF1810G">The Maximum Prefix</a><a class="anchor" href="#s13" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $p_{1\sim n}$，由其生成一个长为 $n$ 的序列 $a_{1\sim n}$，其中 $a_i$ 有 $p_i$ 的概率为 $1$ 以及 $1-p_i$ 的概率为 $-1$。</p>
 <p>再给你一个长为 $n+1$ 的序列 $h_{0\sim n}$，定义一个序列的权值为 $h_v$，其中 $v$ 为该序列的最大前缀和。</p>
 <p>对 $\forall k\in[1,n]$ 求出 $a_{1\sim k}$ 的期望权值，对 $10^9+7$ 取模。</p>
@@ -213,7 +213,7 @@ $$\begin{cases}l\le |A|+|D|\le r\\sum_{p=1}^n\text{deg}(p)=\sum_{q=n+1}^{2n}\tex
 <p>$$g_{i,j}\gets (1-p_i)\cdot g_{i-1,\max(0,j-1)}$$</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s13"><a href="https://www.luogu.com.cn/problem/AT_agc056_b">Range Argmax</a></h3>
+<h3 id="s14"><a href="https://www.luogu.com.cn/problem/AT_agc056_b">Range Argmax</a><a class="anchor" href="#s14" aria-label="本节链接">#</a></h3>
 <p>给定整数 $n$ 以及 $m$ 个区间 $[l_i,r_i]$，求出可以通过如下方式生成的序列 $x_{1\sim m}$ 的个数。</p>
 <ul>
 <li>取一个长为 $n$ 的排列 $p_{1\sim n}$。令 $x_i$ 为 $\argmax_{j=l_i}^{r_i} p_j$。</li>
@@ -228,7 +228,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>其中 $t_{l,r,k}$ 表示 $\displaystyle\min_{l\le l_i\le k\le r_i\le r} l_i$，可以预处理。</p>
 <p>时间复杂度 $O(n^3+nm)$。</p>
 <hr />
-<h3 id="s14"><a href="https://www.luogu.com.cn/problem/AT_agc064_d">Red and Blue Chips</a></h3>
+<h3 id="s15"><a href="https://www.luogu.com.cn/problem/AT_agc064_d">Red and Blue Chips</a><a class="anchor" href="#s15" aria-label="本节链接">#</a></h3>
 <p>给你 $n$ 个长为 $1$ 的字符串 $s_{1\sim n}$，字符集为 <code>R</code> 或 <code>B</code>，保证 $s_n$ 为 <code>B</code>。</p>
 <p>你需要对每个 $i=1,2,\cdots ,n-1$ 执行以下操作：</p>
 <ul>
@@ -244,7 +244,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>设 $f_{i,j,k}$ 表示向序列 $x$ 中填入了所有 $\ge i$ 的数，已经填了 $j$ 个，和为 $k$ 的方案数，转移枚举序列中 $i$ 的数量 $t$ 即可。需要特殊处理 $x_c$，作为初始值。</p>
 <p>注意到有效状态与转移的 $i(j+t)\le n$，复杂度量级为 $\sum_{i,j,k,t}[i(j+t)\le n]=O(n^3)$。</p>
 <hr />
-<h3 id="s15"><a href="https://www.luogu.com.cn/problem/CF1765C">Card Guessing</a></h3>
+<h3 id="s16"><a href="https://www.luogu.com.cn/problem/CF1765C">Card Guessing</a><a class="anchor" href="#s16" aria-label="本节链接">#</a></h3>
 <p>有四种花色的牌各 $n$ 张，将它们随机打乱。接下来你从牌堆中逐张地取出牌，取牌之前你将会猜这张牌的花色为「之前抽出的 $k$ 张牌中出现次数最少的花色」。如果有多种花色都是最少的，你将会随机地猜⼀种。如果之前抽出的牌不⾜ $k$ 张，就按之前的所有牌中的最少花色来猜。</p>
 <p>求你猜对的期望次数，对 $998244353$ 取模。</p>
 <p>$n\le 5000$。</p>
@@ -256,7 +256,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>考虑有最小值的限制，不妨考虑以值域维度的某个方向作为转移方向。设 $f_{i,j,k}$ 表示已经填了所有 $c_p\ge j$，其中已经填了 $i$ 个 $c_p$，$\sum c$ 为 $k$ 时的贡献和。在第一次转移到 $i=4$ 的状态时乘入贡献即可。时间复杂度 $O(n^2)$。</p>
 <p>其中的思想为<strong>通过改变 DP 顺序，使得目标限制和过程中某状态或最终状态吻合，减少一维枚举或状态。</strong></p>
 <hr />
-<h3 id="s16"><a href="https://www.luogu.com.cn/problem/CF1608F">MEX counting</a></h3>
+<h3 id="s17"><a href="https://www.luogu.com.cn/problem/CF1608F">MEX counting</a><a class="anchor" href="#s17" aria-label="本节链接">#</a></h3>
 <p>给定整数 $n$ 和 $k$ 以及一个长度为 $n$ 的整数序列 $b_{1\sim n}$。</p>
 <p>求有多少个值域为 $[0,n]$ 的序列 $a$ 满足 $\forall i\in[1,n],|\text{mex}\{a_1,a_2,\dots,a_i\}-b_i| \le k$，对 $998244353$ 取模。</p>
 <p>$n \le 2000$，$k \le 50$。</p>
@@ -269,7 +269,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>由于对于一个 $i$，合法的 $j$ 只有 $O(k)$ 种取值，时间复杂度 $O(n^2k)$。</p>
 <p>考虑本题状态的生成顺序：对于一个状态，我们将 $(i,a_i)$ 画在坐标系上，按照下标顺序确定 $a_i$ 相当于确定一个向左的半平面内的点；按值域确定则是确定一个向下的半平面；而本题中的转移顺序则为确定一个左下矩形，而其中矩形的上方部分既不能先决策，也不能完全不决策。</p>
 <hr />
-<h3 id="s17"><a href="https://vjudge.net.cn/contest/654718#problem/C">Bus Analysis</a></h3>
+<h3 id="s18"><a href="https://vjudge.net.cn/contest/654718#problem/C">Bus Analysis</a><a class="anchor" href="#s18" aria-label="本节链接">#</a></h3>
 <p>数轴上有 $n$ 个点 $p_{1\dots n}$，有两种线段，第一种长为 $20$，费用为 $1$，第二种长为 $75$，费用为 $3$。</p>
 <p>定义一个点集的权值为使用这两种线段覆盖点集内所有点的最小费用，求出这 $n$ 个点的所有子集的权值之和。</p>
 <p>$n\le 1000$。</p>
@@ -290,7 +290,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>最终答案为 $x\sum_{a,b,c}f_{n,x,a,b,c}$，则可在转移过程中 $x$ 增加时计入答案，将 $x$ 一维省去。</p>
 <p>令 $v=75$，则复杂度为 $O(nv^3)$。</p>
 <hr />
-<h3 id="s18"><a href="https://www.luogu.com.cn/problem/AT_arc118_e">Avoid Permutations</a></h3>
+<h3 id="s19"><a href="https://www.luogu.com.cn/problem/AT_arc118_e">Avoid Permutations</a><a class="anchor" href="#s19" aria-label="本节链接">#</a></h3>
 <p>对于一个长为 $n$ 的排列 $p_{1\sim n}$，定义其权值为在网格图上从 $(0,0)$ 走到 $(n+1,n+1)$ 且不经过任意 $(i,p_i)$ 的方案数。</p>
 <p>给你一个残缺的排列 $p$，求其每种补全方案的权值之和。</p>
 <p>$n\le 500$。</p>
@@ -299,7 +299,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>我们只关心钦定经过的点的 $p$，其余未填位置贡献一个阶乘的系数即可。那么设 $f_{i,j,c}$ 表示钦定经过 $(i,p_i=j)$，有 $c$ 个 $-1$ 位置未考虑的方案数。转移下一个钦定经过的点，时间复杂度 $O(n^5)$。</p>
 <p><strong>转换视角，将对钦定序列 DP 转为对路径本身 DP，将断点转移替换为单步转移</strong>。对路径本身 DP，到达一个点时决策其是否成为钦定经过的关键点，注意一行或一列内不能有超过一个关键点，那么设 $f_{i,j,c,0/1,0/1}$ 表示当前走到点 $(i,j)$，钦定了 $c$ 个可动关键点，第 $i$ 列、第 $j$ 行内是否有关键点，时间复杂度 $O(n^3)$。</p>
 <hr />
-<h3 id="s19"><a href="https://www.luogu.com.cn/problem/P8329">[ZJOI2022] 树</a></h3>
+<h3 id="s20"><a href="https://www.luogu.com.cn/problem/P8329">[ZJOI2022] 树</a><a class="anchor" href="#s20" aria-label="本节链接">#</a></h3>
 <p>有两棵有根树 $T_1,T_2$，其中第一棵树中父亲的编号小于儿子的编号，第二棵树中父亲的编号大于儿子的编号。给你一个整数 $n$，对 $\forall i\in[2,n]$ 求出，有多少 $i$ 个结点的 $T_1,T_2$ 满足对于任意结点 $p$，其恰好在其中一棵树上为叶子结点。</p>
 <p>$n\le 500$。</p>
 <hr />
@@ -321,7 +321,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 </ul>
 <p>时间复杂度 $O(n^3)$，可以通过。</p>
 <hr />
-<h3 id="s20"><a href="https://www.luogu.com.cn/problem/CF1967E1">Again Counting Arrays</a></h3>
+<h3 id="s21"><a href="https://www.luogu.com.cn/problem/CF1967E1">Again Counting Arrays</a><a class="anchor" href="#s21" aria-label="本节链接">#</a></h3>
 <p>给定三个整数 $n,m,b_0$，定义一个长为 $n$ 的序列 $b_{1\sim n}$ 是好的当且仅当 $\forall i\in[1,n],|b_i-b_{i-1}|=1,b_i\ne a_i$。求有多少值域在 $[1,m]$ 中的序列 $a_{1\sim n}$ 使得存在一个合法的 $b_{1\sim n}$。多组数据。</p>
 <p>$n,m\le 2\times 10^5$，$\sum n\le 2\times 10^5$。</p>
 <hr />
@@ -332,7 +332,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>旋转坐标系，转化为<strong>格路计数</strong>问题，向右走一步带有 $m-1$ 的系数，不允许跨过直线 $y=x$ 和 $y=x+m-1$。系数贡献在外计算，反射容斥求路径数量。时间复杂度 $O(n^2/m)$。</p>
 <p>平衡一下，时间复杂度 $O(n\sqrt n)$。</p>
 <hr />
-<h3 id="s21"><a href="https://www.luogu.com.cn/problem/P9385">阴阳阵</a></h3>
+<h3 id="s22"><a href="https://www.luogu.com.cn/problem/P9385">阴阳阵</a><a class="anchor" href="#s22" aria-label="本节链接">#</a></h3>
 <p>有一个共有 $n+m$ 个结点的内向基环树森林，其中前 $n$ 个点为白点，后 $m$ 个点为黑点。其为好的当且仅当：</p>
 <ul>
 <li>所有黑点均指向白点。</li>
@@ -359,7 +359,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>在三个状态之间互相转移。</p>
 <p>时间复杂度 $O(nm)$。</p>
 <hr />
-<h3 id="s22"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2142&amp;pid=1">[2024 联考 I Day7] 连通</a></h3>
+<h3 id="s23"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2142&amp;pid=1">[2024 联考 I Day7] 连通</a><a class="anchor" href="#s23" aria-label="本节链接">#</a></h3>
 <p>给定一棵 $n$ 个点的树，第 $i$ 个结点有权值 $a_i$。一个非空连通块合法当且仅当：</p>
 <ul>
 <li>连通块内点权值的最大公约数等于 $1$；</li>
@@ -373,7 +373,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p><strong>考虑枚举 $s\cup t$，再将贡献乘上将其划分为 $s,t$ 的方案数</strong>。当连通块内 $s\cup t$ 这些位均相同时有恰好一种划分方式，否则没有。</p>
 <p>直接 DP 即可，时间复杂度 $O(2^{\omega(y)}n)$。</p>
 <hr />
-<h3 id="s23"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=2">[2024 联考 IV Day7] 不连续子串 / subseq</a></h3>
+<h3 id="s24"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=2">[2024 联考 IV Day7] 不连续子串 / subseq</a><a class="anchor" href="#s24" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\dots n}$，你需要求出其所有本质不同非空子序列的本质不同非空子序列数量之和。</p>
 <p>$n\le 8000$。</p>
 <hr />
@@ -389,7 +389,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>其中第一条限制是为了限制 $T$ 为 $S$ 中最左的，后两条限制是为了限制 $S$ 为最左的。</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s24"><a href="https://pjudge.ac/contest/1114/problem/21741">青鱼和区间</a></h3>
+<h3 id="s25"><a href="https://pjudge.ac/contest/1114/problem/21741">青鱼和区间</a><a class="anchor" href="#s25" aria-label="本节链接">#</a></h3>
 <p>给定一个整数 $n$，你需要选出若干 $[1,n]$ 的不同子区间 $[l_1,r_1],[l_2,r_2],\dots ,[l_k,r_k]$。现有一个未知的整数 $x\in[1,n]$，你将会对于 $\forall i\in[1,k]$ 得知 $x$ 是否在 $[l_i,r_i]$ 中。</p>
 <p>求出有多少种选择区间的方案使得可以根据得到的信息确定出唯一的 $x$。</p>
 <p>$n\le 300$。</p>
@@ -413,7 +413,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>直接转移即可，时间复杂度 $O(n^3)$。</p>
 <p><strong>本题的推导过程中，若关注了所有等价类的下标区间则难以求出区间选择方案数，但若只关注最外一层的等价类区间，那么就可以将内外分离来看，找到相似子结构了。</strong></p>
 <hr />
-<h3 id="s25"><a href="https://www.luogu.com.cn/problem/P4707">重返现世</a></h3>
+<h3 id="s26"><a href="https://www.luogu.com.cn/problem/P4707">重返现世</a><a class="anchor" href="#s26" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $p_{1\sim n}$ 以及一个常数 $k$。有 $n$ 类物品，每一次以 $p_i$ 为权随机一个物品，当随出 $k$ 种不同的物品时停止，求随机的期望次数。</p>
 <p>$n\le 1000$，$k\ge n-10$，$\sum p\le 10^4$。</p>
 <hr />
@@ -424,7 +424,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>由于有 $\binom{x}{k}=\binom{x-1}{k-1}+\binom{x-1}{k}$，我们将状态改写为 $f_{i,j,t}$ 表示考虑到 $i$，$\sum p$ 为 $j$ 时 $(-1)^{|T|}\binom{|T|-1}{t}$ 之和，可以转移。</p>
 <p>时间复杂度 $O(nmk)$。</p>
 <hr />
-<h3 id="s26"><a href="https://www.luogu.com.cn/problem/P10547">排列游戏</a></h3>
+<h3 id="s27"><a href="https://www.luogu.com.cn/problem/P10547">排列游戏</a><a class="anchor" href="#s27" aria-label="本节链接">#</a></h3>
 <p>给定整数 $n,m$，对满足下列条件的长为 $n$ 的排列 $p_{1\sim n}$ 计数：</p>
 <ul>
 <li>可以通过恰好操作 $n$ 次「选择 $1\le i&lt;j\le n$，交换 $p_i,p_j$」操作使得 $p_i=i$。</li>
@@ -441,7 +441,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 <p>注意到转移一步 $j$ 至多加一，而每一步转移均会将 $j$ 计入 $k$ 中，所以只有前 $O(\sqrt m)$ 个 $j$ 是有用的，时间复杂度 $O(nm^{3/2})$，可以通过。</p>
 <p>还有另一个角度来理解这个 DP：记录左下角正方形 $1\le x,p_x\le i$ 的点数。</p>
 <hr />
-<h3 id="s27"><a href="https://www.luogu.com.cn/problem/P6383">Resurrection</a></h3>
+<h3 id="s28"><a href="https://www.luogu.com.cn/problem/P6383">Resurrection</a><a class="anchor" href="#s28" aria-label="本节链接">#</a></h3>
 <p>给你一棵 $n$ 个结点的大根树 $T$，边有编号。</p>
 <p>按照如下步骤生成一张包含 $n$ 个节点的无向图 $G$：</p>
 <ul>
@@ -468,7 +468,7 @@ $$f_{l,r,k}=f_{l,r,k+1}+f_{l,k-1,t_{l,r,k}}\cdot f_{k+1,r,k+1}$$</p>
 $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>前缀和优化即可，时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s28"><a href="https://www.luogu.com.cn/problem/P8100">Counting Haybales P</a></h3>
+<h3 id="s29"><a href="https://www.luogu.com.cn/problem/P8100">Counting Haybales P</a><a class="anchor" href="#s29" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，你可以执行任意次如下操作：</p>
 <ul>
 <li>选择一个位置 $i$ 满足 $1\le i&lt;n$ 且 $|a_i-a_{i+1}|=1$，交换 $a_i,a_{i+1}$。</li>
@@ -481,7 +481,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>不妨将所有奇数和所有偶数分开，形成两条链与若干两条链之间的附加边，设 $f_{i,j}$ 表示两条链已经分别加入了 $i,j$ 个点的方案数即可转移。</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s29"><a href="https://qoj.ac/contest/1522/problem/8049">Equal Sums</a></h3>
+<h3 id="s30"><a href="https://qoj.ac/contest/1522/problem/8049">Equal Sums</a><a class="anchor" href="#s30" aria-label="本节链接">#</a></h3>
 <p>给出两个整数 $n$ 以及四个长为 $n$ 的序列 $l_{1\sim n}^{(x)},r_{1\sim n}^{(x)},l_{1\sim n}^{(y)},r_{1\sim n}^{(y)}$，对于 $\forall p,q\in[1,n]$，求有多少对长为 $n$ 的正整数序列 $a_{1\sim p},b_{1\sim q}$ 满足：</p>
 <ul>
 <li>$l_i^{(x)}\le a_i\le r_i^{(x)}$；</li>
@@ -496,7 +496,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>我们钦定当 $v\le 0$ 时确定 $a_{i+1}$，否则确定 $b_{j+1}$，这样我们就将第三维的范围限制为 $O(v)$。容易发现，每对合法的序列对应至恰好一种生成顺序，算法正确。</p>
 <p>使用前缀和优化，时间复杂度 $O(n^2v)$。</p>
 <hr />
-<h3 id="s30"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1986&amp;pid=0">[2023 NOI模拟 Day24] 数环</a></h3>
+<h3 id="s31"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1986&amp;pid=0">[2023 NOI模拟 Day24] 数环</a><a class="anchor" href="#s31" aria-label="本节链接">#</a></h3>
 <p>有一张左右部均有 $n$ 个点的二分图，左侧第 $i$ 个点与右侧的第 $1\sim a_i$ 个点之间有连边，问该图有多少个不同的简单环，对 $998244353$ 取模。</p>
 <p>$n\le 5000$。</p>
 <hr />
@@ -507,7 +507,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <p>值得注意的是，我们没有做出任何转化，仅仅是转换视角、将右部点的决策提前便降低了复杂度。</p>
 <hr />
-<h3 id="s31"><a href="https://www.luogu.com.cn/problem/P11458">All Pairs Similarity P</a></h3>
+<h3 id="s32"><a href="https://www.luogu.com.cn/problem/P11458">All Pairs Similarity P</a><a class="anchor" href="#s32" aria-label="本节链接">#</a></h3>
 <p>给定 $n,k$ 以及 $n$ 个整数 $a_{1\sim n}$，保证 $a_i\in(0,2^k)$。定义两个整数 $x,y$ 的相似度为它们的按位与的结果中 $1$ 的数量除以它们的按位或的结果中 $1$ 的数量。对于 $\forall i\in[1,n]$，对于 $\forall j\in[1,n]$ 求出 $a_i$ 与 $a_j$ 的相似度之和，对 $10^9+7$ 取模。</p>
 <p>$n\le 5\times 10^5$，$k\le 20$。</p>
 <hr />
@@ -519,7 +519,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>二项式反演可以轻松计算出 $w_{1\sim k}$。我们构造 $g_t=[a_p\sube T]w_{|t|}$，那么容易验证，对于一个 $S$，所有同时是 $S$ 和 $a_p$ 的超集的集合 $T$ 都会作出 $w_{|t|}$ 的贡献，它们的和正好是 $\dfrac{1}{|s\cup a_p|}$。</p>
 <p>时间复杂度 $O(2^kk+n)$。</p>
 <hr />
-<h3 id="s32"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2223&amp;pid=1">[2025 省选模拟 Day8] 神明的迷思</a></h3>
+<h3 id="s33"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2223&amp;pid=1">[2025 省选模拟 Day8] 神明的迷思</a><a class="anchor" href="#s33" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的操作序列 $s_{1\sim n}$ 和一个长为 $m$ 的数轴，操作有 <code>LR</code> 两种，若现在的位置为 $p$，则：</p>
 <ul>
 <li>若当前操作为 <code>L</code>，
@@ -542,7 +542,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p>类似判定型计数，我们需要限制其在 $k+1$ 处不合法，即在第一次忽略 <code>L</code> 操作之前存在一个 $p=m$ 的时刻，设 $f_{i,j,0/1}$ 表示执行到第 $i$ 次操作，当前位置为 $j$，是否到达过位置 $m$ 即可。</p>
 <p>时间复杂度 $O(nm^2)$。</p>
 <hr />
-<h3 id="s33"><a href="https://www.luogu.com.cn/problem/P11802">Graph</a></h3>
+<h3 id="s34"><a href="https://www.luogu.com.cn/problem/P11802">Graph</a><a class="anchor" href="#s34" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的残缺排列 $p_{1\sim n}$ 以及一个常数 $c$，定义 $p^{(k)}_i=p_{p^{(k-1)}_i}$，你需要求出有多少种将排列 $p_{1\sim n}$ 补全为 $p'_{1\sim n}$ 的方案使得：</p>
 <ul>
 <li>存在一个排列 $q_{1\sim n}$ 满足 $q^{(c)}_i=p_i$。</li>
@@ -560,7 +560,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p><strong>两维卷积引导我们做分步卷积</strong>，但是有一条额外的同余条件做阻碍。不妨枚举 $c\bmod k_i$，此时同样确定了 $t\bmod k_i$，只对满足余数要求的 $c,t$ 分别做卷积，最终将每个余数的答案加起来即可。</p>
 <p>任何一对 $(j,k,c),(j,k,t)$ 分别只进行一次卷积，时间复杂度为 $n\sum(n/i)^2=O(n^3)$，可以通过。</p>
 <hr />
-<h3 id="s34"><a href="https://www.luogu.com.cn/problem/P8367">[LNOI2022] 盒</a></h3>
+<h3 id="s35"><a href="https://www.luogu.com.cn/problem/P8367">[LNOI2022] 盒</a><a class="anchor" href="#s35" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个盒子排成一排，在初始状态下，第 $i$ 个盒子放有 $a_i$ 个货物，总货物数量为 $m= \sum_{i = 1}^{n} a_i$。对于所有非负整数序列 $b_{1\sim n}$ 满足 $\sum_{i = 1}^{n} b_i = m$，求以下问题的答案之和：</p>
 <ul>
 <li>你可以做如下操作若干次：花费 $w_i$ 的代价将一个货物在盒子 $i$ 与 $i+1$ 之间移动。求出使得第 $i$ 个盒子中需要拥有恰好 $b_i$ 个货物的最小代价。</li>
@@ -578,7 +578,7 @@ $$f_{x,i}=\sum_{j=1}^i\prod_{t}f_{t,i-j+2}$$</p>
 <p><strong>考察 $\bm{f(n,m,i,k)}$ 的定义式的组合意义</strong>，不难想到用格路计数代表组合数，原式组合意义即为枚举一个位置 $0\le p\le k$，求出 $(0,0)\to(i-1,p)\to(i,p)\to(n-1,m)$ 的方案数之和。不难发现。将 $i$ 增加 $1$，只有原先经过 $(i,k)\to(i,k+1)$ 的路径将不再满足条件。</p>
 <p>时间复杂度 $O(T(n+m))$。</p>
 <hr />
-<h3 id="s35"><a href="https://www.luogu.com.cn/problem/P10103">[GDKOI2023] 错排</a></h3>
+<h3 id="s36"><a href="https://www.luogu.com.cn/problem/P10103">[GDKOI2023] 错排</a><a class="anchor" href="#s36" aria-label="本节链接">#</a></h3>
 <p>有 $q$ 组询问，每组询问给出两个整数 $n,m$，求有多少长为 $n$ 的排列 $p_{1\sim n}$ 使得：</p>
 <ul>
 <li>$\forall i\in[1,m]$，$p_i&gt;m$；</li>
@@ -615,7 +615,7 @@ $$f(n,m)=(n+m-1)f(n,m-1)+(m-1)f(n,m-2)$$
 于是我们可以维护 $(n,m,f(n,m),f(n,m+1))$ 四元组，可通过上述三条式子实现 $O(1)$ 将 $n,m$ 增减一。</p>
 <p><strong>使用莫队算法解决 $\bm q$ 组询问</strong>，时间复杂度 $O(n\sqrt q)$。</p>
 <hr />
-<h3 id="s36"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2241&amp;pid=1">[2025 NOI模拟 Day9] 旋舞</a></h3>
+<h3 id="s37"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2241&amp;pid=1">[2025 NOI模拟 Day9] 旋舞</a><a class="anchor" href="#s37" aria-label="本节链接">#</a></h3>
 <p>有一个左右分别 $n$ 个点的二分图，其中左部点 $i$ 与右部点 $j$ 之间有边的概率为 $p_{i,j}$。求出该二分图有完美匹配的概率，对 $10^9+7$ 取模。</p>
 <p>$n\le 9$。</p>
 <hr />
@@ -626,7 +626,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>其中 $P(S,T)$ 表示考虑 $S,T$ 的导出子图，$N(S)=T$ 的概率，$E(S,T)$ 表示 $S,T$ 间无边的概率。式子中乘上 $F(S-S',T-T')$ 的原因是，若该部分不合法，选取其中的代表元可以得到一个更优的代表元，反之则不可能得到更优的代表元。</p>
 <p>时间复杂度 $O(9^n)$。</p>
 <hr />
-<h3 id="s37"><a href="http://8.138.223.198/p/6">[广东省队集训 2025] 白</a></h3>
+<h3 id="s38"><a href="http://8.138.223.198/p/6">[广东省队集训 2025] 白</a><a class="anchor" href="#s38" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的排列 $p_{1\sim n}$，你可以对其执行一次如下操作：</p>
 <ul>
 <li>选取 $k$ 个不交区间 $[l_1,r_1],\dots,[l_k,r_k]$，分别将 $p_{l_1\sim r_1},\dots,p_{l_k\sim r_k}$ 升序排序。</li>
@@ -638,7 +638,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>不合法区间必定存在一个 $v$ 使得 $\le v$ 的数构成一个前缀，于是可以按值域从小到大扫描，将 $\le v$ 的数记为 $1$，每形成一个 $1$ 的连续段将其与其后的 $0$ 连续段做矩形加。线段树优化 DP 即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s38"><a href="https://www.luogu.com.cn/problem/P12264">咏叹调调律</a></h3>
+<h3 id="s39"><a href="https://www.luogu.com.cn/problem/P12264">咏叹调调律</a><a class="anchor" href="#s39" aria-label="本节链接">#</a></h3>
 <p>对于一个字符集为 $\{\tt A,B,C\}$ 的字符串，若其可通过不断删去其中的 $\tt AB,CA,AAA,CCB$ 子序列将其删空，则称该串是好的。</p>
 <p>给定常数 $p,q,r$，对于一个好的串，若其中分别有 $a,b,c$ 个 $\tt A,B,C$，那么定义其权值为 $p^aq^br^c$。</p>
 <p>给定正整数 $n$，对于所有的 $1\le k\le n$，求出所有长为 $k$ 的好的串的权值和，对 $998244353$ 取模。</p>
@@ -655,7 +655,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>当出现 $\tt B$ 时，优先考虑与当前未配对的 $\tt A_L$ 匹配，再考虑与当前可反悔的 $\tt A_LA_R$ 进行匹配，最后尝试匹配 $\tt CCB$；若存在已配对的 $\tt A_LA_R$ 时再出现 $\tt A_R$，那么必定将其匹配为 $\tt A_LA_RA_R$，如果不这么做则此时必定存在两个 $\tt C$，下次出现 $\tt B$ 必定可匹配一组 $\tt CCB$。</p>
 <p>直接枚举添加的字符类型做 DP 即可，时间复杂度 $O(n^3)$。</p>
 <hr />
-<h3 id="s39"><a href="https://vjudge.net/contest/713031#problem/C">Harsh Comments</a></h3>
+<h3 id="s40"><a href="https://vjudge.net/contest/713031#problem/C">Harsh Comments</a><a class="anchor" href="#s40" aria-label="本节链接">#</a></h3>
 <p>给定 $n,m$，有 $n$ 个一类物品以及 $m$ 个二类物品，重量分别为 $a_{1\sim n}$ 和 $b_{1\sim m}$。每一次操作均会在还未取出的物品中按照重量均匀随机地取出一件物品，问取出所有一类物品的期望操作次数。答案对 $998244353$ 取模。</p>
 <p>$n,m\le 500$，$a_i\le 500$。</p>
 <hr />
@@ -664,7 +664,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>注意要求 $O(nmv)$ 个分数之和，可以先分数求和再求逆。</p>
 <p>时间复杂度 $O(nmv+n^2v)$。</p>
 <hr />
-<h3 id="s40"><a href="https://www.luogu.com.cn/problem/P12152">催眠术</a></h3>
+<h3 id="s41"><a href="https://www.luogu.com.cn/problem/P12152">催眠术</a><a class="anchor" href="#s41" aria-label="本节链接">#</a></h3>
 <p>给定 $n,m,v$ 以及一个长为 $m$ 的值域在 $[1,v]$ 中的整数序列 $a$，再给定一个大小为 $n \times (m+1)$ 的矩阵 $c_{1\sim n,0\sim m}$。</p>
 <p>定义一个整数序列是好的，当且仅当它的值域在 $[1,v]$ 中且所有值域在 $[1,v]$ 的长为 $m$ 的整数序列都是它的子序列。</p>
 <p>定义一个好的整数序列 $b$ 的价值为 $\prod\limits_{i=1}^n c_{i,p_i}$，其中 $p_i$ 为 $a$ 的最长前缀长度使得 $a_{1 \sim p_i}$ 是 $b_{1\sim i}$ 的一个子序列，若不存在则 $p_i = 0$。</p>
@@ -680,8 +680,8 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 </ul>
 <p><strong>其特点为转移不相交且转移的终止位置需要起始位置的信息，不妨新开状态表示当前处于一段转移，并在开启一段转移的时候提前将贡献乘入</strong>。</p>
 <p>时间复杂度 $O(n^3)$，可以通过。</p>
-<h1>最优化</h1>
-<h3 id="s41"><a href="https://pjudge.ac/contest/951/problem/21655">双向奔赴</a></h3>
+<h1 id="s42">最优化<a class="anchor" href="#s42" aria-label="本节链接">#</a></h1>
+<h3 id="s43"><a href="https://pjudge.ac/contest/951/problem/21655">双向奔赴</a><a class="anchor" href="#s43" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 个点的无向图，你需要给每条边定向。对于每条边 $(u,v)$，将其定向为 $u\to v$ 和 $v\to u$ 分别有一个代价，求使得图强连通的最小代价。</p>
 <p>$n\le 18$。</p>
 <hr />
@@ -690,7 +690,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>路径单独分开算是不优秀的，我们不妨直接以当前点集（一个强连通分量加上一条从其中向外连的路径）为状态尝试转移。注意到我们并不知道哪些点属于强连通分量，但从一个强连通分量开始拓展时我们可以事先预设路径终点。于是我们沿用 $g_s$，重新设 $f_{s,i,j}$ 表示当前点集为 $s$，当前路径终点为 $i$，我们设定的路径终点为 $j$，可以转移，时间复杂度 $O(2^nn^3)$。</p>
 <p>启示<strong>将多个状态合并考虑</strong>。</p>
 <hr />
-<h3 id="s42"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2176&amp;pid=0">[2024 联考 II Day3] 换换</a></h3>
+<h3 id="s44"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2176&amp;pid=0">[2024 联考 II Day3] 换换</a><a class="anchor" href="#s44" aria-label="本节链接">#</a></h3>
 <p>有一个长为 $n$ 的正整数序列 $a_1,a_2,\dots,a_n$ 和两个参数 $l,r$。每次操作可以交换 $a$ 中某两个数。</p>
 <p>当序列满足 $\exists k\in[1,n],l\le\left(\displaystyle\sum_{i=1}^k a_i\right)\le r$ 时操作结束。请求出最小的操作次数。</p>
 <p>$\sum n\le 10^4$，$n,r,a_i\le 5\times 10^3$。</p>
@@ -700,7 +700,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>发现<strong>每种合法方案必然有一种不劣于它的方案被统计到</strong>，算法正确。</p>
 <p>时间复杂度 $O(nv)$。</p>
 <hr />
-<h3 id="s43"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2193&amp;pid=0">[2024 联考 IV Day1] 最优划积树法则 / tree</a></h3>
+<h3 id="s45"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2193&amp;pid=0">[2024 联考 IV Day1] 最优划积树法则 / tree</a><a class="anchor" href="#s45" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个结点的树，其中点 $i$ 带有点权 $v_i\in\{0,1,2\}$。</p>
 <p>再给定一个常数 $k$，你要选出尽量多互不相交的连通块使得每个连通块的点权和均为 $k$。</p>
 <p>$n\le 10^6$。</p>
@@ -715,7 +715,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>时间复杂度 $O(n)$。</p>
 <p>类似最优化问题可以考虑<strong>奇偶性</strong>。</p>
 <hr />
-<h3 id="s44"><a href="https://www.luogu.com.cn/problem/P10220">[省选联考 2024] 迷宫守卫</a></h3>
+<h3 id="s46"><a href="https://www.luogu.com.cn/problem/P10220">[省选联考 2024] 迷宫守卫</a><a class="anchor" href="#s46" aria-label="本节链接">#</a></h3>
 <p>有一颗深度为 $n+1$ 的完全二叉树，其叶子上依次标有一个长为 $2^n$ 排列 $a$，非叶结点有选择代价 $b_i$。Alice、Bob 两人进行游戏。Alice 可以选择一些选择代价和不超过 $m$ 的非叶结点，此后 Bob 会从根开始深度优先搜索，有一初始为空的序列 $p$，设当前 Bob 在 $x$ 结点，</p>
 <ul>
 <li>若 $x$ 结点为叶子，则将 $a_x$ 加入序列 $p$ 末尾；</li>
@@ -734,7 +734,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>每次计算 $g$ 如果都在所需的儿子的 $f$ 中二分，时间复杂度为 $O(2^nn^3)$，无法通过。注意到 $\min_{y&gt;h_{i}}f_{*,y}$ 在 $h_i$ 确定后是不变的，可以在确定 $h_i$ 时就处理出，则每次更新一个点到根的复杂度降至 $O(n)$，总时间复杂度 $O(2^nn^2)$，可以通过。</p>
 <p>注意到 $g$ 的转移方式仅与 $h$ 相关，可以在 $h_i$ 从 $-1$ 变为非 $-1$ 时算一下 $g_i$ 对 $g_1$ 的贡献。设定 $g_i,h_i$ 后可直接 $O(1)$ 求出对 $g_1$ 的贡献，时间复杂度降至 $O(2^nn)$。</p>
 <hr />
-<h3 id="s45"><a href="https://www.luogu.com.cn/problem/CF1523F">Favorite Game</a></h3>
+<h3 id="s47"><a href="https://www.luogu.com.cn/problem/CF1523F">Favorite Game</a><a class="anchor" href="#s47" aria-label="本节链接">#</a></h3>
 <p>有一个平面，其上有 $n$ 个传送门 $(p_i,q_i)$ 以及 $m$ 个任务 $(x_i,y_i,t_i)$。传送门初始均为关闭状态，第 $i$ 个任务要求玩家在 $t_i$ 时刻位于点 $(x_i,y_i)$。</p>
 <p>玩家选择一个整点并在 $0$ 时刻到达，接下来每秒玩家可以不动或向上下左右走一步。当玩家到达一个未激活传送门时此传送门被激活，之后玩家在任意时刻任意位置都可以立刻瞬移到这个传送门。求玩家最多可以完成几个任务。</p>
 <p>$n\le 14$，$m\le 100$。</p>
@@ -743,7 +743,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>传送门和任务点之间有四种转移，发现从传送门的转移不需要知道现在在哪个点，从任务点的转移的时间是确定的，所以分离状态设 $f_{s,j}$ 表示已经开启了 $s$ 的传送门，现在在某个传送门，已经完成了 $j$ 个任务的最小时间，$g_{s,i}$ 表示已经开启了 $s$ 的传送门，时刻 $t_i$ 在任务点 $i$，最多完成几个任务，可以做到 $O(2^nm^2)$。</p>
 <p>启示<strong>将多个状态分离考虑，某些状态不需要某些信息</strong>。</p>
 <hr />
-<h3 id="s46"><a href="https://qoj.ac/contest/819/problem/2548">Juggler's Trick</a></h3>
+<h3 id="s48"><a href="https://qoj.ac/contest/819/problem/2548">Juggler's Trick</a><a class="anchor" href="#s48" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个球排成一排，有红蓝白三色，给定 $a,b$，你可以选择连续的 $a+b$ 个球满足其中红球数为 $a$ 且蓝球数为 $b$ 并将这些球删去。你需要将白球确定为红蓝某色，然后进行若干次操作，求出最多删去多少个球。</p>
 <p>$n\le 2\times 10^5$。</p>
 <hr />
@@ -757,7 +757,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 </ul>
 <p>三维偏序，直接 CDQ 即可，时间复杂度 $O(n\log^2n)$。</p>
 <hr />
-<h3 id="s47"><a href="https://www.luogu.com.cn/problem/AT_joisc2019_h">ランプ / Lamps</a></h3>
+<h3 id="s49"><a href="https://www.luogu.com.cn/problem/AT_joisc2019_h">ランプ / Lamps</a><a class="anchor" href="#s49" aria-label="本节链接">#</a></h3>
 <p>给你一个 01 序列 $a_{1\sim n}$。有 $n$ 盏灯，初始全为关闭状态，你需要对其进行若干次操作使得其状态变为 $a_{1\sim n}$。有三种可以执行的操作，每种操作中你可以选择一个区间 $[l,r]$：</p>
 <ul>
 <li>关闭 $[l,r]$ 内所有灯；</li>
@@ -770,14 +770,14 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>我们不难<strong>将所有翻转操作挪到赋值操作后面</strong>。于是现在就是先进行若干赋值操作再进行若干翻转操作。注意到<strong>赋值操作和翻转操作均互不相交</strong>，于是设 $f_{i,0/1/2,0/1}$ 表示 $i$「不赋值 / 赋值为 $0$ / 赋值为 $1$」「不翻转 / 翻转」即可。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s48"><a href="https://www.luogu.com.cn/problem/P10197">Minimum Sum of Maximums P</a></h3>
+<h3 id="s50"><a href="https://www.luogu.com.cn/problem/P10197">Minimum Sum of Maximums P</a><a class="anchor" href="#s50" aria-label="本节链接">#</a></h3>
 <p>有一个长为 $n$ 的序列 $a_{1\dots n}$，初始有 $k$ 个位置 $a_{p_1}\dots a_{p_k}$ 已经有值，其余位置均无值。此外还有 $n-k$ 个数 $b_{1\dots n-k}$，你需要将它们放入初始无值的位置并最小化 $\sum_{i=1}^{n-1}\max(a_i,a_{i+1})$。</p>
 <p>$n\le 300$，$k\le \min(n,6)$。</p>
 <hr />
 <p>最小化 $\sum\max(a_i,a_{i+1})$ 等价于最小化 $\sum|a_i-a_{i+1}|$。固定的点将序列划分为若干段，要将剩余的数填进去。注意到一个区间内填的数必然是有序的，所以只需要考虑给这个区间填的最小值和最大值，不妨设为 $l_i,r_i$，若这个区间固定的两端点的值分别为 $a_i,b_i$，则这个区间的代价为 $r_i-l_i+|a_i-l_i|+|b_i-r_i|$。使用<strong>调整法</strong>可以说明一定有某种最优方案使得所有的 $[l_i,r_i]$ 不交，使用区间 DP 即可。</p>
 <p>详细题解可见 <a href="https://www.luogu.com.cn/article/6o5kdrh3">详细揭秘：区间 DP 小计</a>。</p>
 <hr />
-<h3 id="s49"><a href="https://codeforces.com/gym/542554/problem/K">[2024 联考 III ACM] Si</a></h3>
+<h3 id="s51"><a href="https://codeforces.com/gym/542554/problem/K">[2024 联考 III ACM] Si</a><a class="anchor" href="#s51" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的单调递增的序列 $a_{1\dots n}$，你需要猜出一个数 $x\in[1,n]$。每次可以询问一个整数 $y$，你将会得到 $y\le a_x$ 是否成立，该次询问会造成 $|a_x-y|$ 的代价且你并不知道该代价。求出确定 $x$ 所需要的最小代价和。</p>
 <p>$n\le 1000$。</p>
 <hr />
@@ -786,7 +786,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>其中对于单个 $k$ 其对应的最小 $y$ 显然可以 $O(1)$ 计算。而经过尝试，$c$ 的绝对值不会超过 $O(\log v)$，于是我们得到了一个 $O(n^3\log v)$ 的算法。</p>
 <p>考虑优化，<strong>优化最优化区间 DP 常用决策单调性</strong>，归纳易证 $f_{l+1,r,c}\le f_{l,r,c}\le f_{l,r+1,c}$，于是我们可以证明 $f_{l,r,c}$ 的决策点 $\text{opt}_c(l,r)$ 满足 $\text{opt}_c(l,r-1)\le\text{opt}_c(l,r)\le \text{opt}_c(l+1,r)$。直接使用决策单调性优化便可做到 $O(n^2\log v)$。</p>
 <hr />
-<h3 id="s50"><a href="https://www.luogu.com.cn/problem/P9266">Nawiasowe podziały</a></h3>
+<h3 id="s52"><a href="https://www.luogu.com.cn/problem/P9266">Nawiasowe podziały</a><a class="anchor" href="#s52" aria-label="本节链接">#</a></h3>
 <p>给出一个长为 $n$ 的括号串以及一个整数 $k$。请将其分为 $k$ 个非空段，使得每段中的合法子串个数之和最小。</p>
 <p>$n\le 10^5$。</p>
 <hr />
@@ -796,7 +796,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>设 $f_x$ 表示 $x$ 子树内至少设置了一个划分点的最小代价，由于有多个子节点所以在转移时还需要辅助数组 $g_{i}$ 表示考虑了 $x$ 的前 $i$ 个子树，钦定在第 $i$ 个子树内设置了分界点的最小代价。转移可以轻松写出，转移方程的形式可以<strong>斜率优化</strong>，注意状态为双关键字，有许多细节。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s51"><a href="https://www.luogu.com.cn/problem/P5021">[NOIP2018] 赛道修建</a></h3>
+<h3 id="s53"><a href="https://www.luogu.com.cn/problem/P5021">[NOIP2018] 赛道修建</a><a class="anchor" href="#s53" aria-label="本节链接">#</a></h3>
 <p>给出一颗 $n$ 个点的树，其有边权。你需要从中选出 $m$ 条不相交的链，最大化这些链的边权和的最小值。</p>
 <p>$n\le 10^5$。</p>
 <hr />
@@ -806,7 +806,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>时间复杂度 $O(n\log n\log v)$。</p>
 <p><strong>利用贪心与调整法，寻找最优答案的性质，降低状态数</strong>。</p>
 <hr />
-<h3 id="s52"><a href="https://www.luogu.com.cn/problem/CF771E">Bear and Rectangle Strips</a></h3>
+<h3 id="s54"><a href="https://www.luogu.com.cn/problem/CF771E">Bear and Rectangle Strips</a><a class="anchor" href="#s54" aria-label="本节链接">#</a></h3>
 <p>给你一个 $2\times n$ 的矩阵 $t_{1\sim 2,1\sim n}$，求最多能切出多少个互不相交的权值和为 $0$ 的子矩阵。</p>
 <p>$n\le 3\times 10^5$。</p>
 <hr />
@@ -824,7 +824,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>时间复杂度 $O(n)$。</p>
 <p><strong>DP 只要使得任何最优合法解都能被生成即可，从而不必要记录所有可能的状态。</strong></p>
 <hr />
-<h3 id="s53"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2039&amp;pid=2">[2023 NOI模拟 Day28] 光</a></h3>
+<h3 id="s55"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2039&amp;pid=2">[2023 NOI模拟 Day28] 光</a><a class="anchor" href="#s55" aria-label="本节链接">#</a></h3>
 <p>数轴上有 $n$ 个点 $(p_1,0),\dots ,(p_n,0)$，以这些点作为圆心，作出 $n$ 个圆，使得没有两个圆相交，求最大总面积和。</p>
 <p>$n\le 5\times 10^6$。</p>
 <hr />
@@ -834,7 +834,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>另一个更强的性质是对于 $r_i\ge \max(r_{i-1},r_{i+1})$，必定有 $r_i=\min(p_i-p_{i-1},p_{i+1}-p_i)$，可以列式计算得出该结论。</p>
 <p>剩余的部分较为平凡，详细见<a href="http://192.168.102.138/JudgeOnline/upload/attachment/file/20220505/20220505092709_46381.pdf">原题解</a>。</p>
 <hr />
-<h3 id="s54"><a href="https://www.luogu.com.cn/problem/P7985">Paired Up P</a></h3>
+<h3 id="s56"><a href="https://www.luogu.com.cn/problem/P7985">Paired Up P</a><a class="anchor" href="#s56" aria-label="本节链接">#</a></h3>
 <p>数轴上有 $n$ 个点，每个点有位置 $x_i$、颜色 $c_i\in\{0,1\}$、权值 $v_i$。</p>
 <p>给你一个常数 $k$，你需要选出一个极大匹配使得每对匹配的点 $i,j$ 均满足 $c_i\ne c_j$ 且 $|x_i-x_j|\le k$。</p>
 <p>输入一个参数 $t\in\{1,2\}$，当 $t=1$ 时求出不在匹配内的点的权值和的最小值；当 $t=2$ 时求出该值的最大值。</p>
@@ -847,7 +847,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>多记录的一维状态 $a/b$ 描述了当前允许所有 H/G 牛和限制 G/H 牛，尝试只记录允许的种类。设 $f_{i,j,0/1}$ 表示 H 牛、G 牛分别考虑到 $i,j$，当前允许所有的 H/G 牛的答案。需要思考更改允许类别的转移，不妨<strong>钦定此时的状态 $(i,j,0)$ 中 $i$ 为最后一头不匹配的 H 牛</strong>，找到最小的 $l\ge j$ 使得 $x_{\text G,l}&gt;x_{\text H,i}+k$，转移至 $(i+l-j+1,l,1)$ 即可。注意此种转移需要 $(x_{\text H,i+1},x_{\text G,j}),(x_{\text H,i+2},x_{\text G,j+1})\dots (x_{\text H,i+l-j},x_{\text G,l-1})$ 均可匹配，可预处理。</p>
 <p>时间复杂度 $O(n^2)$，可以通过。</p>
 <hr />
-<h3 id="s55"><a href="https://www.luogu.com.cn/problem/P4053">[JSOI2007] 建筑抢修</a></h3>
+<h3 id="s57"><a href="https://www.luogu.com.cn/problem/P4053">[JSOI2007] 建筑抢修</a><a class="anchor" href="#s57" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个任务 $(t_i,l_i)$ 表示完成此任务需要 $t_i$ 的时间且该任务的截止时间为时刻 $l_i$。求出最多能完成多少个任务。</p>
 <p>$n\le 1.5\times 10^5$。</p>
 <hr />
@@ -859,7 +859,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 </ul>
 <p>可以使用调整法证明该做法的正确性。时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s56"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2000&amp;pid=0">[2023 NOI模拟 Day8] 菜粥鱼</a></h3>
+<h3 id="s58"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2000&amp;pid=0">[2023 NOI模拟 Day8] 菜粥鱼</a><a class="anchor" href="#s58" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个结点的树以及两个序列 $a_{1\sim n},b_{0\sim n}$。你需要选出若干关键点，选定 $i$ 为关键点会造成 $a_i$ 的花费。设 $c_i$ 表示结点 $i$ 与最近的关键点之间的距离，你将得到 $\sum b_{c_i}$ 的收益。求出收益减花费的最大值。</p>
 <p>$n\le 3000$。</p>
 <hr />
@@ -867,7 +867,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>于是设计状态 $f_{i,j,0/1}$ 表示考虑了子树 $i$，$c_i$ 为 $j$，是否存在一个子节点 $v$ 使得 $c_i=c_v+1$，可以转移。</p>
 <p>时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s57"><a href="https://www.luogu.com.cn/problem/P11189">水杯降温</a></h3>
+<h3 id="s59"><a href="https://www.luogu.com.cn/problem/P11189">水杯降温</a><a class="anchor" href="#s59" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个点的树，根为结点 $1$，点有点权 $v_i$，你可以执行任意次如下操作：</p>
 <ul>
 <li>选择任意结点 $x$，将点 $x$ 的子树内的点权全部减一；</li>
@@ -884,7 +884,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>第一个条件可改为根的点权非负，那么设 $f_i$ 表示子树 $i$ 最多做几次操作二，转移可以二分。</p>
 <p>时间复杂度 $O(\sum n\log v)$。</p>
 <hr />
-<h3 id="s58"><a href="https://www.luogu.com.cn/problem/P9746">合并序列</a></h3>
+<h3 id="s60"><a href="https://www.luogu.com.cn/problem/P9746">合并序列</a><a class="anchor" href="#s60" aria-label="本节链接">#</a></h3>
 <p>给定一个长度为 $n$ 的序列 $a_{1\sim n}$。你可以对这个序列进行若干次操作，每次操作：</p>
 <ul>
 <li>选择三个正整数 $i&lt;j&lt;k$，满足 $a_i\oplus a_j\oplus a_k=0$ 且 $k$ 的值不超过此时序列的长度。记 $s=a_i\oplus a_{i+1}\oplus \cdots\oplus a_k$。</li>
@@ -901,7 +901,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>三个状态分别维护了第二个区间、第一二个区间和全部三个区间的信息，分别枚举一个可进行转移。</p>
 <p>时间复杂度 $O(n^3+n^2v)$，可以通过。</p>
 <hr />
-<h3 id="s59"><a href="https://www.luogu.com.cn/problem/P11218">夏天 / summer</a></h3>
+<h3 id="s61"><a href="https://www.luogu.com.cn/problem/P11218">夏天 / summer</a><a class="anchor" href="#s61" aria-label="本节链接">#</a></h3>
 <p>给你一个 $2\times n$ 的网格，每个格子有黑白之一的颜色。再给你一个常数 $m$。有两人进行博弈，先手在网格上选择一个可空的连通块，后手选择不超过 $m$ 列并交换选出的列中两个格子的颜色。</p>
 <p>两人进行完操作后，定义分数为此时先手选出的连通块内的黑色格子数量减白色格子数量。先手希望最大化分数，而后手希望最小化分数。求出两人都采用最优策略的情况下的分数。</p>
 <p>$n\le 2\times 10^6$。</p>
@@ -910,7 +910,7 @@ $$G(S,T)=P(S,T)-\sum_{\substack{S'\sube S,T'\sube T\\|S'|-|T'|\ge |S|-|T|\\(S,T)
 <p>记录一维 $c$ 是无法接受的，但是由绝对值的性质 $|c-m|=\max(c-m,m-c)$，<strong>取 $\bm{\max}$ 与我们的 DP 取值方向是相同的</strong>，那么可以分别将这种列的分数设为 $1$ 以及 $-1$，进行两次 DP 并取较大值。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s60"><a href="https://pjudge.ac/contest/1114/problem/21743">青鱼和怪兽</a></h3>
+<h3 id="s62"><a href="https://pjudge.ac/contest/1114/problem/21743">青鱼和怪兽</a><a class="anchor" href="#s62" aria-label="本节链接">#</a></h3>
 <p>给定常数 $n,m,p$，其中 $p\in(0,1)$。有一点对 $(a,b)$，初始等于 $(n,m)$，有一整数 $x=0$，接下来：</p>
 <ul>
 <li>当 $a=0$ 时，将 $(a,b)$ 重置为 $(n,m)$；</li>
@@ -932,7 +932,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 <p>那么我们可以二分 $x$ 的值，找到 $f_{n,m}(x)=x$ 即为答案。</p>
 <p>时间复杂度 $O(nm\log v)$。</p>
 <hr />
-<h3 id="s61"><a href="https://www.luogu.com.cn/problem/P3959">[NOIP2017] 宝藏</a></h3>
+<h3 id="s63"><a href="https://www.luogu.com.cn/problem/P3959">[NOIP2017] 宝藏</a><a class="anchor" href="#s63" aria-label="本节链接">#</a></h3>
 <p>给你一个 $n$ 个点的图，初始无边，再给出 $m$ 条带权无向边表示可以建立的边集。你需要选择一个点 $s$ 作为源点，初始你仅可到达源点 $s$，此后你可以选择一条边 $(u,v,w)$ 满足当前 $u$ 可到达且 $v$ 不可到达，花费 $w\cdot d$ 的代价加入边 $(u,v)$，其中 $d$ 表示当前图中 $s$ 到 $u$ 的最短路径长度，路径长度定义为其上的结点数量。</p>
 <p>$n\le 12$，$m\le 1000$。</p>
 <hr />
@@ -941,7 +941,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 <p><strong>由于题目只需最优化，我们无需在状态中记录 $t$，只需用 $s$ 进行转移。若此时有非法转移，那么将此类转移提前进行一定不劣。</strong></p>
 <p>时间复杂度 $O(3^nn)$。</p>
 <hr />
-<h3 id="s62"><a href="https://www.luogu.com.cn/paste/tp8hw0m1">Minimum Cost Paths P</a></h3>
+<h3 id="s64"><a href="https://www.luogu.com.cn/paste/tp8hw0m1">Minimum Cost Paths P</a><a class="anchor" href="#s64" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的网格图以及一个长为 $m$ 的序列 $c_{1\sim m}$。该网格图的边集为：</p>
 <ul>
 <li>$\forall 1\le i\le n,1\le j&lt;m$，$(i,j)$ 向 $(i,j+1)$ 有一条权值为 $i^2$ 的有向边；</li>
@@ -955,7 +955,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 <p>使用栈维护之，进行一列的转移时弹出末尾若干段，进行一次二分即可求出新的断点。</p>
 <p>时间复杂度 $O((m+q)\log n)$。</p>
 <hr />
-<h3 id="s63"><a href="https://www.luogu.com.cn/problem/P11331">Fruits</a></h3>
+<h3 id="s65"><a href="https://www.luogu.com.cn/problem/P11331">Fruits</a><a class="anchor" href="#s65" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的序列 $a_{1\sim n},w_{1\sim n}$，其中 $a_{1\sim n}$ 为一个残缺的排列，$w_{1\sim n}$ 为单调不降序列。对于序列 $b_{1\sim k}$ 定义 $f(b_{1\sim k})$ 为 $b_{1\sim k}$ 中每个前缀最大值 $c$ 的 $w_c$ 之和。</p>
 <p>对于 $\forall k\in[1,n]$，求出将 $a_{1\sim n}$ 补为完整排列后 $f(a_{1\sim k})$ 的最大值。</p>
 <p>$n\le 4\times 10^5$。</p>
@@ -965,7 +965,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 <p>一次转移为 $f_{i,j}\gets \max(g_{i-1},f_{i-1,j-1})+w_{j}$，又因 $f_{i,*}-w_{*}$ 同样单调不降，故维护 $f_{i,j}'=f_{i,j}-w_j$，一次转移为 $f_{i,j}'\gets f_{i-1,j-1}'+w_{j-1}$，再将一个前缀推平为 $g_{i-1}$。需要查询前后端当前值，使用双端队列维护颜色段，打上时间戳标记。</p>
 <p>推平前缀需要在一段内二分出推平位置，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s64"><a href="https://www.luogu.com.cn/problem/P10242">Emiya 家明天的饭</a></h3>
+<h3 id="s66"><a href="https://www.luogu.com.cn/problem/P10242">Emiya 家明天的饭</a><a class="anchor" href="#s66" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 位顾客与 $m$ 道菜品，其中第 $i$ 位顾客对第 $j$ 道菜的满意程度为 $a_{i,j}$，保证 $a_{i,j}\ge -1$。如果上菜集合为 $S$，则对于一个顾客 $i$：</p>
 <ul>
 <li>若 $\exist j\in S$ 且 $a_{i,j}=-1$，则顾客 $i$ 将会离场；</li>
@@ -986,7 +986,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 </ul>
 <p>最后只需做一次高维后缀和，时间复杂度 $O(2^nn+nm)$。</p>
 <hr />
-<h3 id="s65"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1984&amp;pid=2">[2023 NOI模拟 Day22] cut</a></h3>
+<h3 id="s67"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1984&amp;pid=2">[2023 NOI模拟 Day22] cut</a><a class="anchor" href="#s67" aria-label="本节链接">#</a></h3>
 <p>数轴上有 $n$ 个点，点 $i$ 与点 $i+1$ 之间的距离为 $a_i$，初始位于点 $k$。每个点上有一株草，每个时刻草会长高一单位，当你走到点 $p$ 时可以令点 $p$ 的草停止生长。你一个时刻可以走一单位长度，求出最优策略下让所有草停止生长后，它们的高度之和的最小值。</p>
 <p>$n\le 10^6$。</p>
 <hr />
@@ -997,7 +997,7 @@ $$f_{i,j}=\min(p\cdot f_{i,j-1}+(1-p)\cdot f_{i-1,j}+1,f_{n,m})$$</p>
 <p>其正确性不难归纳证明，并且 $f_i,g_i$ 分别单调，故可以使用双端队列维护凸包求解。由于转移成环，我们考虑模拟最短路，每次取出值最小的状态进行转移，不难发现由于单调性，已取出部分形成一个包含 $k$ 的区间 $[l,r]$，每次判断 $f_{l-1},g_{r+1}$ 的大小关系移动端点即可。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s66"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1990&amp;pid=1">[2023 NOI模拟 Day28] 零一串</a></h3>
+<h3 id="s68"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1990&amp;pid=1">[2023 NOI模拟 Day28] 零一串</a><a class="anchor" href="#s68" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的 <code>01</code> 串 $s_{1\sim n},t_{1\sim n}$ 以及三个常数 $w_{0,1,2}$。你需要将 $s$ 变成 $t$，为此你可执行任意次下列操作：</p>
 <ul>
 <li>选择 $s_p=0$，花费 $w_{0}$ 的代价令 $s_p\gets 1$。</li>
@@ -1014,7 +1014,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>我们只需解决第三种转移，那么只需要找到最近的 $j$ 使得 $\sum_{p=j+1}^i(s_p-t_p)=0$，从 $f_j$ 转移至 $f_i$。而由于 $j$ 为最近的满足要求的位置，那么区间中 $s_p-t_p$ 的前缀和均同号，可以直接前缀和解决这段区间的贡献。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s67"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2217&amp;pid=2">[2025 省选模拟 Day2] 异或</a></h3>
+<h3 id="s69"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2217&amp;pid=2">[2025 省选模拟 Day2] 异或</a><a class="anchor" href="#s69" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个点的带边权的树，你需要进行若干次操作，每次操作你可以任意指定两个不同的点 $u,v$，添加一条连接 $u,v$ 的，边权为原来 $u,v$ 之间路径上边权的异或和的边，再断开此时图中任意一条边使得其保持为树。</p>
 <p>对于 $k\in[0,n]$ 求出进行恰好 $k$ 次操作得到的所有树中，边权之和的最小值。</p>
 <p>$n\le 10^5$。</p>
@@ -1027,7 +1027,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>注意处理共线情况。</p>
 <p>每条边只会单侧递归，故时间复杂度 $O(n\log n\log v)$。</p>
 <hr />
-<h3 id="s68"><a href="https://www.luogu.com.cn/problem/P11665">Just Long Neckties 2</a></h3>
+<h3 id="s70"><a href="https://www.luogu.com.cn/problem/P11665">Just Long Neckties 2</a><a class="anchor" href="#s70" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，称 $a_{1\sim n}$ 的一个合法子序列为满足「不存在相邻两个位置都不属于该子序列」的子序列。</p>
 <p>请找到最小的正整数 $k$ 满足存在一个 $a_{1\sim n}$ 的合法子序列 $b_{1\sim m}$ 使得可以将 $b_{1\sim m}$ 划分为不超过 $k$ 个不下降子序列。</p>
 <p>$n\le 5\times 10^6$，$a_i\le 21$。</p>
@@ -1039,7 +1039,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>转移边数很多，不可直接建图，不妨考虑前缀和优化建图，只需要将每个 $s$ 连向将 $s$ 中某一个 $1$ 后移一维得到的状态即可。</p>
 <p>时间复杂度 $O(n+2^vv^2)$。</p>
 <hr />
-<h3 id="s69"><a href="https://www.luogu.com.cn/problem/P12196">Lasers 2</a></h3>
+<h3 id="s71"><a href="https://www.luogu.com.cn/problem/P12196">Lasers 2</a><a class="anchor" href="#s71" aria-label="本节链接">#</a></h3>
 <p>有一个长为 $n$ 的木板，其上有 $m$ 块固定的小木块，其中第 $i$ 块小木块初始覆盖了位置 $[l_i,r_i]$。每块小木块有权值 $w_i$，你可以选择一些权值和不超过 $k$ 的小木块使其不再固定，不再固定的小木块可在木板上任意滑动。一个位置可被多块小木块覆盖。求出最优方案下木板不被任何木块覆盖的长度的最大值。</p>
 <p>$n,m\le 2000$。</p>
 <hr />
@@ -1061,7 +1061,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 </ul>
 <p>按照第一维顺序转移，线段树优化 DP 即可。时间复杂度 $O(n^2\log n)$。</p>
 <hr />
-<h3 id="s70"><a href="http://8.138.223.198/p/5">[广东省队集训 2025] 石堆分裂 </a></h3>
+<h3 id="s72"><a href="http://8.138.223.198/p/5">[广东省队集训 2025] 石堆分裂 </a><a class="anchor" href="#s72" aria-label="本节链接">#</a></h3>
 <p>有一堆石子共 $n$ 个，你希望将其变为 $n$ 堆石子各一个。给定常数 $m$，你可以执行若干次操作，每次操作形如：</p>
 <ul>
 <li>记当前有 $k$ 堆大小分别为 $a_{1\sim k}$ 的石子，你可以指定序列 $b_{1\sim k}$ 满足 $\sum_{i=1}^kb_i\le m$，从第 $i$ 堆中取出 $b_i$ 个作为新的一堆石子。</li>
@@ -1074,7 +1074,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p><strong>弱化条件</strong>为所有位上为 $1$ 的数的个数和不超过 $x\cdot m$，可以直接按照 <code>popcount</code> 从小向大选。<strong>由于每一位的对称性，任何方案均可调整为满足原限制的方案</strong>。</p>
 <p>时间复杂度 $O(T\log^2 n)$。</p>
 <hr />
-<h3 id="s71"><a href="https://www.luogu.com.cn/problem/P14471">[集训队互测 2025] 火花</a></h3>
+<h3 id="s73"><a href="https://www.luogu.com.cn/problem/P14471">[集训队互测 2025] 火花</a><a class="anchor" href="#s73" aria-label="本节链接">#</a></h3>
 <p>给定一颗 $n$ 个点的树，给定常数 $k,t$ 与序列 $c_{1\sim n},v_{1\sim n}$，结点 $i$ 上有 $c_i$ 个价值为 $v_i$ 的物品。</p>
 <p>接下来 A 与 B 先后取物品：</p>
 <ul>
@@ -1116,7 +1116,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>对于跳过子树的部分，记 $g_{p,i}$ 表示 $p$ 子树中 $s_x$ 的前 $i$ 大之和，因为 $g_{p,i}$ 明显是凸的，所以 $f_{i,j,*}$ 与 $g_{p,*}$ 的 $(\max,+)$ 卷积可以通过决策单调性做到 $O(t\log t)\sim O(t)$。</p>
 <p>总时间复杂度 $O(nkt\log t)\sim O(nkt)$。</p>
 <hr />
-<h3 id="s72"><a href="https://www.luogu.com.cn/problem/P14475">大鱼吃小鱼</a></h3>
+<h3 id="s74"><a href="https://www.luogu.com.cn/problem/P14475">大鱼吃小鱼</a><a class="anchor" href="#s74" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 条体型依次为 $a_{1\sim n}$ 的鱼排成一排，给定非负整数 $k$，对于每个 $i$，要操控鱼 $i$ 吃掉其它所有鱼：</p>
 <ul>
 <li>每次可以选择一条与 $i$ 相邻的鱼，如果鱼 $i$ 此时的体型比这条鱼大了至少 $k$，那么可以直接吃掉这条鱼；否则可以使用一次道具直接吃掉这条鱼；</li>
@@ -1161,8 +1161,8 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>接下来要对每个极短大鱼区间求出覆盖其的最短自闭大鱼区间，同样做双指针，移动左端点时加入该左端点的自闭大鱼区间，移动右端点时移除该右端点的自闭大鱼区间，由于区间时刻为大鱼区间，故移除的区间均在栈顶，可以简单维护。</p>
 <p>这样就得到了所有极短大鱼区间的答案，由于极短大鱼区间左右端点均单调，可以直接使用单调队列求出每个 $i$ 的答案。</p>
 <p>时间复杂度 $O(n)$。</p>
-<h1>图论</h1>
-<h3 id="s73"><a href="https://www.luogu.com.cn/problem/P9697">Canvas</a></h3>
+<h1 id="s75">图论<a class="anchor" href="#s75" aria-label="本节链接">#</a></h1>
+<h3 id="s76"><a href="https://www.luogu.com.cn/problem/P9697">Canvas</a><a class="anchor" href="#s76" aria-label="本节链接">#</a></h3>
 <p>有一个长度为 $n$ 的序列 $a_{1\sim n}$，初始 $a_i$ 全为 $0$。另外还有 $m$ 个操作，其中第 $i$ 个操作 $(l_i,r_i,x_i,y_i)$ 为 $a_{l_i}\gets x_i,a_{r_i}\gets y_i$，其中 $x_i,y_i\in\{1,2\}$。每个操作必须恰好执行一次。</p>
 <p>求执行操作的最优顺序，使得所有操作执行完成后，$\sum a_i$ 最大。</p>
 <p>$n,m\le 5\times 10^5$。</p>
@@ -1172,7 +1172,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>建完图缩点，只有入度为 $0$ 的强连通分量会出现一个 $1$。需要注意如果该连通块内有点属于某个 $(2,2)$ 的操作可以从该点开始使得不需要出现 $1$。</p>
 <p>时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s74"><a href="https://www.luogu.com.cn/problem/P9731">Balance</a></h3>
+<h3 id="s77"><a href="https://www.luogu.com.cn/problem/P9731">Balance</a><a class="anchor" href="#s77" aria-label="本节链接">#</a></h3>
 <p>给你一个 $n\times m$ 的值域为 $[1,v]$ 的矩阵 $c_{1\sim n,1\sim m}$，保证 $m$ 是 $2$ 的次幂。你可以任意重排每一行。求一种重排方案，使得 $\forall i,j\in[1,n],k\in[1,v]$ 均有 $k$ 在 $c_{*,i}$ 中的出现次数与在 $c_{*,j}$ 中的出现次数之差不超过 $1$。</p>
 <p>$n,m,v\le 10^5$，$nm\le 10^5$。</p>
 <hr />
@@ -1180,7 +1180,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>列数是 $2$ 的幂，可以考虑<strong>分治</strong>。注意到我们只关注点连的每条边的入度出度，所以左右部分怎样连边都不重要，只需要每个点都连一条边即可。</p>
 <p>时间复杂度 $O(nm\log m)$。</p>
 <hr />
-<h3 id="s75"><a href="https://www.luogu.com.cn/problem/P10367">Żarówki</a></h3>
+<h3 id="s78"><a href="https://www.luogu.com.cn/problem/P10367">Żarówki</a><a class="anchor" href="#s78" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个灯泡，给定初始状态。有 $m$ 个开关，每个开关控制两个灯泡，按下开关可以使这两个灯泡变为与目前状态相反的状态，只有在两个灯泡有相同状态时才起作用，否则不起作用。</p>
 <p>你可以随意安排开关的使用顺序和使用次数，问利用这些开关可以到达多少种不同的状态。</p>
 <p>$n\le 2\times 10^5$，$m\le 4\times 10^5$。</p>
@@ -1192,7 +1192,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 </ul>
 <p>把所有连通块答案乘起来即可，时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s76"><a href="https://www.luogu.com.cn/problem/P8456">地地铁铁</a></h3>
+<h3 id="s79"><a href="https://www.luogu.com.cn/problem/P8456">地地铁铁</a><a class="anchor" href="#s79" aria-label="本节链接">#</a></h3>
 <p>给定一张 $n$ 个点，$m$ 条边的无向连通图。每条边标有 $0$ 或 $1$。</p>
 <p>定义无序点对 $(x, y)$ 是好的，当且仅当 $x \neq y$ 且 $x, y$ 之间存在同时出现 $0$ 和 $1$ 的简单路径。</p>
 <p>求出好的点对数量。</p>
@@ -1208,7 +1208,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>若两点间同时有全 $0$ 路径和全 $1$ 路径但没有同时包含 $0,1$ 的路径，则它们必然同属于一个点双，且一个点双内最多有一个这种点对，存在这种点对当且仅当点双内恰好有两个点的邻边同时拥有两种颜色。证明较为复杂暂略。</p>
 <p>时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s77"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2004&amp;pid=1">[2023 NOI模拟 Day12] 尼伯龙根的思维题</a></h3>
+<h3 id="s80"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2004&amp;pid=1">[2023 NOI模拟 Day12] 尼伯龙根的思维题</a><a class="anchor" href="#s80" aria-label="本节链接">#</a></h3>
 <p>给你一个 $n$ 个点 $m$ 条边带边权的无向图和一个正整数 $t$，问是否有一条从 $1$ 到 $n$ 的路径上的边权和恰好为 $t$。不要求为简单路径。</p>
 <p>$n,m\le 10^5$，$w\le 5\times 10^5$，$10^{15}\le t&lt;2^{64}$。</p>
 <hr />
@@ -1217,7 +1217,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>由于此处 $t$ 足够大，所以只需要判断从 $1$ 到 $n$ 有没有与路径的边权和与 $t$ 奇偶性相同即可。</p>
 <p>时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s78"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2151&amp;pid=1">[2024 省选模拟 Day22] 魔法</a></h3>
+<h3 id="s81"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2151&amp;pid=1">[2024 省选模拟 Day22] 魔法</a><a class="anchor" href="#s81" aria-label="本节链接">#</a></h3>
 <p>有一张 $n\times m$ 的空画布，初始所有格子都是白色的。有黑白两种颜料，你可以对它进行若干次操作，要求绘制出给定的画。你可以执行的操作操作为：</p>
 <ul>
 <li>选取画布中一块 $1\times x$ 或 $x\times 1$ 的矩形区域，将其染为黑色或白色，代价为 $Ax+B$；</li>
@@ -1245,13 +1245,13 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 </ul>
 <p>将 $b,c$ 取反即可化为上述形式，可以最小割。</p>
 <hr />
-<h3 id="s79"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2005&amp;pid=1">[2023 NOI模拟 Day13] 激光塔</a></h3>
+<h3 id="s82"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2005&amp;pid=1">[2023 NOI模拟 Day13] 激光塔</a><a class="anchor" href="#s82" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个激光塔，每个塔有一个面对的方向（上下左右之一），给定常数 $w_1,w_2$，以某种方式给出 $m$ 条边，每个激光塔初始会贡献 $w_1$，让某一个塔向任意方向旋转 $90°$ 会花费 $w_1$ 的代价。对于某条边，如果这条边连接的两个塔方向相同则会有 $w_2$ 的贡献，如果它们方向相反则会有 $w_2$ 的代价。求出贡献和减代价和的最大值。</p>
 <p>$n\le 50$。</p>
 <hr />
 <p>上左下右相邻两个方向间旋转均需要恰好一次，将它们分别编号为 $0,1,3,2$ 后可以用异或刻画旋转次数。同时注意到边给的贡献与旋转的代价是高度对称的，也可以用异或来刻画。于是我们拆变量 $a_i,b_i$ 表示塔 $i$ 状态的两位分别是什么即可。</p>
 <hr />
-<h3 id="s80"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2005&amp;pid=0">[2023 NOI模拟 Day13] 地理微米</a></h3>
+<h3 id="s83"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2005&amp;pid=0">[2023 NOI模拟 Day13] 地理微米</a><a class="anchor" href="#s83" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的网格，有若干位置有标记，你需要用若干 L 字型的纸片覆盖网格，使得每个有标记的位置恰好被一个 L 字型的纸片的中心覆盖，每一个标记与一个纸片一一对应。纸片不允许重叠，可能存在不被任意纸片覆盖的位置。求放纸片的方案数，对 $998244353$ 取模。</p>
 <p>$\sum nm\le 3\times 10^6$。</p>
 <hr />
@@ -1264,7 +1264,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 </ul>
 <p>并查集即可，时间复杂度 $O(nm)$。</p>
 <hr />
-<h3 id="s81"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2191&amp;pid=1">[2024 联考 III Day1] 水管工</a></h3>
+<h3 id="s84"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2191&amp;pid=1">[2024 联考 III Day1] 水管工</a><a class="anchor" href="#s84" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的网格图，每一个格子可以放下一个水管。水管共有六种，形态分别为「与周围 $0$ 个格子相连」/「与周围 $1$ 个格子相连」/「与周围相对的 $2$ 个格子相连」/「与周围相邻的 $2$ 个格子相连」/「与周围 $3$ 个格子相连」/「与周围 $4$ 个格子相连」。称其中「与周围相邻的 $2$ 个格子相连」的水管为高级水管。</p>
 <p>称一个局面是合法的当且仅当所有水管间连接均为双向连接。现在网格图内已经放置了一些高级水管，你需要在其中再放置若干高级水管使得可以再向局面中添加若干任意水管使得局面合法。此外，网格图上还有两种特殊格子，分别要求你「必须在此放置一个高级水管」/「不能在此放置高级水管」。注意这些特殊格子只限制你的放置过程，放完后添加水管使局面合法的过程允许在第二种特殊格子放置高级水管。求出你放置的高级水管数量的最大值或报告无解。</p>
 <p>$n,m\le 100$。</p>
@@ -1274,7 +1274,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>只考虑一行中相邻两个确定状态的边之间的格子，强制好格子要求相邻两边不同，强制坏格子要求相邻两边相同。如果除开强制坏格子外所有格子不能均为好格子则必须选出一个为坏格子。那么称「一段中除开限制格需要有一个坏格子」为一个行限制，同理有列限制。</p>
 <p>如果一个行限制和一个列限制相交且交点格非限制格，那么选交点格可以同时满足两个限制。将它们连边，零度点向虚拟源汇连边，则需要求二分图最小边覆盖，网络流即可。</p>
 <hr />
-<h3 id="s82"><a href="https://www.luogu.com.cn/problem/P10998">Tuple+</a></h3>
+<h3 id="s85"><a href="https://www.luogu.com.cn/problem/P10998">Tuple+</a><a class="anchor" href="#s85" aria-label="本节链接">#</a></h3>
 <p>给出 $m$ 个互不相同的无序三元组 $(u,v,w)$，求有多少无序四元组 $(a,b,c,d)$ 使得三元组 $(a,b,c),(a,b,d),(a,c,d),(b,c,d)$ 均存在。</p>
 <p>$m\le 2\times 10^6$。</p>
 <hr />
@@ -1282,7 +1282,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>考虑类似三元环计数的优化：我们令 $\text{deg}(i)$ 表示包含 $i$ 的三元组数量，则我们将每个三元组内部重排使得其 $\text{deg}(u)\le \text{deg}(v)\le \text{deg}(w)$，其中度数相同的比较编号。</p>
 <p>根据<a href="https://www.luogu.com.cn/article/flblcgsu">分析</a>，将三元组重排后使用上述算法时间复杂度降为 $O(m^{4/3})$。</p>
 <hr />
-<h3 id="s83"><a href="https://www.luogu.com.cn/problem/P11073">Game King</a></h3>
+<h3 id="s86"><a href="https://www.luogu.com.cn/problem/P11073">Game King</a><a class="anchor" href="#s86" aria-label="本节链接">#</a></h3>
 <p>给你一张有向图，求有多少个点 $x$ 满足对于 $\forall y\in[1,n]$ 均有 $x$ 可到达 $y$ 或 $y$ 可到达 $x$。</p>
 <p>$n\le 10^6$，$m\le 3\times 10^6$。</p>
 <hr />
@@ -1291,7 +1291,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>Tarjan 的过程中已经求出了拓扑序，直接维护即可。</p>
 <p>时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s84"><a href="https://www.luogu.com.cn/problem/P7831">Travelling Merchant</a></h3>
+<h3 id="s87"><a href="https://www.luogu.com.cn/problem/P7831">Travelling Merchant</a><a class="anchor" href="#s87" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 个点 $m$ 条边的有向图，其中每条边上有两个参数 $r,p$，分别表示只有当你的资产不少于 $r$ 元才可以通过这条边、通过这条边后你的资产会增加 $p$ 元。</p>
 <p>对每个点 $x$ 求出最小的初始资产数量使得可以从 $x$ 开始无限游走。</p>
 <p>$n,m\le 2\times 10^5$。</p>
@@ -1301,7 +1301,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p><strong>路径问题中，可将路径按照是否经过了某点或某边分类讨论</strong>。</p>
 <p>时间复杂度 $O(m\log m)$。</p>
 <hr />
-<h3 id="s85"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2047&amp;pid=2">[2023 NOI模拟 Day32] 有向图</a></h3>
+<h3 id="s88"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2047&amp;pid=2">[2023 NOI模拟 Day32] 有向图</a><a class="anchor" href="#s88" aria-label="本节链接">#</a></h3>
 <p>有一个 $n\times m$ 的 01 矩阵 $A_{i,j}$，初始全为 $0$，有 $q$ 次操作，每次操作将一个矩形取反。所有操作后，将根据矩阵 $A$ 生成一张左右部点数分别为 $n,m$ 的有向二分图。当 $A_{i,j}=1$ 时有边 $i\to j$，反之则有边 $i\gets j$。对每个点求出其能到达的点数。</p>
 <p>$n,m\le 2\times 10^5$，$q\le 5\times 10^4$。</p>
 <hr />
@@ -1310,7 +1310,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>接下来要解决的就是对原图进行优化建图了。对矩形做扫描线，扫到一行 $i$ 时，需要对每个 $A_{i,j}=0$ 要连边 $i\gets j$，对 $A_{i,j}=1$ 要连边 $i\to j$。使用线段树，每个区间维护区间内所有 $0/1$ 位置的入/出树即可。</p>
 <p>令 $n,m$ 同阶，时间复杂度 $O(n+q\log n)$，有着 $32$ 倍的逆天常数。</p>
 <hr />
-<h3 id="s86"><a href="https://www.luogu.com.cn/problem/P11146">Strange Train Game</a></h3>
+<h3 id="s89"><a href="https://www.luogu.com.cn/problem/P11146">Strange Train Game</a><a class="anchor" href="#s89" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的 01 序列 $a_{1\sim n},b_{1\sim n}$ 以及 $m$ 个区间 $[l_i,r_i]$，你可以对每个区间选择是否操作，若选择操作 $[l_i,r_i]$，那么将执行 $\forall p\in[l_i,r_i]$，交换 $a_p,b_p$。最大化最终序列 $a$ 的字典序。</p>
 <p>$n,m\le 2\times 10^5$。</p>
 <hr />
@@ -1318,7 +1318,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>从左至右确定每一位，如果这一位再操作一次更优，那么找到最大的 $r$ 使得 $[i,r]$ 可操作，操作 $[i,r]$ 即可。不难证明其正确性。</p>
 <p>时间复杂度 $O(n+m)$。</p>
 <hr />
-<h3 id="s87"><a href="https://www.luogu.com.cn/problem/P7516">[省选联考 2021] 图函数</a></h3>
+<h3 id="s90"><a href="https://www.luogu.com.cn/problem/P7516">[省选联考 2021] 图函数</a><a class="anchor" href="#s90" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 个点 $m$ 条边的有向图 $G$，定义函数 $f(u, G)$：</p>
 <ol>
 <li>初始化返回值 $cnt = 0$，图 $G' = G$。</li>
@@ -1336,7 +1336,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>只需要求<strong>在搜索过程中要求搜到的点 $x$ 均满足 $f_{i,x}=0$</strong>，那么每一次搜索均会将一个 $0$ 标为 $1$，时间复杂度便有了保证。维护每行每列的 biset 即可。统计答案只需在修改时增量。</p>
 <p>时间复杂度 $O(\dfrac{n^3+nm}{\omega})$，可以通过。</p>
 <hr />
-<h3 id="s88"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1984&amp;pid=1">[2023 NOI模拟 Day22] lis</a></h3>
+<h3 id="s91"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1984&amp;pid=1">[2023 NOI模拟 Day22] lis</a><a class="anchor" href="#s91" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，选出其最长的一个子序列 $b_{1\sim k}$ 使得 $a_{1\sim n}$ 的最长上升子序列长度大于 $b_{1\sim k}$ 的，求出最大的 $k$。</p>
 <p>$n\le 10^6$。</p>
 <hr />
@@ -1347,7 +1347,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>注意到一层内的点的点权不递增，考虑把相邻两层的点分别拉出来，层 $d$ 的每个点 $p$ 向层 $d+1$ 的一个区间 $[l_p,r_p]$ 内的点连边，且 $l_p,r_p$ 分别递增，增广时直接从区间内最小的未遍历过的点开始即可。每个点只会遍历一次，复杂度正确。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s89"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2028&amp;pid=1">[2023 NOI模拟 Day44] B</a></h3>
+<h3 id="s92"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2028&amp;pid=1">[2023 NOI模拟 Day44] B</a><a class="anchor" href="#s92" aria-label="本节链接">#</a></h3>
 <p>给你两个整数 $n,m$，平面上有 $n$ 个点 $(x_{1\sim n},y_{1\sim n})$，求出最小的 $d$ 使得存在 $m$ 个点满足其中任意两个点的距离都不超过 $d$。</p>
 <p>$n,m\le 200$。</p>
 <hr />
@@ -1356,7 +1356,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>将排斥关系连边，求二分图最大独立集即可。</p>
 <p>时间复杂度 $O(n^5)$，常数极小，可以通过。</p>
 <hr />
-<h3 id="s90"><a href="https://www.luogu.com.cn/problem/AT_agc001_f">Wide Swap</a></h3>
+<h3 id="s93"><a href="https://www.luogu.com.cn/problem/AT_agc001_f">Wide Swap</a><a class="anchor" href="#s93" aria-label="本节链接">#</a></h3>
 <p>给你一个排列 $p_{1\sim n}$，你可以进行任意次以下操作：</p>
 <ul>
 <li>选择 $i,j$ 使得 $|i-j|\ge k$ 且 $|p_i-p_j|=1$，交换 $p_i,p_j$。</li>
@@ -1369,7 +1369,7 @@ $$\sum_{p=1}^n\left|\sum_{i=1}^p(s_i'-t_i)\right|$$</p>
 <p>建反图进行拓扑排序，使用数据结构优化之。一个值 $v$ 可以取当且仅当不存在 $p_v&lt;p_x$ 且 $|v-x|\le k$，使用线段树维护 $[l,r]$ 中未取的位置的最大值。<strong>取走一个值 $\bm x$ 后，新的零度点必定与其有直接连边</strong>，只需要考虑 $(x-k,x)$ 以及 $(x,x+k)$ 区间内的最大值即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s91"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2022&amp;pid=1">[2023 NOI模拟 Day38] 求和</a></h3>
+<h3 id="s94"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2022&amp;pid=1">[2023 NOI模拟 Day38] 求和</a><a class="anchor" href="#s94" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$，你可以选择若干位置 $i$ 并交换 $a_i,b_i$，最大化 $\sum_{i,j}\min(a_i,b_j)$，构造一组方案。</p>
 <p>$n\le 2\times 10^5$。</p>
 <hr />
@@ -1382,7 +1382,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>故该图为二分图，直接进行二分图染色即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s92"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2235&amp;pid=0">[2025 NOI模拟 Day3] moon</a></h3>
+<h3 id="s95"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2235&amp;pid=0">[2025 NOI模拟 Day3] moon</a><a class="anchor" href="#s95" aria-label="本节链接">#</a></h3>
 <p>给你 $m$ 个 $\{1,2,\dots,n\}$ 的子集 $A_{1\sim m}$，你需要选出两组不交且非空的子集使得它们的并集相同。</p>
 <p>$m\le 500$，$n\le m-1$。</p>
 <hr />
@@ -1392,8 +1392,8 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>算法结束后，每个被访问到的右部点均与至少一个黑白二色的左部点相邻，故我们求出了一组合法解。</p>
 <p>时间复杂度视匹配算法为 $O(n^3)$ 或 $O(n^{2.5})$ 等。</p>
 <hr />
-<h1>数据结构</h1>
-<h3 id="s93"><a href="https://qoj.ac/contest/1475/problem/8006">Dinosaur Bones Digging</a></h3>
+<h1 id="s96">数据结构<a class="anchor" href="#s96" aria-label="本节链接">#</a></h1>
+<h3 id="s97"><a href="https://qoj.ac/contest/1475/problem/8006">Dinosaur Bones Digging</a><a class="anchor" href="#s97" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a$，给出 $q$ 次询问 $[l_i,r_i]$，求 $\displaystyle\max_{i=1}^q\max_{j=l_i}^{r_i}a_j\cdot\left(\sum_{k=l_i}^{r_i}[a_k&gt;a_j]\right)$。</p>
 <p>$n,q\le 10^6$。</p>
 <hr />
@@ -1401,7 +1401,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>为了处理大于关系，考虑<strong>按值域从大到小扫描线</strong>，区间加区间求 $\max$ 即可。</p>
 <p>时间复杂度 $O((n+q)\log n)$。</p>
 <hr />
-<h3 id="s94"><a href="https://www.luogu.com.cn/problem/P9546">山路长环 / ring</a></h3>
+<h3 id="s98"><a href="https://www.luogu.com.cn/problem/P9546">山路长环 / ring</a><a class="anchor" href="#s98" aria-label="本节链接">#</a></h3>
 <p>两人在玩一个游戏。在他们面前有一个棋盘，棋盘是一个由 $n$ 个节点和 $n$ 条边构成的环，边有边权。初始时，一枚棋子被放置在某个节点上。两人轮流移动棋子，无法移动者败。每次移动时，必须选择棋子当前所在节点的某个相邻点（即有边相连的点），沿着边将棋子移动到这个相邻点去，并将边权减少任意正整数。需要注意的是，边权不允许被减小到负数。</p>
 <p>定义一个长为 $k$ 的序列 $v_{1\sim k}$ 的权值为，如果棋盘上共 $k$ 个节点，且边权以顺时针方向分别为 $v_1,v_2,\dots,v_k$，那么这样一盘游戏共有多少个不同的初始棋子位置可以让先手有必胜策略。</p>
 <p>现在给你一个长为 $m$ 的序列 $a_{1\sim m}$，接下来 $q$ 次操作。每次操作形式为如下之一：</p>
@@ -1422,7 +1422,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>时间复杂度 $O(q\log m)$。</p>
 <p>启示是<strong>遇见特殊的 $0$ 考虑拓展到最小值</strong>。</p>
 <hr />
-<h3 id="s95"><a href="https://loj.ac/p/511">验题</a></h3>
+<h3 id="s99"><a href="https://loj.ac/p/511">验题</a><a class="anchor" href="#s99" aria-label="本节链接">#</a></h3>
 <p>给你一颗大小为 $n$ 的树和它的一个独立集 $I$，你需要求出字典序比 $I$ 恰好大 $k$ 的独立集。</p>
 <p>$n\le 10^6$，$k\le 10^{18}$。</p>
 <hr />
@@ -1431,7 +1431,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>要求某些点一定选中，某些点一定不选中，这是平凡的 DDP 问题。</p>
 <p>使用 LCT 或树剖维护，时间复杂度 $O(n\log n)$ 或 $O(n\log^2n)$。</p>
 <hr />
-<h3 id="s96"><a href="">[广东省队集训 2024] 写作</a></h3>
+<h3 id="s100"><a href="">[广东省队集训 2024] 写作</a><a class="anchor" href="#s100" aria-label="本节链接">#</a></h3>
 <p>给你一颗满足每个点儿子个数不超过 $d$ 的树和一个排列 $p$，定义一个排列是合法的当且仅当每个子树内的点在 $p$ 中的出现位置都是连续的一个区间。你可以任意次交换 $p$ 的相邻两项，求最少的操作次数 $k$ 使得 $p$ 合法并求出操作 $k$ 次后能得到多少种不同的合法排列，对 $998244353$ 取模。</p>
 <p>$n\le 5\times 10^4$，$d\le 10$。</p>
 <hr />
@@ -1439,14 +1439,14 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>从深往浅合并，注意到一个子树内的点在最终排列中的顺序与子树外无关，所以 $k$ 即为把每个点自身和它的每个子树合并起来的最小代价加起来，而方案数则为把所有对应方案数乘起来。</p>
 <p>把一个子树放在另一个子树前面的代价是一个类似逆序对数的东西，任意两个子树的代价可以 DSU 求，用迭代分块可以比 BIT 优一点，然后给子树排序直接状压。总复杂度 $O(n\log^2n+nd\log n+n^{4/3}\log n+n2^{d+1})$。</p>
 <hr />
-<h3 id="s97"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2178&amp;pid=2">[2024 联考 II Day4] C</a></h3>
+<h3 id="s101"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2178&amp;pid=2">[2024 联考 II Day4] C</a><a class="anchor" href="#s101" aria-label="本节链接">#</a></h3>
 <p>区间加，求区间笛卡尔树最浅的一层满足该层不满。</p>
 <p>$n,q\le 10^5$。</p>
 <hr />
 <p>笛卡尔树可以看作是以 $a_i$ 为随机权的 Treap。线段树每个结点维护对应区间的笛卡尔树，答案不超过 $\log n$，深度大于 $\log n$ 的子树可以直接砍掉，容易发现此时合并可均摊。区间加使用标记永久化。区间笛卡尔树可以将区间加极大值求全局此时的笛卡尔树，注意一些 corner case。</p>
 <p>时间复杂度 $O(n\log^2n)$。</p>
 <hr />
-<h3 id="s98"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2185&amp;pid=0">[2024 联考 II Day6] 合并书籍</a></h3>
+<h3 id="s102"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2185&amp;pid=0">[2024 联考 II Day6] 合并书籍</a><a class="anchor" href="#s102" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 堆石子排成一列，个数分别为 $a_{1\dots n}$。在最初选定一堆石子，每次可以将这堆石子与左右某一堆合并，代价为合并后的大小。</p>
 <p>对于每堆石子求出，如果选择以这堆石子作为初始选择，那么合并完所有石子的最小代价是什么。</p>
 <p>$n\le 2\times 10^5$。</p>
@@ -1455,7 +1455,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>然后移动前缀后缀维护单调栈，一个结点在一段区间内出现，扫描线即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s99"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2184&amp;pid=0">[2024 联考 II Day8] word</a></h3>
+<h3 id="s103"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2184&amp;pid=0">[2024 联考 II Day8] word</a><a class="anchor" href="#s103" aria-label="本节链接">#</a></h3>
 <p>给定一个长为 $n$ 的字符串，其中只包含前 $k$ 个小写英文字母。同时，再给一个 $k\times k$ 的 01 矩阵 $A$。</p>
 <p>你可以对字符串进行若干次操作，每次操作选择一对相邻的字符 $u, v$，并且 $u$ 在前 $v$ 在后，$A_{u,v}=1$，删去 $v$。</p>
 <p>求出经过任意次删字符后，所能得到的字典序最小的串。</p>
@@ -1465,7 +1465,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>设 $f_{i,j}$ 与 $g_{i,j}$ 表示后缀 $i$ 的答案中第 $2^j+1$ 位的位置与前 $2^j$ 位的哈希值，转移维护单调栈。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s100"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2184&amp;pid=1">[2024 联考 II Day8] partition</a></h3>
+<h3 id="s104"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2184&amp;pid=1">[2024 联考 II Day8] partition</a><a class="anchor" href="#s104" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的排列，将其分为两个子序列 $a,b$，求出 $a$ 中前缀最大值数量与 $b$ 中前缀最小值数量的和的最大值。</p>
 <p>$n\le 2\times 10^5$。</p>
 <hr />
@@ -1473,14 +1473,14 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>令 $pr_i$ 和 $sf_i$ 分别表示 $[1,i)$ 中 $p_i$ 的前驱、后继，则我们发现 $i$ 之前的部分的答案就为有多少个 $[pr_j,sf_j]$ 包含 $p_i$。后面部分的答案是一个类似 LIS 或者 LDS 的东西，分类讨论一下即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s101"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1998&amp;pid=1">[2023 NOI模拟 Day6] 色彩</a></h3>
+<h3 id="s105"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1998&amp;pid=1">[2023 NOI模拟 Day6] 色彩</a><a class="anchor" href="#s105" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个点的树，点带颜色，$q$ 次询问求树链最长同色颜色段。强制在线。</p>
 <p>$n\le 2\times10^5$，$q\le 5\times10^6$。</p>
 <hr />
 <p>链的情况考虑猫树即二区间合并，而<strong>树上二区间合并即为点分树</strong>。</p>
 <p>时间复杂度 $O(n\log n+q)$。</p>
 <hr />
-<h3 id="s102"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2004&amp;pid=2">[2023 NOI模拟 Day12] 公司</a></h3>
+<h3 id="s106"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2004&amp;pid=2">[2023 NOI模拟 Day12] 公司</a><a class="anchor" href="#s106" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个点的树，每个点有点权 $v_i$ 表示这个结点的员工数。初始老板在点 $1$，现在召集所有人到点 $k\in[1,n]$ 开会，老板的速度为 $1$，员工的速度为 $2$，求有多少员工到达的时间不晚于老板到达的时间。对每个 $k$ 求出该答案。</p>
 <p>$n\le 2\times 10^6$。</p>
 <hr />
@@ -1491,7 +1491,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>短链与短链之间的贡献已经在上述讨论过程中算入了，注意减去自己到自己的贡献。另外需要注意将一个点 $i$ 合并到点 $j$ 时 $j$ 可能已经含有标记，需要在 $i$ 处减去，需要将长链前「次长链长度」个点的后缀标记加的标记先传下去。</p>
 <p>精细实现一下，时空复杂度均为 $O(n)$。</p>
 <hr />
-<h3 id="s103"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2191&amp;pid=0">[2024 联考 III Day1] 交换余生</a></h3>
+<h3 id="s107"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2191&amp;pid=0">[2024 联考 III Day1] 交换余生</a><a class="anchor" href="#s107" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\dots n}$ 和一个常数 $k$，求所有长度 $\ge k$ 的「区间和减去区间内前 $k$ 大之和」的最大值。</p>
 <p>$n\le 10^5$，$k\le 100$。</p>
 <hr />
@@ -1499,7 +1499,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p><strong>枚举区间第 $\bm{k+1}$ 大</strong>，则枚举该数左边有 $i$ 个比它大，区间的左右端点均位于某个区间内，ST 表求出区间中前缀和的最小值或最大值即可。</p>
 <p>时间复杂度 $O(n\log n+nk)$。</p>
 <hr />
-<h3 id="s104"><a href="https://codeforces.com/gym/542554/problem/G">[2024 联考 III ACM] Dou</a></h3>
+<h3 id="s108"><a href="https://codeforces.com/gym/542554/problem/G">[2024 联考 III ACM] Dou</a><a class="anchor" href="#s108" aria-label="本节链接">#</a></h3>
 <p>有一棵 $n$ 个点的树，以 $1$ 为根，边分为虚边与实边，初始全为虚边。给出 $q$ 次操作，每次操作给定一个点 $x$，进行 $\text{access}(x)$。在每次操作后，求出有多少排列 $p_{1\dots n}$ 使得依次进行 $\text{access}(p_1),\dots,\text{access}(p_n)$ 后得到当前给定的树，对 $998244353$ 取模。</p>
 <p>$n,q\le 2\times 10^5$。</p>
 <hr />
@@ -1509,7 +1509,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>注意到 $\text{access}$ 操作中只要能快速找到路径上每条虚边即可，分析如下：定义势能函数为「对该树进行轻重链剖分，有多少条重边此时为虚边」。考虑一次 $\text{access}(x)$ 操作前 $x$ 到根路径上的所有虚边，对于一条虚边，如果它是轻边，则此类虚边数量不超过 $O(\log n)$；如果它是重边，则修改后势能函数会减小 $1$。所以一次操作中势能增加不会超过 $O(\log n)$ 且每一条第二类虚边都会减小势能函数，所以总共跳过的虚边数量是 $O(n+q\log n)$ 的。这同时也是 LCT 的时间复杂度证明。</p>
 <p>使用轻重链剖分或者 LCT 直接维护即可，复杂度为 $O(n\log n+q\log ^2n)$ 或 $O(n+q\log n)$。</p>
 <hr />
-<h3 id="s105"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=0">[2024 联考 IV Day7] 钢琴教室 / anoko</a></h3>
+<h3 id="s109"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=0">[2024 联考 IV Day7] 钢琴教室 / anoko</a><a class="anchor" href="#s109" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\dots n}$，根据序列 $a_{1\dots n}$ 生成一张有 $n$ 个点的有向图，其边集为：</p>
 <ul>
 <li>$\forall i\in[1,n),i\to i+1$；</li>
@@ -1527,7 +1527,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>带修问题可以直接用线段树维护，查询的时候使用线段树二分。</p>
 <p>时间复杂度 $O((n+q)\log n)$。</p>
 <hr />
-<h3 id="s106"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=1">[2024 联考 IV Day7] 丰雪千里祥音颂 / cristmas</a></h3>
+<h3 id="s110"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=1">[2024 联考 IV Day7] 丰雪千里祥音颂 / cristmas</a><a class="anchor" href="#s110" aria-label="本节链接">#</a></h3>
 <p>有一个 $n$ 个结点的环，环上还有 $m$ 个棋子，其中第 $i$ 个棋子初始在结点 $s_i$，需要到达结点 $t_i$。</p>
 <p>每个棋子有两条不同的简单路径使得其从 $s_i$ 移动到 $t_i$，你需要为每个棋子选择其中一条路径，使得所有棋子均经过的边的数量最大。</p>
 <p>$m\le 5\times 10^5$。</p>
@@ -1537,7 +1537,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>多条边能同时在答案中当且仅当它们确定的方案一致，即每条边对应一个选择方案，需要选出最大的等价类。判断等价关系直接使用<strong>随机异或哈希</strong>即可。</p>
 <p>时间复杂度 $O(m\log m)$。</p>
 <hr />
-<h3 id="s107"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=3">[2024 联考 IV Day7] 复读机 / repeat</a></h3>
+<h3 id="s111"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2199&amp;pid=3">[2024 联考 IV Day7] 复读机 / repeat</a><a class="anchor" href="#s111" aria-label="本节链接">#</a></h3>
 <p>给你一个长度为 $n$ 的序列 $a_{1\dots n}$。</p>
 <p>接下来有 $q$ 次查询，每次给出一个区间 $[l,r]$ 和 $k$，你需要在区间中选择一个长为 $k$ 的子序列，最小化相邻两项的和的最大值。</p>
 <p>$n\le 10^5$，$q\le2\times 10^5$。</p>
@@ -1552,7 +1552,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>前驱后继可以类似地在整体二分中双指针维护。</p>
 <p>时间复杂度 $O((n+q)\log n)$。</p>
 <hr />
-<h3 id="s108"><a href="https://www.luogu.com.cn/problem/P5025">[SNOI2017] 炸弹</a></h3>
+<h3 id="s112"><a href="https://www.luogu.com.cn/problem/P5025">[SNOI2017] 炸弹</a><a class="anchor" href="#s112" aria-label="本节链接">#</a></h3>
 <p>在一条数轴上有 $n$ 个炸弹，坐标分别为 $x_{1\sim n}$，每个炸弹分别有一个爆炸半径 $r_{1\sim n}$。当炸弹 $i$ 爆炸时，所有满足 $|x_i-x_j|\le r_i$ 的炸弹 $j$ 也会被引爆。</p>
 <p>对 $\forall i\in[1,n]$ 求出，如果引爆炸弹 $i$，最终会引爆几个炸弹。</p>
 <p>$n\le 5\times 10^5$。</p>
@@ -1562,14 +1562,14 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>考虑它的正确性，我们通过 $d_i'$ <strong>将向左炸一次和向右炸一次压缩为一次操作</strong>，只需要不断使用这种操作便可考虑到炸弹左右反复的情况。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s109"><a href="https://www.luogu.com.cn/problem/P10590">磁力块</a></h3>
+<h3 id="s113"><a href="https://www.luogu.com.cn/problem/P10590">磁力块</a><a class="anchor" href="#s113" aria-label="本节链接">#</a></h3>
 <p>有 $n+1$ 块磁铁 $0\sim n$，每个磁铁都有四个属性 $(d_i,m_i,p_i,r_i)$，如果你拥有了磁铁 $i$，那么你就能吸引并拥有所有满足 $d_j\le r_i,m_j\le p_i$ 的磁铁 $j$，初始你只拥有磁铁 $0$，求最后你能得到多少的磁铁。</p>
 <p>$n\le 2.5\times 10^5$。</p>
 <hr />
 <p>考虑广搜，过程中需要求出满足两维偏序限制的还未拥有过的磁铁，则预先对一维排序，另一维使用数据结构维护。</p>
 <p>线段树加 <code>vector</code> 即可，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s110"><a href="https://www.luogu.com.cn/problem/P5163">WD 与地图</a></h3>
+<h3 id="s114"><a href="https://www.luogu.com.cn/problem/P5163">WD 与地图</a><a class="anchor" href="#s114" aria-label="本节链接">#</a></h3>
 <p>给你一个 $n$ 个点 $m$ 条边的有向图，点 $i$ 有点权 $x_i$。接下来有 $q$ 次操作：</p>
 <ul>
 <li><code>1 u v</code> 表示删除边 $u\to v$。</li>
@@ -1582,7 +1582,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>使用<strong>整体二分</strong>，先将所有加入时间 $\le mid$ 的边加入并进行缩点，便可将边划分至两侧。递归完左侧后需要保留缩点状态。</p>
 <p>令 $n,m,q$ 同阶，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s111"><a href="https://www.luogu.com.cn/problem/P9984">A Graph Problem P</a></h3>
+<h3 id="s115"><a href="https://www.luogu.com.cn/problem/P9984">A Graph Problem P</a><a class="anchor" href="#s115" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 个点 $m$ 条边的连通无向图，边有编号，对每个 $v\in [1,n]$ 求出：</p>
 <ol>
 <li>初始有一集合 $S=\{v\}$，变量 $r=0$。</li>
@@ -1602,7 +1602,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>由于 <strong>Kruscal 重构树上父亲权值一定大于儿子权值</strong>，一个点的加边顺序必然为从它开始不断跳祖先，跳到一个点时立即将其另一子树从「该边连接的另一个结点」开始全部遍历一遍。</p>
 <p>可以用线段树维护，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s112"><a href="https://www.luogu.com.cn/problem/P10198">Infinite Adventure P</a></h3>
+<h3 id="s116"><a href="https://www.luogu.com.cn/problem/P10198">Infinite Adventure P</a><a class="anchor" href="#s116" aria-label="本节链接">#</a></h3>
 <p>给定 $n$ 个数组 $c_{i,0\dots t_i-1}$，其中 $t_i$ 为 $2$ 的幂。有 $q$ 次询问，每次询问给出三个参数 $x,T,\Delta$，接下来会执行 $\Delta$ 次 $x\gets c_{x,T\bmod t_x},T\gets T+1$，求出最终的 $x$。</p>
 <p>$n,\sum t\le 10^5$，$q\le 5\times 10^4$。</p>
 <hr />
@@ -1617,7 +1617,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>询问时先不断向大跳直到达到路径上 $t$ 的最大值，此后跳过所有 $t$ 值为最大值的点即可减小最大值，显然我们只能减少 $\log n$ 次。</p>
 <p>总时间复杂度 $O(n\log v+q\log n\log v)$，可以通过。</p>
 <hr />
-<h3 id="s113"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2021&amp;pid=1">[2023 NOI模拟 Day22] 好串</a></h3>
+<h3 id="s117"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2021&amp;pid=1">[2023 NOI模拟 Day22] 好串</a><a class="anchor" href="#s117" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的 <code>01</code> 串 $s$，定义一个长度为 $k$ 的 <code>01</code> 串 $t$ 是好的当且仅当对于 $\forall i\in[1,k]$ 均有 $t_{1\dots i}$ 和 $t_{i\dots k}$ 中 <code>1</code> 的数量不小于 <code>0</code> 的数量。</p>
 <p>定义一个 01 串的权值为在其中的任意位置插入 <code>1</code> 使得其变为好的，最少需要插入多少个 <code>1</code>。有 $q$ 次询问，每次询问给出 $l,r$，求出 $s_{l\dots r}$ 的权值。</p>
 <p>$n,q\le 10^6$。</p>
@@ -1627,7 +1627,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p><strong>考虑先满足前缀和的限制，注意到限制是同向的，于是只需要贪心地尽量后地插入 <code>1</code></strong>。经过一些处理可以得到答案为最大子段和减区间和，有一些边界情况。</p>
 <p>线段树维护，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s114"><a href="https://www.luogu.com.cn/problem/CF878E">Numbers on the blackboard</a></h3>
+<h3 id="s118"><a href="https://www.luogu.com.cn/problem/CF878E">Numbers on the blackboard</a><a class="anchor" href="#s118" aria-label="本节链接">#</a></h3>
 <p>对于一个序列 $b_{1\sim k}$，执行 $k-1$ 次操作，每一次选择两个相邻的位置 $b_p,b_{p+1}$ 并将它们替换为一个数 $b_{p}+2b_{p+1}$。定义该序列的权值为最终剩余的数的最大值。</p>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，接下来 $q$ 次询问 $[l,r]$，求出 $a_{l\sim r}$ 的权值，对 $10^9+7$ 取模。</p>
 <p>$n,q\le 10^5$。</p>
@@ -1636,7 +1636,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p><strong>对于求一个区间的答案，我们考虑其与前缀答案的差异</strong>。注意到只有最左边一段是受影响的，并且操作顺序不改变，单独处理即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s115"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2052&amp;pid=2">[2023 NOI模拟 Day35] 前缀和</a></h3>
+<h3 id="s119"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2052&amp;pid=2">[2023 NOI模拟 Day35] 前缀和</a><a class="anchor" href="#s119" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的数组 $a_{1\sim n}$，接下来 $q$ 次询问给出 $[l,r]$，求 $[l,r]$ 的所有子区间的最大前缀和之和。</p>
 <p>$n\le 10^6$，$q\le 10^7$。</p>
 <hr />
@@ -1648,7 +1648,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>使用 ST 表即可通过，时间复杂度 $O(n\log n+q)$。</p>
 <p><strong>其中蕴含的思想为钦定区间过某特殊点，类似图论问题中的钦定路径过特殊边、特殊点</strong>。</p>
 <hr />
-<h3 id="s116"><a href="https://www.luogu.com.cn/problem/P9596">冒泡排序 2</a></h3>
+<h3 id="s120"><a href="https://www.luogu.com.cn/problem/P9596">冒泡排序 2</a><a class="anchor" href="#s120" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，定义其权值为要使得其变为升序序列所需的最少冒泡排序轮数。</p>
 <p>接下来有 $q$ 次操作，每次操作为单点修改 $a_p\gets x$，在每次修改后求出 $a_{1\sim n}$ 的权值。</p>
 <p>$n,q\le 5\times 10^5$。</p>
@@ -1659,7 +1659,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>考虑一个非后缀最小值的位置 $q$，设 $q&lt;p$ 且 $a_q\ge a_p$，那么显然有 $\sum_{i}[a_i&gt;a_q]-(n-q)$ 小于 $\sum_{i}[a_i&gt;a_p]-(n-p)$，即<strong>该式的最大值必定在后缀最小值处取到，只需维护全局 $\bm{\max}$ 即可</strong>！</p>
 <p>值域线段树维护即可。令 $n,q$ 同阶，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s117"><a href="https://www.luogu.com.cn/problem/P7769">大师选徒</a></h3>
+<h3 id="s121"><a href="https://www.luogu.com.cn/problem/P7769">大师选徒</a><a class="anchor" href="#s121" aria-label="本节链接">#</a></h3>
 <p>给定一个长为 $n$ 的数组 $a_{1\sim n}$，有 $q$ 次询问，每次询问给出三个整数 $l,r,s$，求是否存在 $1\le p\le n-r+l,p\ne l$ 使得 $\forall k\in[0,r-l],a_{l+k}+a_{p+k}=s$。</p>
 <p>$n,q\le 4\times 10^5$。</p>
 <hr />
@@ -1667,7 +1667,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>那么将差分数组与其相反数的数组拼起来做一次后缀数组，询问时二分出满足与后缀 $l$ 的 LCP 大于等于 $r-l$ 的排名区间，再离线扫描线即可。</p>
 <p>时间复杂度 $O((n+q)\log n)$。</p>
 <hr />
-<h3 id="s118"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2201&amp;pid=3">[2024 联考 IV Day9] Tamaya</a></h3>
+<h3 id="s122"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2201&amp;pid=3">[2024 联考 IV Day9] Tamaya</a><a class="anchor" href="#s122" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，长为 $m$ 的操作序列 $[l_{1\sim m},r_{1\sim m}]$，执行一次操作 $[l_i,r_i]$ 会对 $\forall j\in[l_i,r_i]$，将 $a_j$ 替换为它们的最大值。</p>
 <p>接下来有 $q$ 次操作，每次操作形如：</p>
 <ul>
@@ -1684,7 +1684,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>倍增可以维护，用 <code>set</code> 预处理出每个 $l_i,r_i$ 向前最早被哪个区间包含即可。</p>
 <p>令 $n,m,q$ 同阶，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s119"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2026&amp;pid=0">[2023 NOI模拟 Day42] 计算几何</a></h3>
+<h3 id="s123"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2026&amp;pid=0">[2023 NOI模拟 Day42] 计算几何</a><a class="anchor" href="#s123" aria-label="本节链接">#</a></h3>
 <p>给定平面上的 $n$ 个整点 $(x_i,y_i)$，你需要在平面上放置任意多个边长相同的正方形，需要满足：</p>
 <ul>
 <li>每个正方形至少覆盖三个给出的点。</li>
@@ -1701,7 +1701,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>否则对于本块内的一点 $(x_p,y_p)$，取出周围的块的所有点，尝试用一个端点为 $(x_p,y_p)$ 的正方形覆盖其中至少两个点，若仍旧失败，那么可选点数量为常数，直接枚举其中两个点判断即可。</p>
 <p>时间复杂度 $O(n\log v)$，可以通过。</p>
 <hr />
-<h3 id="s120"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2025&amp;pid=2">[2023 NOI模拟 Day41] 铺路</a></h3>
+<h3 id="s124"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2025&amp;pid=2">[2023 NOI模拟 Day41] 铺路</a><a class="anchor" href="#s124" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个点按顺序排成一行，初始所有点均为未激活状态。给定 $m$ 个区间 $[l_i,r_i]$，每一次操作选择一个区间 $p$ 使得：</p>
 <ul>
 <li>之前未选择过 $p$。</li>
@@ -1718,7 +1718,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>一棵 BIT 维护区间中未激活的点的权值和，一棵线段树维护这些互不包含的区间，一棵线段树维护未被选取过的区间，将区间放在左端点处维护。取出一个区间 $x$ 时需要拓展出一些新的区间，这些区间必然包含 $[l_x,r_x]$，又其不能包含其余区间，只需找到 $[l_x,r_x]$ 前后的两个区间即可解决问题。</p>
 <p>时间复杂度 $O(m\log m)$。</p>
 <hr />
-<h3 id="s121"><a href="https://www.luogu.com.cn/problem/P9376">进制与操作</a></h3>
+<h3 id="s125"><a href="https://www.luogu.com.cn/problem/P9376">进制与操作</a><a class="anchor" href="#s125" aria-label="本节链接">#</a></h3>
 <p>对于给定的长为 $n$ 的正整数序列 $a_{1\sim n}$ 与常数 $b$，有如下两种操作：</p>
 <ul>
 <li>选择 $p\in[1,n]$，令 $a_p\gets\left\lfloor\dfrac{a_p}{b}\right\rfloor$；</li>
@@ -1734,7 +1734,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>但我们注意到每个长度的合法前缀均为唯一的，所以记录下已经找到的合法前缀，那么均摊下每个长度的前缀均只需判断一次。</p>
 <p>时间复杂度 $O(n\log v+q\log^3v)$。</p>
 <hr />
-<h3 id="s122"><a href="https://www.luogu.com.cn/problem/P11368">After god</a></h3>
+<h3 id="s126"><a href="https://www.luogu.com.cn/problem/P11368">After god</a><a class="anchor" href="#s126" aria-label="本节链接">#</a></h3>
 <p>你需要维护两个长为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$，初值均为 $0$。接下来 $m$ 次操作，每次操作中给出 $x,y$，依次执行：</p>
 <ul>
 <li>令 $a_x\gets y$；</li>
@@ -1748,7 +1748,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>考虑<strong>交换求和顺序，对序列维做扫描线</strong>。设当前扫描到 $i$，则维护所有的 $c_{i,t}$ 以及其历史和 $\sum_{j=1}^ic_{j,t}$，对位置 $i$ 的若干次修改构成对 $c_{i,t}$ 的若干次区间取 $\max$ 操作，而一次查询即为前缀历史和查询。写一个维护历史和的吉司机线段树即可维护。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s123"><a href="https://www.luogu.com.cn/problem/P11398">众数</a></h3>
+<h3 id="s127"><a href="https://www.luogu.com.cn/problem/P11398">众数</a><a class="anchor" href="#s127" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$。定义下标 $i$ 的权值为将 $\forall 1\le j\le i$，$a_j$ 个 $b_j$ 拼接在一起后形成的序列的最大众数乘以 $a_i$。</p>
 <p>接下来有两种操作共 $m$ 次：</p>
 <ul>
@@ -1762,7 +1762,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>为了控制枚举量，我们可以想到<strong>设置一些关键前缀，每次从某个关键前缀处向后求解</strong>。</p>
 <p>使用<strong>倍增</strong>，预处理所有前缀 $n-2^i$ 的信息，每次查询只需要 $O(k)$ 的枚举量，时间复杂度 $O((n+m)\log n+\sum k)$。</p>
 <hr />
-<h3 id="s124"><a href="http://xsy.gdgzez.com.cn/JudgeOnline/problem.php?cid=2209&amp;pid=0">[2025 联考 I Day4] 钓鱼</a></h3>
+<h3 id="s128"><a href="http://xsy.gdgzez.com.cn/JudgeOnline/problem.php?cid=2209&amp;pid=0">[2025 联考 I Day4] 钓鱼</a><a class="anchor" href="#s128" aria-label="本节链接">#</a></h3>
 <p>给定 $n$ 个区间 $[l_i,r_i]$，构造一个字典序最小的排列 $p_{1\sim n}$ 使得 $p_{1\sim n}$ 中值 $v$ 的出现位置在 $l_v\sim r_v$ 中。无解输出 <code>-1</code>。</p>
 <p>$n\le 2\times 10^5$。</p>
 <hr />
@@ -1775,7 +1775,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>由于是升序枚举 $i$，只需要在 $l_j$ 处加入 $j$，线段树加 <code>set</code> 维护即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s125"><a href="https://www.luogu.com.cn/problem/P5360">[SDOI2019] 世界地图</a></h3>
+<h3 id="s129"><a href="https://www.luogu.com.cn/problem/P5360">[SDOI2019] 世界地图</a><a class="anchor" href="#s129" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 行 $m$ 列的网格图，第 $i$ 行与第 $i+1$ 行有连边，第 $j$ 列与第 $j+1$ 列有连边，特别地，第 $1$ 列与第 $m$ 列有连边，边均有边权。</p>
 <p>接下来 $q$ 次询问，每次询问给出 $l,r$，表示询问假如删去第 $l\sim r$ 列的点，剩余的图的最小生成树的边权之和。</p>
 <p>$n\le 100$，$m\le 10^4$，$q\le 3\times 10^4$。</p>
@@ -1787,7 +1787,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>查询时无需求出新树的形态，于是只需要预处理排序数组即可。</p>
 <p>时间复杂度 $O(nm\log n+qn\alpha(n))$。</p>
 <hr />
-<h3 id="s126"><a href="https://www.luogu.com.cn/problem/P10656">学习轨迹</a></h3>
+<h3 id="s130"><a href="https://www.luogu.com.cn/problem/P10656">学习轨迹</a><a class="anchor" href="#s130" aria-label="本节链接">#</a></h3>
 <p>给定四个正整数序列 $a_{1\sim n},x_{1\sim n},b_{1\sim m},y_{1\sim m}$，保证 $a_{1\sim n}$ 互不相同、$b_{1\sim m}$ 互不相同。你需要选择两个可空区间 $[l_1,r_1]\sube[1,n]$，$[l_2,r_2]\sube[1,m]$ 使得不存在 $i\in[l_1,r_1],j\in[l_2,r_2]$ 满足 $a_i=b_j$，在此情况下最大化 $\sum_{i=l_1}^{r_1} x_i+\sum_{i=l_2}^{r_2}y_i$。</p>
 <p>$n,m\le 5\times 10^5$。</p>
 <hr />
@@ -1796,7 +1796,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>那么对于序列 $y_{1\sim m}$，我们若想选择 $y_i$ 就不能选择 $a_j=b_i$，由于规定了必须包含 $x_p$，我们便可确定出区间 $[l_i,r_i]$ 要求选择的 $x_j$ 必须满足 $j\in [l_i,r_i]$。</p>
 <p>扫描线即可，使用单调栈与线段树，时间复杂度 $O(n\log n)$。</p>
 <hr />
-<h3 id="s127"><a href="https://www.luogu.com.cn/problem/P11648">2236 A.D.</a></h3>
+<h3 id="s131"><a href="https://www.luogu.com.cn/problem/P11648">2236 A.D.</a><a class="anchor" href="#s131" aria-label="本节链接">#</a></h3>
 <p>给你一颗 $n$ 个结点的树，结点 $1$ 为根，结点有 $[1,k]$ 的颜色 $c_i$。给定序列 $a_{1\sim k}$，定义两个结点 $x,y$ 之间的权值 $f(x,y)$ 为所有在 $x\to y$ 的简单路径上出现过的颜色 $c$ 的 $a_c$ 之积。</p>
 <p>对 $\forall i\in[1,n]$ 求出 $i$ 子树内的点两两之间的权值和，对 $998244353$ 取模。</p>
 <p>$n\le 5\times 10^5$，$k\le 15$。</p>
@@ -1808,7 +1808,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>重构与卷积次数分别只有 $O(n/b)$ 次，零散部分的枚举量为 $\sum_{i,j}\min(siz_i,b)\min(siz_j,b)$ 即 $O(nb)$。</p>
 <p>取 $b=\sqrt{2^kk}$，时间复杂度 $O(n\sqrt{2^kk})$。</p>
 <hr />
-<h3 id="s128"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2245&amp;pid=0">[2025 NOI模拟 Day13] 括号序列</a></h3>
+<h3 id="s132"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2245&amp;pid=0">[2025 NOI模拟 Day13] 括号序列</a><a class="anchor" href="#s132" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的括号序列，其中每个左括号有权值 $a_i$。接下来 $q$ 次询问每次询问给出一个区间 $[l,r]$，求 $[l,r]$ 的一个子序列使得其为合法括号串且其中所有左括号权值之和最大。</p>
 <p>$n,q\le 2\times 10^5$。</p>
 <hr />
@@ -1817,7 +1817,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p><strong>两个枚举方向分别可处理前缀查询与后缀查询，考虑序列分治</strong>。二区间合并时会用右半区间未匹配的右括号匹配一些左半区间的未匹配左括号，以及用左半区间一些未匹配左括号替换右半区间已匹配左括号。可使用主席树双树二分解决。</p>
 <p>时间复杂度 $O(n\log^2 n)$。</p>
 <hr />
-<h3 id="s129"><a href="http://8.138.223.198/p/9">[广东省队集训 2025] 火力全开</a></h3>
+<h3 id="s133"><a href="http://8.138.223.198/p/9">[广东省队集训 2025] 火力全开</a><a class="anchor" href="#s133" aria-label="本节链接">#</a></h3>
 <p>有 $n$ 个敌人以及 $m$ 种法术，每个敌人有属性 $(a_i,b_i)$，每种法术也有属性 $(c_i,d_i)$，为了击败敌人，你有两种攻击方法：</p>
 <ul>
 <li>花费 $1$ 的代价将某位敌人的 $a_i$ 减小 $1$。</li>
@@ -1832,7 +1832,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>合并时会将左区间的 $g_{0\sim k}$ 与右区间的 $f_{0\sim k}$ 作 $(\min,+)$ 卷积，<strong>由于 $\bm{f_{0\sim k}}$ 下凸，其关于选取的 $\bm{g_i}$ 有决策单调性</strong>，可采用决策单调性分治。</p>
 <p>分析复杂度，由于区间长度不及 $k$ 时只保留区间长度位，故时间复杂度为 $O((n+qk)\log n\log k)$。</p>
 <hr />
-<h3 id="s130"><a href="http://8.138.223.198/p/17">[广东省队集训 2025] 修理</a></h3>
+<h3 id="s134"><a href="http://8.138.223.198/p/17">[广东省队集训 2025] 修理</a><a class="anchor" href="#s134" aria-label="本节链接">#</a></h3>
 <p>给定一个长为 $n$ 的正整数序列 $a_{1\sim n}$。对于一个序列 $b_{1\sim m}$：</p>
 <ul>
 <li>初始有一常数 $x=0$；</li>
@@ -1854,7 +1854,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>上述操作均可使用线段树简单维护，而询问只需使用主席树维护矩形加单点求值。</p>
 <p>精细实现可做到时间复杂度 $O((n+q)\log n)$。</p>
 <hr />
-<h3 id="s131"><a href="http://8.138.223.198/p/27">[广东省队集训 2025] 平衡树</a></h3>
+<h3 id="s135"><a href="http://8.138.223.198/p/27">[广东省队集训 2025] 平衡树</a><a class="anchor" href="#s135" aria-label="本节链接">#</a></h3>
 <p>给你一棵 $n$ 个点的树，带有点权 $a_{1\sim n}$。定义一条边的权值为其两侧点权和之差，定义一次操作为将一个点的点权加一。</p>
 <p>接下来有 $q$ 次询问，每次询问给出三个整数 $k,l,r$ 与 $k$ 条关键边，你需要执行至少 $l$ 次至多 $r$ 次操作，最小化所有关键边权值的最大值。</p>
 <p>$n,q,\sum k\le 3\times 10^5$。</p>
@@ -1864,7 +1864,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>执行一次操作必定为选取 $v_i$ 最小的叶子将其加一，执行完 $l$ 次操作后若 $v_i$ 最小的叶子仍然唯一便可继续执行。</p>
 <p>找叶子可以使用 BIT，时间复杂度 $O(n+\sum k\log n)$。</p>
 <hr />
-<h3 id="s132"><a href="https://www.luogu.com.cn/problem/P14463">呼吸之野</a></h3>
+<h3 id="s136"><a href="https://www.luogu.com.cn/problem/P14463">呼吸之野</a><a class="anchor" href="#s136" aria-label="本节链接">#</a></h3>
 <p>给定一个长为 $n$ 的排列 $a_{1\sim n}$ 和常数 $k$，称区间 $[l,r]$ 对于 $x$ 合法当且仅当区间长度不小于 $k$ 且 $a_{l\sim r}$ 的中位数不小于 $x$。接下来 $q$ 次询问，每次询问给出 $l,r,x$，求出 $[l,r]$ 有多少对于 $x$ 合法的极短子区间。多组数据。</p>
 <p>$n,q\le 10^5$，$T\le 6$。</p>
 <hr />
@@ -1888,15 +1888,15 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>后者即为维护 $\min a_x\le b_x$，其中 $a_x$ 是 $p\in[j_x-k+1,i-k+1)$ 的前缀和的最小值，$b_x$ 是 $i$ 的前缀和。使用历史最小值的线段树可以维护。</p>
 <p>分别找到两者合法的最大 $x$，取较大值即可。</p>
 <p>时间复杂度 $O((n+q)\log n)$。</p>
-<h1>特殊技巧</h1>
-<h3 id="s133"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2176&amp;pid=1">[2024 联考 II Day3] 串串</a></h3>
+<h1 id="s137">特殊技巧<a class="anchor" href="#s137" aria-label="本节链接">#</a></h1>
+<h3 id="s138"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2176&amp;pid=1">[2024 联考 II Day3] 串串</a><a class="anchor" href="#s138" aria-label="本节链接">#</a></h3>
 <p>给你 $n$ 个字符串 $s_{1\dots n}$，每次询问给出 $l,r,k$，求出 $s_k$ 在 $s_{l\sim r}$ 中的本质不同出现次数个数。</p>
 <p>$n,q,\sum |s|\le 10^5$。</p>
 <hr />
 <p><strong>字符串长度和可导出自然根号</strong>。压缩重串，设给出的字符串构成若干等价类 $t_{1\dots k}$，则 $t_i$ 在 $s_j$ 中出现 $c$ 次（$c&gt;0$）的三元组 $(i,j,c)$ 只有 $O(l\sqrt l)$ 对并可在对应时间复杂度内求出。</p>
 <p>对单个等价类做扫描线，用分块平衡一下即可做到 $O(l\sqrt l)$。</p>
 <hr />
-<h3 id="s134"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2178&amp;pid=0">[2024 联考 II Day4] A</a></h3>
+<h3 id="s139"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2178&amp;pid=0">[2024 联考 II Day4] A</a><a class="anchor" href="#s139" aria-label="本节链接">#</a></h3>
 <p>有一个长为 $n$ 的序列 $a$，初始 $a_i=i$，$m$ 次操作每次交换两个位置，有 $q$ 个询问串 $b_{1\dots m}$，问每个询问串最早在哪次操作后在 $a$ 中作为子串出现。保证交换操作随机。</p>
 <p>$n,m,q,\sum|b_i|\le 3\times 10^5$。</p>
 <hr />
@@ -1905,7 +1905,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>对大的部分进一步优化，对每个在任意时刻相邻过的二元组 $(p,q)$ 维护其所有相邻的时间，那么总区间数量是 $O(m)$ 的，即每对二元组的区间数是 $O(\dfrac{m}{n^2})$ 的，每次对 $k_i$ 个二元组暴力求交即 $O(\dfrac{m^2}{n^2})$，平衡到 $O(m^{4/3})$，可以通过。</p>
 <p>再进一步，对每个在任意时刻相邻过的长为 $k$ 的子串 $(p_1,p_2\dots p_k)$ 维护其所有相邻的时间，那么总区间数量是 $O(mk)$ 的，即每个长为 $k$ 的子串的区间数是 $O(\dfrac{mk}{n^k})$ 的，总复杂度 $O(mk+\dfrac{m^2k}{n^k})$，取 $k=\log_nm$，则达到复杂度 $O(m\log_nm)$。</p>
 <hr />
-<h3 id="s135"><a href="https://www.luogu.com.cn/problem/P10778">DZY Loves Chinese II</a></h3>
+<h3 id="s140"><a href="https://www.luogu.com.cn/problem/P10778">DZY Loves Chinese II</a><a class="anchor" href="#s140" aria-label="本节链接">#</a></h3>
 <p>给定 $n$ 个点 $m$ 条边的无向图，接下来 $q$ 次询问，每次给定一个边集 $e_{1\sim k}$，求删除该边集后图是否连通。强制在线。</p>
 <p>$n\leq 10^5$，$m\leq 5\times 10^5$，$q\leq 5\times 10^4$，$k\leq 15$。</p>
 <hr />
@@ -1915,14 +1915,14 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 <p>对于一次查询，我们需要判断给出的这些边是否包含一个基础边集，即是否包含边权异或和为 $0$ 的子集，线性基即可。</p>
 <p>时间复杂度 $O(n+m+qk\log w)$。</p>
 <hr />
-<h3 id="s136"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1995&amp;pid=1">[2023 NOI模拟 Day3] 数学题</a></h3>
+<h3 id="s141"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1995&amp;pid=1">[2023 NOI模拟 Day3] 数学题</a><a class="anchor" href="#s141" aria-label="本节链接">#</a></h3>
 <p>给你两个长度分别为 $n,m$ 的字符串 $A,B$ 以及一个长为 $n$ 的数组 $v_{1\sim n}$ 表示 $A$ 每个位置的权值，定义一个 $A$ 的子序列的权值为对应下标的权值之和，有 $q$ 次询问给出 $[l,r]$，求 $A_{l\sim r}$ 所有匹配 $B$ 的子序列的权值和，对 $10^9+7$ 取模。</p>
 <p>$n\le 2\times 10^5$，$m\le 30$，$q\le 10^6$。</p>
 <hr />
 <p>显然权值不重要。不难写成矩阵形式，每次询问求区间矩阵乘积，用 <a href="https://www.luogu.com.cn/article/02pcppl3">该题</a> 的方法可以做到 $O(nm^2\log n+qm)$，过不去。</p>
 <p>观察一下这个转移矩阵，发现它是满秩的，即它有逆矩阵，于是可以维护前缀乘积及其逆，把单个矩阵拆成几个初等矩阵手玩求逆即可，时间复杂度 $O(nm^2+qm)$。</p>
 <hr />
-<h3 id="s137"><a href="https://www.luogu.com.cn/problem/P10218">[省选联考 2024] 魔法手杖</a></h3>
+<h3 id="s142"><a href="https://www.luogu.com.cn/problem/P10218">[省选联考 2024] 魔法手杖</a><a class="anchor" href="#s142" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的序列 $a_{1\sim n},b_{1\sim n}$，满足 $a_i \in [0,2^k-1]$ 以及 $b_i\geq 0$，你需要给出 $S \subseteq \{1,2,\dots,n\}$ 以及 $x \in [0,2^k-1]$ 满足以下条件：</p>
 <ul>
 <li>$\sum \limits_{i\in S} b_i\leq m$；</li>
@@ -1940,7 +1940,7 @@ $$\sum_{i=1}^{2n}c_i\cdot \left\lfloor\dfrac i 2\right\rfloor$$</p>
 </ul>
 <p>每个结点只会被搜到一次，时间复杂度 $O(\sum nk)$，可以通过。</p>
 <hr />
-<h3 id="s138"><a href="https://www.luogu.com.cn/problem/P5982">Trzy kule</a></h3>
+<h3 id="s143"><a href="https://www.luogu.com.cn/problem/P5982">Trzy kule</a><a class="anchor" href="#s143" aria-label="本节链接">#</a></h3>
 <p>给你三个长为 $n$ 的 01 串 $A_{1\sim 3,1\sim n}$ 以及三个整数 $r_{1\sim 3}$。定义两个 01 串的距离为它们不同的位置数量，求有多少个 01 串 $S_{1\sim n}$ 满足至少有一个 $i\in [1,3]$ 满足 $S$ 与 $A_i$ 的距离不超过 $r_i$。</p>
 <p>$n\le 10^4$。</p>
 <hr />
@@ -1950,7 +1950,7 @@ $$\begin{aligned}c_1+c_2+c_3+c_4&amp;\le r_1\c_1+c_2+(k_3-c_3)+(k_4-c_4)&amp;\le
 <p>直接枚举 $c_{1\sim4}$ 可以做到 $O(n^4)$。</p>
 <p><strong>可以考虑折半以将时间复杂度开根</strong>。设 $s_{i,j}=\displaystyle\sum_{c_1,c_2}\binom{k_1}{c_1}\binom{k_2}{c_2}[c_1+c_2\le i][c_1+k_2-c_2\le j]$，可以使用一次二维前缀和求出。计算答案时只需枚举 $c_3,c_4$ 即可。时间复杂度 $O(n^2)$。</p>
 <hr />
-<h3 id="s139"><a href="https://www.luogu.com.cn/problem/P9252">Wielki Zderzacz Termionów</a></h3>
+<h3 id="s144"><a href="https://www.luogu.com.cn/problem/P9252">Wielki Zderzacz Termionów</a><a class="anchor" href="#s144" aria-label="本节链接">#</a></h3>
 <p>有红绿蓝三种颜色的棋子，定义一个棋子序列是好的当且仅当其能通过执行若干次如下操作使得最终剩余恰好一个棋子：</p>
 <ul>
 <li>将两个相邻的红色棋子替换为一个绿色棋子。</li>
@@ -1965,7 +1965,7 @@ $$\begin{aligned}c_1+c_2+c_3+c_4&amp;\le r_1\c_1+c_2+(k_3-c_3)+(k_4-c_4)&amp;\le
 <p>单次询问需要求出 $f_{k,c}=\displaystyle\sum_{i=0}^k\binom k i[i\equiv c(\bmod\ 3)]$，递推预处理即可。</p>
 <p>时间复杂度 $O(n+q)$。</p>
 <hr />
-<h3 id="s140"><a href="https://www.luogu.com.cn/problem/AT_abc249_g">Xor Cards</a></h3>
+<h3 id="s145"><a href="https://www.luogu.com.cn/problem/AT_abc249_g">Xor Cards</a><a class="anchor" href="#s145" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 的序列 $x_{1\sim n},y_{1\sim n}$ 以及一个常数 $k$。你需要选出一个子集 $S$ 使得 $\operatorname{xor}_{i\in S} x_i\le k$，最大化 $\operatorname{xor}_{i\in S} y_i$。</p>
 <p>$n\le 5\times 10^5$。</p>
 <hr />
@@ -1973,7 +1973,7 @@ $$\begin{aligned}c_1+c_2+c_3+c_4&amp;\le r_1\c_1+c_2+(k_3-c_3)+(k_4-c_4)&amp;\le
 <p><strong>从高至低贪心，此二元组后的所有二元组均可随意选且不会影响该位</strong>，于是将这个二元组后面所有二元组的 $x$ 放入线性基即可判断此二元组能否选或不选。</p>
 <p>时间复杂度 $O(n\log v)$。</p>
 <hr />
-<h3 id="s141"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2027&amp;pid=0">[2023 NOI模拟 Day43] 防诈骗</a></h3>
+<h3 id="s146"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2027&amp;pid=0">[2023 NOI模拟 Day43] 防诈骗</a><a class="anchor" href="#s146" aria-label="本节链接">#</a></h3>
 <p>考虑以下博弈问题：有一个长为 $n$ 的 <code>01</code> 串 $s_{1\sim n}$，初始全为 <code>1</code>，两人轮流操作，每次操作为：</p>
 <ul>
 <li>选择一个下标 $x$ 以及一个正整数 $p$，满足 $x\cdot 2^p\le n$ 且 $s_x=1$，取反 $s_x,s_{x\cdot 2^p}$。</li>
@@ -1991,14 +1991,14 @@ $$\bigoplus_{i=1}^n[2\nmid i]\bigoplus_{j=0}^{\lfloor{n}/{i}\rfloor-1}j$$</p>
 $$\bigoplus_{i=0}^{d-1}[n_i\ne n_{i+1}]i$$</p>
 <p>可以进行数位 DP，求解第 $k$ 小倍增即可，时间复杂度 $O(T\log^3v)$，可以通过。</p>
 <hr />
-<h3 id="s142"><a href="https://www.luogu.com.cn/problem/P3538">A Horrible Poem</a></h3>
+<h3 id="s147"><a href="https://www.luogu.com.cn/problem/P3538">A Horrible Poem</a><a class="anchor" href="#s147" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的字符串 $s$，有 $q$ 次询问，每次询问给出一个区间 $[l,r]$，查询 $s_{l\dots r}$ 的最小整周期。</p>
 <p>$n\le 5\times 10^5$，$q\le 2\times 10^6$。</p>
 <hr />
 <p>所有整周期均为最小整周期的倍数且 $r-l+1$ 也为一个整周期，故将 $r-l+1$ 质因数分解后，<strong>对逐个质因子 $\bm p$ 试除，若当前答案除以 $\bm p$ 仍合法便将其除以 $\bm p$，最终结果即为答案</strong>。</p>
 <p>使用线性筛、哈希，时间复杂度 $O(n+q\log n)$。</p>
 <hr />
-<h3 id="s143"><a href="https://www.luogu.com.cn/problem/P5655">基础数论函数练习题</a></h3>
+<h3 id="s148"><a href="https://www.luogu.com.cn/problem/P5655">基础数论函数练习题</a><a class="anchor" href="#s148" aria-label="本节链接">#</a></h3>
 <p>给你一个长为 $n$ 的序列 $a_{1\sim n}$，接下来 $q$ 次询问，每次询问给出 $[l,r]$，求出 $\operatorname{lcm}(a_l,\dots,a_r)$，将答案对 $10^9+7$ 取模。多组数据。</p>
 <p>$T\le 300$，$n,q\le 300$。</p>
 <hr />
@@ -2013,7 +2013,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>考察 $c_i=c_{i+1}$ 即 $\gcd(a_{r+1},s_i)=\gcd(a_{r+1},s_{i+1})$ 成立的条件。<strong>对每一质因子 $\bm p$ 考虑</strong>，若 $a_{r+1},s_i,s_{i+1}$ 中分别有 $x,y,z$ 个 $p$，其中 $y\le z$ 恒成立，上式成立要求 $\min(x,y)=\min(x,z)$，等价于 $\min(x,z)\le y$，对应回原式即为 $s_{i+1}\bmod c_i=0$。</p>
 <p>从左向右依次求出 $c_i$ 即可，时间复杂度 $O(\sum n^2+n\log^2 v)$。</p>
 <hr />
-<h3 id="s144"><a href="http://xsy.gdgzez.com.cn/JudgeOnline/problem.php?cid=2211&amp;pid=0">[2025 联考 I Day6] 随机游走</a></h3>
+<h3 id="s149"><a href="http://xsy.gdgzez.com.cn/JudgeOnline/problem.php?cid=2211&amp;pid=0">[2025 联考 I Day6] 随机游走</a><a class="anchor" href="#s149" aria-label="本节链接">#</a></h3>
 <p>给你一张 $n$ 个点的有向图，有 $m$ 个人，其中第 $i$ 个人在时刻 $t_i$ 出现在结点 $p_i$，每个人在出现后的每个时刻均会均匀随机地走向一条出边。记 $f(i)$ 表示时刻 $i$ 中结点 $n$ 上面的期望人数，给定常数 $T$，求出 $f(1),\dots,f(T)$，对 $10^9+7$ 取模。</p>
 <p>$n\le 70$，$m\le 10^4$，$T\le 2\times 10^6$。</p>
 <hr />
@@ -2022,7 +2022,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>设定阈值 $b$，记 $i=p\cdot b+q$，则 $V\times A^i=V\times A^{b\cdot p}\times A^q$，预处理 $A^{0\sim b}$，查询时对 $p\in[0,\frac kb]$ 求出 $V\times A^{b\cdot p}$ 即可。</p>
 <p>时间复杂度 $O(n^3b+\dfrac{n^2T}{b}+nT)$，取 $b=\sqrt{\dfrac{T}{n}}$ 即可达到 $O(n^{5/2}T^{1/2}+nT)$。</p>
 <hr />
-<h3 id="s145"><a href="https://www.luogu.com.cn/problem/P12020">Boolean Computer</a></h3>
+<h3 id="s150"><a href="https://www.luogu.com.cn/problem/P12020">Boolean Computer</a><a class="anchor" href="#s150" aria-label="本节链接">#</a></h3>
 <p>给定 $n,m,q$ 以及 $m$ 个在 $[0,2^n)$ 内的整数 $a_{1\sim m}$。现有与、或、异或、与非、或非、同或六种位运算，对于给出的一个长为 $n$ 的运算法则 $s_{0\sim n-1}$，其中 $s_i$ 为六种位运算之一，数 $x,y$ 关于该运算法则的运算结果的第 $i$ 位是 $x,y$ 的第 $i$ 位通过运算 $s_i$ 得到的。</p>
 <p>接下来给出 $q$ 次询问，每次询问给出一个运算法则 $s_{0\sim n-1}$ 与一个整数 $k$，求出有多少二元组 $1\le i,j\le m$ 满足 $a_i\odot a_j=k$。</p>
 <p>$n\le 16$，$m,q\le 10^5$。</p>
@@ -2033,8 +2033,8 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>考虑将限制集大小为 $1$ 的限制表述成大小为 $2$ 的限制，这可通过容斥做到，一条限制集大小为 $1$ 的限制需要容斥为三条大小为 $2$ 的限制。此时我们需要求有多少对 $(i,j)$ 满足 $a_i+a_j$ 每一位都不等于给定数，这也可通过三进制 FWT 实现。</p>
 <p>总时间复杂度 $O(n3^n+q\min(2^c,3^{n-c}))$，可以通过。</p>
 <hr />
-<h1>构造</h1>
-<h3 id="s146"><a href="https://pjudge.ac/contest/1713/problem/21838">旋转序列</a></h3>
+<h1 id="s151">构造<a class="anchor" href="#s151" aria-label="本节链接">#</a></h1>
+<h3 id="s152"><a href="https://pjudge.ac/contest/1713/problem/21838">旋转序列</a><a class="anchor" href="#s152" aria-label="本节链接">#</a></h3>
 <p>给定三个整数 $n,k,l$，请构造两个长为 $n$ 的 01 序列 $a_{0\sim n-1},b_{0\sim n-1}$ 满足 $\sum a_i=k,\sum b_i=l$ 并最小化 $\max_j\sum_i[a_i=b_{(i+j)\bmod n}=1]$。</p>
 <p>$n\le 5\times 10^5$。</p>
 <hr />
@@ -2043,7 +2043,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>连边 $i\to(i+k)\bmod n$，形成了 $\gcd(n,k)$ 个长为 $\dfrac{n}{\gcd(n,k)}$ 的置换环，我们将前 $\left\lceil\dfrac{l\cdot\gcd(n,k)}{n}\right\rceil$ 个置换环上的所有位置上填 $1$，那么对于一个长为 $k$ 的区间，每一置换环上均有恰好 $\dfrac{k}{\gcd(n,k)}$ 个位置在该区间中，所以该区间的和不超过 $c$。在运算中会出现一些取整上的问题，需要精细实现一下。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s147"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1990&amp;pid=2">[2023 NOI模拟 Day28] 算数</a></h3>
+<h3 id="s153"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=1990&amp;pid=2">[2023 NOI模拟 Day28] 算数</a><a class="anchor" href="#s153" aria-label="本节链接">#</a></h3>
 <p>给定 $n$ 个整数 $a_{1\sim n}$，你需要构造 $k$ 个整数 $b_{1\sim k}$，再对每个 $i\in[1,n]$ 构造一个只包含 <code>+,-,*,(,)</code> 与 $b_{1\sim k}$ 中数的算式，使得其结果为 $a_i$。</p>
 <p>要求对于每个算式，整数 $v$ 在其中的出现次数不超过其在 $b_{1\sim k}$ 中的出现次数。</p>
 <p>当 $k\le 12$ 时，你可以获得测试点的全部分数，否则获得 $\dfrac{\max(20-k,0)}8$ 的分数。</p>
@@ -2058,7 +2058,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p><strong>考虑到我们只用了加法和乘法，不妨想想如何利用减法</strong>。目前的瓶颈为需要加入所有的 $2\sim b-1$，若某一位上的数为 $r$，那么若在此位进一位并在这一位使用减法，我们便可将其系数绝对值变为 $r-b$，于是我们也能将这部分贡献折半了。</p>
 <p>该构造中 $k=\left\lfloor\log_bv\right\rfloor+\left\lfloor\dfrac b 2\right\rfloor-1$，取 $b=9$ 可以通过。</p>
 <hr />
-<h3 id="s148"><a href="https://www.luogu.com.cn/problem/CF618F">Double Knapsack</a></h3>
+<h3 id="s154"><a href="https://www.luogu.com.cn/problem/CF618F">Double Knapsack</a><a class="anchor" href="#s154" aria-label="本节链接">#</a></h3>
 <p>给你两个长为 $n$ 且值域为 $[1,n]$ 的数组 $a_{1\sim n},b_{1\sim n}$，你需要在两个序列中分别选择一个子集，使得他们的和相同。构造一组满足要求的方案。</p>
 <p>$n\le 10^6$。</p>
 <hr />
@@ -2071,7 +2071,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>注意到有 $2n$ 次操作，即有 $2n+1$ 个 $x$，而 $x$ 的值域只有 $2n$，故其必定重复，直接取出这一段的元素即可。</p>
 <p>时间复杂度 $O(n)$。</p>
 <hr />
-<h3 id="s149"><a href="https://www.luogu.com.cn/problem/P11111">生产计划</a></h3>
+<h3 id="s155"><a href="https://www.luogu.com.cn/problem/P11111">生产计划</a><a class="anchor" href="#s155" aria-label="本节链接">#</a></h3>
 <p>这是一道交互题。</p>
 <p>给你一棵有 $n$ 个结点的树，每个结点有点权区间 $[l_i,r_i]$，表示要求结点 $i$ 的点权 $a_i\in[l_i,r_i]$。</p>
 <p>给出 $q$ 个非负整数 $v_{1\sim q}$，对于每个整数 $v_i$，你需要给出一组点权方案使得该树的最大权独立集为 $v_i$ 或判断无解。</p>
@@ -2087,7 +2087,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>询问时直接找到该权值对应的一段即可。</p>
 <p>时间复杂度 $O(n+q\log n+cn)$。</p>
 <hr />
-<h3 id="s150"><a href="https://www.luogu.com.cn/problem/P11866">na12xy</a></h3>
+<h3 id="s156"><a href="https://www.luogu.com.cn/problem/P11866">na12xy</a><a class="anchor" href="#s156" aria-label="本节链接">#</a></h3>
 <p>给定一个 $n$ 个节点的树，你有一个 $n$ 个点初始无边的图，点编号从 $1$ 到 $n$，以及一个初始均为 $0$ 的整数序列 $a_{1\sim 12}$。</p>
 <p>你可以进行任意次操作，操作有如下两种类型：</p>
 <ul>
@@ -2101,8 +2101,8 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>现在需要做到序列长度为 $\lceil\log_3n\rceil$，类似地，我们选取一条链使得链上挂的最大子树大小不超过 $\dfrac{1}{3}n$，这样可以通过依次构造链上点的链外子树构造出整棵树。以重心 $x$ 为根对树做轻重链剖分，选取 $x$ 前两大的子树的重链即可。</p>
 <p>由于我们实际上在做点分治，时间复杂度为 $O(n\log n)$。</p>
 <hr />
-<h2 id="s151">交互</h2>
-<h3 id="s152"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2032&amp;pid=2">[2023 NOI模拟 Day48] 超立方体</a></h3>
+<h2 id="s157">交互<a class="anchor" href="#s157" aria-label="本节链接">#</a></h2>
+<h3 id="s158"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2032&amp;pid=2">[2023 NOI模拟 Day48] 超立方体</a><a class="anchor" href="#s158" aria-label="本节链接">#</a></h3>
 <p>这是一道交互题。</p>
 <p>有一棵 $n$ 个结点，形态未知的树，定义 $\text{dist}(u,v)$ 为 $u$ 到 $v$ 路径上结点编号的异或和。你可以给出结点 $u$ 与集合 $S$ 进行查询 $\text{query}(u,S)$，交互库会回答你 $\text{xor}_{p\in S}\text{ dist}(u,p)$ 的值。请在 $Q$ 次询问内求出这棵树。</p>
 <p>多组数据。</p>
@@ -2141,7 +2141,7 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 <p>单次插入最多进行一次二分，每个未二分的重链使用常数次查询，于是单次插入仅需 $O(\log n)$ 次询问。</p>
 <p>时间复杂度 $O(n^2\log n)$，询问次数 $O(n\log n)$，常数较小，可以通过。</p>
 <hr />
-<h3 id="s153"><a href="https://www.luogu.com.cn/problem/P11647">俄罗斯蓝猫</a></h3>
+<h3 id="s159"><a href="https://www.luogu.com.cn/problem/P11647">俄罗斯蓝猫</a><a class="anchor" href="#s159" aria-label="本节链接">#</a></h3>
 <p>这是一道交互题。</p>
 <p>有 $n$ 个在 $\left[0,10^{18}\right]$ 中随机生成的非负整数 $a_{0\sim n-1}$。</p>
 <p>一组询问可以给出不超过 $2n$ 个二元组 $(x_0,y_0),(x_1,y_1),\dots,(x_{m-1},y_{m-1})$，令 $b_i=a_{x_i}+a_{y_i}$，交互库会给出 $b_{0\sim m-1}$ 从小到大排序后的结果。</p>
@@ -2166,12 +2166,47 @@ $$b_i=\dfrac{a_i}{\gcd(a_i,\prod_{j=1}^{i-1}b_j)}$$</p>
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">Merging Cells P</a><a class="lv3" href="#s2">永恒 / Eternity</a><a class="lv3" href="#s3">[2024 联考 II Day12] 自然选择号</a><a class="lv3" href="#s4">[2023 NOI模拟 Day10] Hitori 的旅行</a><a class="lv3" href="#s5">[省选联考 2024] 重塑时光</a><a class="lv3" href="#s6">[2024 联考 III ACM] Xiang</a><a class="lv3" href="#s7">[2023 NOI模拟 Day15] 矩形</a><a class="lv3" href="#s8">[2023 NOI模拟 Day23] 匹配</a><a class="lv3" href="#s9">简单的树上问题</a><a class="lv3" href="#s10">Tenzing and Random Operations</a><a class="lv3" href="#s11">Emotional Fishermen</a><a class="lv3" href="#s12">The Maximum Prefix</a><a class="lv3" href="#s13">Range Argmax</a><a class="lv3" href="#s14">Red and Blue Chips</a><a class="lv3" href="#s15">Card Guessing</a><a class="lv3" href="#s16">MEX counting</a><a class="lv3" href="#s17">Bus Analysis</a><a class="lv3" href="#s18">Avoid Permutations</a><a class="lv3" href="#s19">[ZJOI2022] 树</a><a class="lv3" href="#s20">Again Counting Arrays</a><a class="lv3" href="#s21">阴阳阵</a><a class="lv3" href="#s22">[2024 联考 I Day7] 连通</a><a class="lv3" href="#s23">[2024 联考 IV Day7] 不连续子串 / subseq</a><a class="lv3" href="#s24">青鱼和区间</a><a class="lv3" href="#s25">重返现世</a><a class="lv3" href="#s26">排列游戏</a><a class="lv3" href="#s27">Resurrection</a><a class="lv3" href="#s28">Counting Haybales P</a><a class="lv3" href="#s29">Equal Sums</a><a class="lv3" href="#s30">[2023 NOI模拟 Day24] 数环</a><a class="lv3" href="#s31">All Pairs Similarity P</a><a class="lv3" href="#s32">[2025 省选模拟 Day8] 神明的迷思</a><a class="lv3" href="#s33">Graph</a><a class="lv3" href="#s34">[LNOI2022] 盒</a><a class="lv3" href="#s35">[GDKOI2023] 错排</a><a class="lv3" href="#s36">[2025 NOI模拟 Day9] 旋舞</a><a class="lv3" href="#s37">[广东省队集训 2025] 白</a><a class="lv3" href="#s38">咏叹调调律</a><a class="lv3" href="#s39">Harsh Comments</a><a class="lv3" href="#s40">催眠术</a><a class="lv3" href="#s41">双向奔赴</a><a class="lv3" href="#s42">[2024 联考 II Day3] 换换</a><a class="lv3" href="#s43">[2024 联考 IV Day1] 最优划积树法则 / tree</a><a class="lv3" href="#s44">[省选联考 2024] 迷宫守卫</a><a class="lv3" href="#s45">Favorite Game</a><a class="lv3" href="#s46">Juggler's Trick</a><a class="lv3" href="#s47">ランプ / Lamps</a><a class="lv3" href="#s48">Minimum Sum of Maximums P</a><a class="lv3" href="#s49">[2024 联考 III ACM] Si</a><a class="lv3" href="#s50">Nawiasowe podziały</a><a class="lv3" href="#s51">[NOIP2018] 赛道修建</a><a class="lv3" href="#s52">Bear and Rectangle Strips</a><a class="lv3" href="#s53">[2023 NOI模拟 Day28] 光</a><a class="lv3" href="#s54">Paired Up P</a><a class="lv3" href="#s55">[JSOI2007] 建筑抢修</a><a class="lv3" href="#s56">[2023 NOI模拟 Day8] 菜粥鱼</a><a class="lv3" href="#s57">水杯降温</a><a class="lv3" href="#s58">合并序列</a><a class="lv3" href="#s59">夏天 / summer</a><a class="lv3" href="#s60">青鱼和怪兽</a><a class="lv3" href="#s61">[NOIP2017] 宝藏</a><a class="lv3" href="#s62">Minimum Cost Paths P</a><a class="lv3" href="#s63">Fruits</a><a class="lv3" href="#s64">Emiya 家明天的饭</a><a class="lv3" href="#s65">[2023 NOI模拟 Day22] cut</a><a class="lv3" href="#s66">[2023 NOI模拟 Day28] 零一串</a><a class="lv3" href="#s67">[2025 省选模拟 Day2] 异或</a><a class="lv3" href="#s68">Just Long Neckties 2</a><a class="lv3" href="#s69">Lasers 2</a><a class="lv3" href="#s70">[广东省队集训 2025] 石堆分裂</a><a class="lv3" href="#s71">[集训队互测 2025] 火花</a><a class="lv3" href="#s72">大鱼吃小鱼</a><a class="lv3" href="#s73">Canvas</a><a class="lv3" href="#s74">Balance</a><a class="lv3" href="#s75">Żarówki</a><a class="lv3" href="#s76">地地铁铁</a><a class="lv3" href="#s77">[2023 NOI模拟 Day12] 尼伯龙根的思维题</a><a class="lv3" href="#s78">[2024 省选模拟 Day22] 魔法</a><a class="lv3" href="#s79">[2023 NOI模拟 Day13] 激光塔</a><a class="lv3" href="#s80">[2023 NOI模拟 Day13] 地理微米</a><a class="lv3" href="#s81">[2024 联考 III Day1] 水管工</a><a class="lv3" href="#s82">Tuple+</a><a class="lv3" href="#s83">Game King</a><a class="lv3" href="#s84">Travelling Merchant</a><a class="lv3" href="#s85">[2023 NOI模拟 Day32] 有向图</a><a class="lv3" href="#s86">Strange Train Game</a><a class="lv3" href="#s87">[省选联考 2021] 图函数</a><a class="lv3" href="#s88">[2023 NOI模拟 Day22] lis</a><a class="lv3" href="#s89">[2023 NOI模拟 Day44] B</a><a class="lv3" href="#s90">Wide Swap</a><a class="lv3" href="#s91">[2023 NOI模拟 Day38] 求和</a><a class="lv3" href="#s92">[2025 NOI模拟 Day3] moon</a><a class="lv3" href="#s93">Dinosaur Bones Digging</a><a class="lv3" href="#s94">山路长环 / ring</a><a class="lv3" href="#s95">验题</a><a class="lv3" href="#s96">[广东省队集训 2024] 写作</a><a class="lv3" href="#s97">[2024 联考 II Day4] C</a><a class="lv3" href="#s98">[2024 联考 II Day6] 合并书籍</a><a class="lv3" href="#s99">[2024 联考 II Day8] word</a><a class="lv3" href="#s100">[2024 联考 II Day8] partition</a><a class="lv3" href="#s101">[2023 NOI模拟 Day6] 色彩</a><a class="lv3" href="#s102">[2023 NOI模拟 Day12] 公司</a><a class="lv3" href="#s103">[2024 联考 III Day1] 交换余生</a><a class="lv3" href="#s104">[2024 联考 III ACM] Dou</a><a class="lv3" href="#s105">[2024 联考 IV Day7] 钢琴教室 / anoko</a><a class="lv3" href="#s106">[2024 联考 IV Day7] 丰雪千里祥音颂 / cristmas</a><a class="lv3" href="#s107">[2024 联考 IV Day7] 复读机 / repeat</a><a class="lv3" href="#s108">[SNOI2017] 炸弹</a><a class="lv3" href="#s109">磁力块</a><a class="lv3" href="#s110">WD 与地图</a><a class="lv3" href="#s111">A Graph Problem P</a><a class="lv3" href="#s112">Infinite Adventure P</a><a class="lv3" href="#s113">[2023 NOI模拟 Day22] 好串</a><a class="lv3" href="#s114">Numbers on the blackboard</a><a class="lv3" href="#s115">[2023 NOI模拟 Day35] 前缀和</a><a class="lv3" href="#s116">冒泡排序 2</a><a class="lv3" href="#s117">大师选徒</a><a class="lv3" href="#s118">[2024 联考 IV Day9] Tamaya</a><a class="lv3" href="#s119">[2023 NOI模拟 Day42] 计算几何</a><a class="lv3" href="#s120">[2023 NOI模拟 Day41] 铺路</a><a class="lv3" href="#s121">进制与操作</a><a class="lv3" href="#s122">After god</a><a class="lv3" href="#s123">众数</a><a class="lv3" href="#s124">[2025 联考 I Day4] 钓鱼</a><a class="lv3" href="#s125">[SDOI2019] 世界地图</a><a class="lv3" href="#s126">学习轨迹</a><a class="lv3" href="#s127">2236 A.D.</a><a class="lv3" href="#s128">[2025 NOI模拟 Day13] 括号序列</a><a class="lv3" href="#s129">[广东省队集训 2025] 火力全开</a><a class="lv3" href="#s130">[广东省队集训 2025] 修理</a><a class="lv3" href="#s131">[广东省队集训 2025] 平衡树</a><a class="lv3" href="#s132">呼吸之野</a><a class="lv3" href="#s133">[2024 联考 II Day3] 串串</a><a class="lv3" href="#s134">[2024 联考 II Day4] A</a><a class="lv3" href="#s135">DZY Loves Chinese II</a><a class="lv3" href="#s136">[2023 NOI模拟 Day3] 数学题</a><a class="lv3" href="#s137">[省选联考 2024] 魔法手杖</a><a class="lv3" href="#s138">Trzy kule</a><a class="lv3" href="#s139">Wielki Zderzacz Termionów</a><a class="lv3" href="#s140">Xor Cards</a><a class="lv3" href="#s141">[2023 NOI模拟 Day43] 防诈骗</a><a class="lv3" href="#s142">A Horrible Poem</a><a class="lv3" href="#s143">基础数论函数练习题</a><a class="lv3" href="#s144">[2025 联考 I Day6] 随机游走</a><a class="lv3" href="#s145">Boolean Computer</a><a class="lv3" href="#s146">旋转序列</a><a class="lv3" href="#s147">[2023 NOI模拟 Day28] 算数</a><a class="lv3" href="#s148">Double Knapsack</a><a class="lv3" href="#s149">生产计划</a><a class="lv3" href="#s150">na12xy</a><a class="lv2" href="#s151">交互</a><a class="lv3" href="#s152">[2023 NOI模拟 Day48] 超立方体</a><a class="lv3" href="#s153">俄罗斯蓝猫</a>  </aside>
+    <a class="toc-doc" href="#top">解题思路分析</a>
+<a class="lv1 d0 top" href="#s1"><span>计数</span></a><a class="lv3 d1" href="#s2"><span>Merging Cells P</span></a><a class="lv3 d1" href="#s3"><span>永恒 / Eternity</span></a><a class="lv3 d1" href="#s4"><span>[2024 联考 II Day12] 自然选择号</span></a><a class="lv3 d1" href="#s5"><span>[2023 NOI模拟 Day10] Hitori 的旅行</span></a><a class="lv3 d1" href="#s6"><span>[省选联考 2024] 重塑时光</span></a><a class="lv3 d1" href="#s7"><span>[2024 联考 III ACM] Xiang</span></a><a class="lv3 d1" href="#s8"><span>[2023 NOI模拟 Day15] 矩形</span></a><a class="lv3 d1" href="#s9"><span>[2023 NOI模拟 Day23] 匹配</span></a><a class="lv3 d1" href="#s10"><span>简单的树上问题</span></a><a class="lv3 d1" href="#s11"><span>Tenzing and Random Operations</span></a><a class="lv3 d1" href="#s12"><span>Emotional Fishermen</span></a><a class="lv3 d1" href="#s13"><span>The Maximum Prefix</span></a><a class="lv3 d1" href="#s14"><span>Range Argmax</span></a><a class="lv3 d1" href="#s15"><span>Red and Blue Chips</span></a><a class="lv3 d1" href="#s16"><span>Card Guessing</span></a><a class="lv3 d1" href="#s17"><span>MEX counting</span></a><a class="lv3 d1" href="#s18"><span>Bus Analysis</span></a><a class="lv3 d1" href="#s19"><span>Avoid Permutations</span></a><a class="lv3 d1" href="#s20"><span>[ZJOI2022] 树</span></a><a class="lv3 d1" href="#s21"><span>Again Counting Arrays</span></a><a class="lv3 d1" href="#s22"><span>阴阳阵</span></a><a class="lv3 d1" href="#s23"><span>[2024 联考 I Day7] 连通</span></a><a class="lv3 d1" href="#s24"><span>[2024 联考 IV Day7] 不连续子串 / subseq</span></a><a class="lv3 d1" href="#s25"><span>青鱼和区间</span></a><a class="lv3 d1" href="#s26"><span>重返现世</span></a><a class="lv3 d1" href="#s27"><span>排列游戏</span></a><a class="lv3 d1" href="#s28"><span>Resurrection</span></a><a class="lv3 d1" href="#s29"><span>Counting Haybales P</span></a><a class="lv3 d1" href="#s30"><span>Equal Sums</span></a><a class="lv3 d1" href="#s31"><span>[2023 NOI模拟 Day24] 数环</span></a><a class="lv3 d1" href="#s32"><span>All Pairs Similarity P</span></a><a class="lv3 d1" href="#s33"><span>[2025 省选模拟 Day8] 神明的迷思</span></a><a class="lv3 d1" href="#s34"><span>Graph</span></a><a class="lv3 d1" href="#s35"><span>[LNOI2022] 盒</span></a><a class="lv3 d1" href="#s36"><span>[GDKOI2023] 错排</span></a><a class="lv3 d1" href="#s37"><span>[2025 NOI模拟 Day9] 旋舞</span></a><a class="lv3 d1" href="#s38"><span>[广东省队集训 2025] 白</span></a><a class="lv3 d1" href="#s39"><span>咏叹调调律</span></a><a class="lv3 d1" href="#s40"><span>Harsh Comments</span></a><a class="lv3 d1" href="#s41"><span>催眠术</span></a><a class="lv1 d0 top" href="#s42"><span>最优化</span></a><a class="lv3 d1" href="#s43"><span>双向奔赴</span></a><a class="lv3 d1" href="#s44"><span>[2024 联考 II Day3] 换换</span></a><a class="lv3 d1" href="#s45"><span>[2024 联考 IV Day1] 最优划积树法则 / tree</span></a><a class="lv3 d1" href="#s46"><span>[省选联考 2024] 迷宫守卫</span></a><a class="lv3 d1" href="#s47"><span>Favorite Game</span></a><a class="lv3 d1" href="#s48"><span>Juggler's Trick</span></a><a class="lv3 d1" href="#s49"><span>ランプ / Lamps</span></a><a class="lv3 d1" href="#s50"><span>Minimum Sum of Maximums P</span></a><a class="lv3 d1" href="#s51"><span>[2024 联考 III ACM] Si</span></a><a class="lv3 d1" href="#s52"><span>Nawiasowe podziały</span></a><a class="lv3 d1" href="#s53"><span>[NOIP2018] 赛道修建</span></a><a class="lv3 d1" href="#s54"><span>Bear and Rectangle Strips</span></a><a class="lv3 d1" href="#s55"><span>[2023 NOI模拟 Day28] 光</span></a><a class="lv3 d1" href="#s56"><span>Paired Up P</span></a><a class="lv3 d1" href="#s57"><span>[JSOI2007] 建筑抢修</span></a><a class="lv3 d1" href="#s58"><span>[2023 NOI模拟 Day8] 菜粥鱼</span></a><a class="lv3 d1" href="#s59"><span>水杯降温</span></a><a class="lv3 d1" href="#s60"><span>合并序列</span></a><a class="lv3 d1" href="#s61"><span>夏天 / summer</span></a><a class="lv3 d1" href="#s62"><span>青鱼和怪兽</span></a><a class="lv3 d1" href="#s63"><span>[NOIP2017] 宝藏</span></a><a class="lv3 d1" href="#s64"><span>Minimum Cost Paths P</span></a><a class="lv3 d1" href="#s65"><span>Fruits</span></a><a class="lv3 d1" href="#s66"><span>Emiya 家明天的饭</span></a><a class="lv3 d1" href="#s67"><span>[2023 NOI模拟 Day22] cut</span></a><a class="lv3 d1" href="#s68"><span>[2023 NOI模拟 Day28] 零一串</span></a><a class="lv3 d1" href="#s69"><span>[2025 省选模拟 Day2] 异或</span></a><a class="lv3 d1" href="#s70"><span>Just Long Neckties 2</span></a><a class="lv3 d1" href="#s71"><span>Lasers 2</span></a><a class="lv3 d1" href="#s72"><span>[广东省队集训 2025] 石堆分裂</span></a><a class="lv3 d1" href="#s73"><span>[集训队互测 2025] 火花</span></a><a class="lv3 d1" href="#s74"><span>大鱼吃小鱼</span></a><a class="lv1 d0 top" href="#s75"><span>图论</span></a><a class="lv3 d1" href="#s76"><span>Canvas</span></a><a class="lv3 d1" href="#s77"><span>Balance</span></a><a class="lv3 d1" href="#s78"><span>Żarówki</span></a><a class="lv3 d1" href="#s79"><span>地地铁铁</span></a><a class="lv3 d1" href="#s80"><span>[2023 NOI模拟 Day12] 尼伯龙根的思维题</span></a><a class="lv3 d1" href="#s81"><span>[2024 省选模拟 Day22] 魔法</span></a><a class="lv3 d1" href="#s82"><span>[2023 NOI模拟 Day13] 激光塔</span></a><a class="lv3 d1" href="#s83"><span>[2023 NOI模拟 Day13] 地理微米</span></a><a class="lv3 d1" href="#s84"><span>[2024 联考 III Day1] 水管工</span></a><a class="lv3 d1" href="#s85"><span>Tuple+</span></a><a class="lv3 d1" href="#s86"><span>Game King</span></a><a class="lv3 d1" href="#s87"><span>Travelling Merchant</span></a><a class="lv3 d1" href="#s88"><span>[2023 NOI模拟 Day32] 有向图</span></a><a class="lv3 d1" href="#s89"><span>Strange Train Game</span></a><a class="lv3 d1" href="#s90"><span>[省选联考 2021] 图函数</span></a><a class="lv3 d1" href="#s91"><span>[2023 NOI模拟 Day22] lis</span></a><a class="lv3 d1" href="#s92"><span>[2023 NOI模拟 Day44] B</span></a><a class="lv3 d1" href="#s93"><span>Wide Swap</span></a><a class="lv3 d1" href="#s94"><span>[2023 NOI模拟 Day38] 求和</span></a><a class="lv3 d1" href="#s95"><span>[2025 NOI模拟 Day3] moon</span></a><a class="lv1 d0 top" href="#s96"><span>数据结构</span></a><a class="lv3 d1" href="#s97"><span>Dinosaur Bones Digging</span></a><a class="lv3 d1" href="#s98"><span>山路长环 / ring</span></a><a class="lv3 d1" href="#s99"><span>验题</span></a><a class="lv3 d1" href="#s100"><span>[广东省队集训 2024] 写作</span></a><a class="lv3 d1" href="#s101"><span>[2024 联考 II Day4] C</span></a><a class="lv3 d1" href="#s102"><span>[2024 联考 II Day6] 合并书籍</span></a><a class="lv3 d1" href="#s103"><span>[2024 联考 II Day8] word</span></a><a class="lv3 d1" href="#s104"><span>[2024 联考 II Day8] partition</span></a><a class="lv3 d1" href="#s105"><span>[2023 NOI模拟 Day6] 色彩</span></a><a class="lv3 d1" href="#s106"><span>[2023 NOI模拟 Day12] 公司</span></a><a class="lv3 d1" href="#s107"><span>[2024 联考 III Day1] 交换余生</span></a><a class="lv3 d1" href="#s108"><span>[2024 联考 III ACM] Dou</span></a><a class="lv3 d1" href="#s109"><span>[2024 联考 IV Day7] 钢琴教室 / anoko</span></a><a class="lv3 d1" href="#s110"><span>[2024 联考 IV Day7] 丰雪千里祥音颂 / cristmas</span></a><a class="lv3 d1" href="#s111"><span>[2024 联考 IV Day7] 复读机 / repeat</span></a><a class="lv3 d1" href="#s112"><span>[SNOI2017] 炸弹</span></a><a class="lv3 d1" href="#s113"><span>磁力块</span></a><a class="lv3 d1" href="#s114"><span>WD 与地图</span></a><a class="lv3 d1" href="#s115"><span>A Graph Problem P</span></a><a class="lv3 d1" href="#s116"><span>Infinite Adventure P</span></a><a class="lv3 d1" href="#s117"><span>[2023 NOI模拟 Day22] 好串</span></a><a class="lv3 d1" href="#s118"><span>Numbers on the blackboard</span></a><a class="lv3 d1" href="#s119"><span>[2023 NOI模拟 Day35] 前缀和</span></a><a class="lv3 d1" href="#s120"><span>冒泡排序 2</span></a><a class="lv3 d1" href="#s121"><span>大师选徒</span></a><a class="lv3 d1" href="#s122"><span>[2024 联考 IV Day9] Tamaya</span></a><a class="lv3 d1" href="#s123"><span>[2023 NOI模拟 Day42] 计算几何</span></a><a class="lv3 d1" href="#s124"><span>[2023 NOI模拟 Day41] 铺路</span></a><a class="lv3 d1" href="#s125"><span>进制与操作</span></a><a class="lv3 d1" href="#s126"><span>After god</span></a><a class="lv3 d1" href="#s127"><span>众数</span></a><a class="lv3 d1" href="#s128"><span>[2025 联考 I Day4] 钓鱼</span></a><a class="lv3 d1" href="#s129"><span>[SDOI2019] 世界地图</span></a><a class="lv3 d1" href="#s130"><span>学习轨迹</span></a><a class="lv3 d1" href="#s131"><span>2236 A.D.</span></a><a class="lv3 d1" href="#s132"><span>[2025 NOI模拟 Day13] 括号序列</span></a><a class="lv3 d1" href="#s133"><span>[广东省队集训 2025] 火力全开</span></a><a class="lv3 d1" href="#s134"><span>[广东省队集训 2025] 修理</span></a><a class="lv3 d1" href="#s135"><span>[广东省队集训 2025] 平衡树</span></a><a class="lv3 d1" href="#s136"><span>呼吸之野</span></a><a class="lv1 d0 top" href="#s137"><span>特殊技巧</span></a><a class="lv3 d1" href="#s138"><span>[2024 联考 II Day3] 串串</span></a><a class="lv3 d1" href="#s139"><span>[2024 联考 II Day4] A</span></a><a class="lv3 d1" href="#s140"><span>DZY Loves Chinese II</span></a><a class="lv3 d1" href="#s141"><span>[2023 NOI模拟 Day3] 数学题</span></a><a class="lv3 d1" href="#s142"><span>[省选联考 2024] 魔法手杖</span></a><a class="lv3 d1" href="#s143"><span>Trzy kule</span></a><a class="lv3 d1" href="#s144"><span>Wielki Zderzacz Termionów</span></a><a class="lv3 d1" href="#s145"><span>Xor Cards</span></a><a class="lv3 d1" href="#s146"><span>[2023 NOI模拟 Day43] 防诈骗</span></a><a class="lv3 d1" href="#s147"><span>A Horrible Poem</span></a><a class="lv3 d1" href="#s148"><span>基础数论函数练习题</span></a><a class="lv3 d1" href="#s149"><span>[2025 联考 I Day6] 随机游走</span></a><a class="lv3 d1" href="#s150"><span>Boolean Computer</span></a><a class="lv1 d0 top" href="#s151"><span>构造</span></a><a class="lv3 d1" href="#s152"><span>旋转序列</span></a><a class="lv3 d1" href="#s153"><span>[2023 NOI模拟 Day28] 算数</span></a><a class="lv3 d1" href="#s154"><span>Double Knapsack</span></a><a class="lv3 d1" href="#s155"><span>生产计划</span></a><a class="lv3 d1" href="#s156"><span>na12xy</span></a><a class="lv2 d1" href="#s157"><span>交互</span></a><a class="lv3 d2" href="#s158"><span>[2023 NOI模拟 Day48] 超立方体</span></a><a class="lv3 d2" href="#s159"><span>俄罗斯蓝猫</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

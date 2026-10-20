@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P10107【[GDKOI2023 提高组] 树】</h1>
@@ -41,12 +41,12 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P10107">$\text{Link}$</a></p>
 <p>相当巧妙的倍增/差分题。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给你一颗 $n$ 个结点的树，点有点权，$q$ 次询问给出 $x,k$，求：</p>
 <p>$$\sum_uv_u\oplus d(u,x)$$</p>
 <p>其中 $u$ 为 $x$ 子树中距离 $x$ 不超过 $k$ 的所有点，$d(x,y)$ 为 $x$ 到 $y$ 的距离。</p>
 <p>$n,q\le 10^6$.</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p><img src="https://cdn.luogu.com.cn/upload/image_hosting/kftupnxm.png?x-oss-process=image" alt="p" /></p>
 <p>考虑这样一颗树，要求 $6$ 子树中距离它不超过 $1$ 的点的答案，即黄色部分。我们可以用绿色部分的答案减去橙色部分的答案得到黄色部分的答案（由于深度相同可以直接减）。</p>
 <p>定义一个结点 $x$ 对应的蓝色区域为所有深度 $\ge dep_x$ 的点中 $dfn$ 小于等于 $low_x$ 的结点。如上图中给出了结点 $6$ 对应的蓝色区域。</p>
@@ -142,12 +142,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P10107【[GDKOI2023 提高组] 树】</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

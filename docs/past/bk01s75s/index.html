@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
       <h1 class="post-title">详细揭秘：低秩矩阵分解与矩阵树定理极简证明</h1>
@@ -49,7 +49,7 @@
 <li>$\det(A+B)$ 的值等于所有子集 $S$ 得到的矩阵 $B'$ 的行列式之和；</li>
 </ul>
 <p>如果其中 $\text{rank}(A)$ 为常数，则可以进行低秩矩阵分解：根据行列式基本性质，只有 $S$ 内行线性无关时才有可能做出贡献，此时明显有 $|S|\le \text{rank}(A)$。</p>
-<h3 id="s1">例：<a href="https://www.luogu.com.cn/problem/P6178">矩阵树定理</a>的证明</h3>
+<h3 id="s1">例：<a href="https://www.luogu.com.cn/problem/P6178">矩阵树定理</a>的证明<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
 <blockquote>
 <p>证明：给定一张图，令 $D,A$ 分别为图的度数矩阵、邻接矩阵，则任意选定 $x$ 并删除 $D,A$ 中的第 $x$ 行、第 $x$ 列后，$\det(D-A)$ 等于该图生成树个数。</p>
 </blockquote>
@@ -60,7 +60,7 @@
 <li>如果没有任何环，那么考虑与 $x$ 相连的任意点 $p$，其只能选择 $(p,p)$ 上的 $1$，因为 $(p,x)$ 被删去了，依此递推可以得到贡献为 $1$。</li>
 </ul>
 <p>可以非常轻松地拓展至带权、有向版本推论。</p>
-<h3 id="s2">例：<a href="https://www.luogu.com.cn/problem/AT_xmascon20_d">Determinant</a></h3>
+<h3 id="s2">例：<a href="https://www.luogu.com.cn/problem/AT_xmascon20_d">Determinant</a><a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <blockquote>
 <p>给定整数 $n,c$，求解 $n\times n$ 的矩阵 $A_{i,j}$ 的行列式：
 $$A_{i,j}=\begin{cases}1,&amp;i=j\\0,&amp;i\ne j\land j\bmod i=0\c,&amp;\text{otherwise}\end{cases}$$</p>
@@ -75,7 +75,7 @@ $$B_{i,j}=\begin{cases}1-c,&amp;i=j\\-c,&amp;i\ne j\land j\bmod i=0\\0,&amp;\tex
 <p>考虑计算贡献，令 $f(i)$ 表示替换第 $i$ 行的贡献，则有：</p>
 <p>$$f(n)=\dfrac{c}{1-c}(1+\sum_{d|n,d\ne n}f(d))$$</p>
 <p>后续优化可以移步<a href="https://www.luogu.com.cn/article/ydo4kkcp">完整题解</a>查看。</p>
-<h3 id="s3">例：<a href="https://www.luogu.com.cn/problem/P10881">能量场</a></h3>
+<h3 id="s3">例：<a href="https://www.luogu.com.cn/problem/P10881">能量场</a><a class="anchor" href="#s3" aria-label="本节链接">#</a></h3>
 <blockquote>
 <p>给你一个长为 $n$ 的序列 $a_{1\dots n}$，定义一条边 $(u,v)$ 的权值为 $a_u+a_v$。对于一张图，定义其权值为包含的所有边的权值乘积。求所有 $n$ 个点的有标号基环树的权值之和。对 $998244353$ 取模。</p>
 <p>$n\le 10^3$。</p>
@@ -90,7 +90,7 @@ $$B_{i,j}=\begin{cases}1-c,&amp;i=j\\-c,&amp;i\ne j\land j\bmod i=0\\0,&amp;\tex
 <li>$|S|=2$，$\sum_{i=1}^n\sum_{j=i+1}^n(2a_ia_j-a_i^2-a_j^2)\prod_{k\ne i,k\ne j}d_k$。</li>
 </ul>
 <p>后续优化可以移步<a href="https://www.luogu.com.cn/article/vjw4igzj">完整题解</a>查看。</p>
-<h3 id="s4">思考：简单的生成树</h3>
+<h3 id="s4">思考：简单的生成树<a class="anchor" href="#s4" aria-label="本节链接">#</a></h3>
 <blockquote>
 <p>给定两棵点数分别为 $n,m$ 的树 $T_1,T_2$ ，再构造一个无向图 $G$，$G$ 包含 $T_1,T_2$ 的所有点、树边，且还包含所有跨越 $T_1,T_2$ 的点对所组成的边。</p>
 <p>求无向图 $G$ 的生成树个数，对 $10^9+7$ 取模。</p>
@@ -103,7 +103,7 @@ $$B_{i,j}=\begin{cases}1-c,&amp;i=j\\-c,&amp;i\ne j\land j\bmod i=0\\0,&amp;\tex
 <p>经过简单的推导，可得到答案为：
 $$m^{p-1}n^{q-1}\prod_{i}a_i\prod_j b_j$$</p>
 <p>树形 DP 即可求解，时间复杂度 $O(n+m)$。</p></div></details>
-<h3 id="s5">思考：<a href="https://www.luogu.com.cn/problem/AT_agc070_b">Odd Namori</a></h3>
+<h3 id="s5">思考：<a href="https://www.luogu.com.cn/problem/AT_agc070_b">Odd Namori</a><a class="anchor" href="#s5" aria-label="本节链接">#</a></h3>
 <blockquote>
 <p>给定一个长为 $n-1$ 的序列 $p_{2\sim n}$，求满足下列条件的有向图的权值和：</p>
 <ul>
@@ -137,12 +137,47 @@ $$m^{p-1}n^{q-1}\prod_{i}a_i\prod_j b_j$$</p>
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">例：矩阵树定理的证明</a><a class="lv3" href="#s2">例：Determinant</a><a class="lv3" href="#s3">例：能量场</a><a class="lv3" href="#s4">思考：简单的生成树</a><a class="lv3" href="#s5">思考：Odd Namori</a>  </aside>
+    <a class="toc-doc" href="#top">详细揭秘：低秩矩阵分解与矩阵树定理极简证明</a>
+<a class="lv3 d0 top" href="#s1"><span>例：矩阵树定理的证明</span></a><a class="lv3 d0 top" href="#s2"><span>例：Determinant</span></a><a class="lv3 d0 top" href="#s3"><span>例：能量场</span></a><a class="lv3 d0 top" href="#s4"><span>思考：简单的生成树</span></a><a class="lv3 d0 top" href="#s5"><span>思考：Odd Namori</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

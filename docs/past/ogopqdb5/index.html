@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
       <h1 class="post-title">THUWC、NOIWC 2024 游寄</h1>
@@ -40,14 +40,14 @@
 <span class="tag">THUWC 2024</span><span class="tag">WC 2024</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/ogopqdb5" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p>两场都打得不行。</p>
-<h2 id="s1">THUWC</h2>
+<h2 id="s1">THUWC<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>自带电脑。</p>
 <p>Day1 过了 A，B 发现是卷积，不会写 $\text{NTT } 90$ 跑路，D $15$ 跑路，C 整了好久最后只过了 $74$。</p>
 <p>pretest：$100+90+74+15$。</p>
 <p>Day2 因为不会用虚拟机开场坐牢 1h 调，后面写了个简单的 alpha-beta 剪枝，结果 $1,2$ 看反只拿到了很少的分。</p>
 <p>$80+40+30+20+0$。</p>
 <p>还好拿过一等不颁奖。</p>
-<h2 id="s2">NOIWC</h2>
+<h2 id="s2">NOIWC<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>食堂很好，宿舍很差。</p>
 <p>有挺多有意思的梗，文艺汇演也很好看。</p>
 <p>考试时过 A 太慢了，B 先写了个 $n^2$ 去写 C，写完发现只是特殊性质的解法，就打算先去整 B。B 正解想到了但最终没调出来，交上去的暴力在改的过程中错了，喜提零分。</p>
@@ -63,12 +63,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">THUWC</a><a class="lv2" href="#s2">NOIWC</a>  </aside>
+    <a class="toc-doc" href="#top">THUWC、NOIWC 2024 游寄</a>
+<a class="lv2 d0 top" href="#s1"><span>THUWC</span></a><a class="lv2 d0 top" href="#s2"><span>NOIWC</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

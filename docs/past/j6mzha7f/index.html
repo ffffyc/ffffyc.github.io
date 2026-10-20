@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 UVA11530 【SMS Typing】</h1>
@@ -39,12 +39,12 @@
         <span>2020-10-03</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/j6mzha7f" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h1>UVA11530 SMS Typing</h1>
-<h4 id="s1"><a href="https://www.luogu.com.cn/problem/UVA11530"><em>传送门</em></a></h4>
-<h2 id="s2">题意简述</h2>
+    <div class="prose"><h1 id="s1">UVA11530 SMS Typing<a class="anchor" href="#s1" aria-label="本节链接">#</a></h1>
+<h4 id="s2"><a href="https://www.luogu.com.cn/problem/UVA11530"><em>传送门</em></a><a class="anchor" href="#s2" aria-label="本节链接">#</a></h4>
+<h2 id="s3">题意简述<a class="anchor" href="#s3" aria-label="本节链接">#</a></h2>
 <p>给出 $n$ 和 $n$ 行数据，每行数据由空格和 $a$ 至 $z$ 之间的数组成。</p>
 <p>按$a$需要$1$次，$b$需要$2$次，$c$需要$3$次，$d$需要$1$次...</p>
-<h2 id="s3">思路</h2>
+<h2 id="s4">思路<a class="anchor" href="#s4" aria-label="本节链接">#</a></h2>
 <p>每次用$getline$读入一整行，保存在字符串里，再遍历一遍整个字符串求出所有字符所需要按的次数加起来，输出就行了。</p>
 <p>注意，读入第一行$n$时会剩余一个回车符，通常处理有几种方法：</p>
 <ul>
@@ -88,12 +88,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv4" href="#s1">传送门</a><a class="lv2" href="#s2">题意简述</a><a class="lv2" href="#s3">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解 UVA11530 【SMS Typing】</a>
+<a class="lv1 d0 top" href="#s1"><span>UVA11530 SMS Typing</span></a><a class="lv4 d1" href="#s2"><span>传送门</span></a><a class="lv2 d1" href="#s3"><span>题意简述</span></a><a class="lv2 d1" href="#s4"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

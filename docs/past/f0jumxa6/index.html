@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P7549【[BJWC2017] 神秘物质】</h1>
@@ -42,7 +42,7 @@
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7549">$\text{Link}$</a></p>
 <p>在校内 $\text{OJ}$ 看到的一道题，在 $\text{Luogu}$ 找到了，发现没有题解，于是来写一个。</p>
 <p>sto zltzlt orz.</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给你一个序列 $a$，支持 $4$ 个操作：</p>
 <ul>
 <li>$\text{merge x e}$，删除结点 $x,x+1$，在 $x$ 的位置插入一个节点，权值为 $e$；</li>
@@ -51,7 +51,7 @@
 <li>$\text{min l r}$，查询区间 $[l,r]$ 中任意子区间的区间极差的最小值。</li>
 </ul>
 <p>$1\le n,m\le 10^5$.</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>看到插入、删除就可以想到使用文艺平衡树来解决问题，这里我使用 $\text{Splay}$，操作 $1,2$ 十分显然。</p>
 <p>$3$ 操作可以直接维护区间的最大值和最小值，答案就是它们做差。</p>
 <p>$4$ 操作中，我们设答案的子区间为 $[l',r']$，设其中最大值为 $a$，最小值为 $b$，若区间中加入一个数 $v$，则 $a\gets \max(a,v),b\gets\min(b,v),\max(a,v)-\min(b,v)\ge a-b$，即插入一个数显然不会更优，所以答案区间长度为 $2$。所以我们可以维护每个数与其左右的差的绝对值，分别设为 $lb_x,rb_x$，再维护 $ms_x$ 代表 $x$ 子树内 $lb,rb$ 的最小值，答案即为 $ms$。注意需要特判 $l+1=r$ 的情况，直接取 $rb_l$。</p>
@@ -230,12 +230,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P7549【[BJWC2017] 神秘物质】</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

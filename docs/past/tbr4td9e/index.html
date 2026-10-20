@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/diary/">个人记录</a></p>
       <h1 class="post-title">拉格朗日反演学习笔记</h1>
@@ -39,10 +39,10 @@
         <span>2021-07-28</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/tbr4td9e" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h3 id="s1">拉格朗日反演</h3>
-<h4 id="s2">复合逆</h4>
+    <div class="prose"><h3 id="s1">拉格朗日反演<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
+<h4 id="s2">复合逆<a class="anchor" href="#s2" aria-label="本节链接">#</a></h4>
 <p>若对于两个多项式 $F,G$ 有 $G(F(x))=x$，则称 $F,G$ 互为复合逆。</p>
-<h4 id="s3">定理证明</h4>
+<h4 id="s3">定理证明<a class="anchor" href="#s3" aria-label="本节链接">#</a></h4>
 <p>若对多项式 $F$ 有 $G(F(x))=x$，将 $G(F(x))$ 表为
 $$\sum_{i\ge1}b_iF^i(x)=x$$
 两边求导，注意左边 $F^i$ 是函数 $F(x)$ 和函数 $x^i$ 的复合函数
@@ -64,11 +64,11 @@ $$[x^n]G(x)=\frac 1 n\cdot[x^{-1}]\frac1{F^n(x)}$$</p>
 <p>$$[x^n]G(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {F^n(x)}$$
 同样有
 $$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {G^n(x)}$$</p>
-<h4 id="s4">扩展拉格朗日反演</h4>
+<h4 id="s4">扩展拉格朗日反演<a class="anchor" href="#s4" aria-label="本节链接">#</a></h4>
 <p>即 $G(F(x))=H(x)$ 时的特殊形式，有结论：</p>
 <p>$$[x^n]G(x)=\frac 1 n\cdot[x^{n-1}]H'(x)\cdot\frac {x^n} {F^n(x)}$$</p>
-<h3 id="s5">例题</h3>
-<h4 id="s6">$1.\text{BZOJ3684}$ 大朋友和多叉树</h4>
+<h3 id="s5">例题<a class="anchor" href="#s5" aria-label="本节链接">#</a></h3>
+<h4 id="s6">$1.\text{BZOJ3684}$ 大朋友和多叉树<a class="anchor" href="#s6" aria-label="本节链接">#</a></h4>
 <p>设 $F$ 为答案的生成函数，不难得出
 $$F=x+\sum_{i\in D}F^i$$
 其中 $x$ 表示单个叶子节点，$F^i$ 表示选择 $i$ 颗树做当前结点的儿子。</p>
@@ -82,7 +82,7 @@ $$G(F(x))=x$$
 $$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac {x^n} {G^n(x)}$$
 $$[x^n]F(x)=\frac 1 n\cdot[x^{n-1}]\frac 1 {\left(\frac {G(x)} x\right)^n}$$
 直接求即可，时间复杂度 $O(n\log n)$。</p>
-<h4 id="s7">$2.\text P5828$ 边双连通图计数</h4>
+<h4 id="s7">$2.\text P5828$ 边双连通图计数<a class="anchor" href="#s7" aria-label="本节链接">#</a></h4>
 <p>设有根无向连通图的 $\text{EGF}$ 为 $F(x)$，有根边双连通图的 $\text{EGF}$ 为 $G(x)$。</p>
 <p>我们显然可以使用<a href="https://www.luogu.com.cn/problem/P4841">有标号无向连通图</a>的 $\text{EGF}$ 乘上 $n$ 以得到 $F(x)$，于是考虑用 $F,G$ 互相表示。</p>
 <p>对于一个有根无向连通图，我们可以枚举其根所在的边双大小，再算出所有连向其它部分的边的 $\text{EGF}$。</p>
@@ -104,7 +104,7 @@ $$
 至此直接求解即可。</p>
 <p>时间复杂度 $O(n\log n)$。</p>
 <p>代码实现见<a href="https://www.luogu.com.cn/blog/cyffff/solution-p5828">题解 P5828</a>。</p>
-<h4 id="s8">$3.\text P5827$ 点双连通图计数</h4>
+<h4 id="s8">$3.\text P5827$ 点双连通图计数<a class="anchor" href="#s8" aria-label="本节链接">#</a></h4>
 <p>设有根无向连通图的 $\text{EGF}$ 为 $F(x)$，无根点双连通图的 $\text{EGF}$ 为 $G(x)$。</p>
 <p>我们显然可以使用<a href="https://www.luogu.com.cn/problem/P4841">有标号无向连通图</a>的 $\text{EGF}$ 乘上 $n$ 以得到 $F(x)$，于是考虑用 $F,G$ 互相表示。</p>
 <p>对于一个有根无向连通图，每个点都会被包含在至少 $1$ 个点双中，且每个点双的大小不少于 $2$。注意还需要特判 $n=1$ 时输出 $1$。</p>
@@ -136,12 +136,47 @@ $$
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">拉格朗日反演</a><a class="lv4" href="#s2">复合逆</a><a class="lv4" href="#s3">定理证明</a><a class="lv4" href="#s4">扩展拉格朗日反演</a><a class="lv3" href="#s5">例题</a><a class="lv4" href="#s6">$1.\text{BZOJ3684}$ 大朋友和多叉树</a><a class="lv4" href="#s7">$2.\text P5828$ 边双连通图计数</a><a class="lv4" href="#s8">$3.\text P5827$ 点双连通图计数</a>  </aside>
+    <a class="toc-doc" href="#top">拉格朗日反演学习笔记</a>
+<a class="lv3 d0 top" href="#s1"><span>拉格朗日反演</span></a><a class="lv4 d1" href="#s2"><span>复合逆</span></a><a class="lv4 d1" href="#s3"><span>定理证明</span></a><a class="lv4 d1" href="#s4"><span>扩展拉格朗日反演</span></a><a class="lv3 d0 top" href="#s5"><span>例题</span></a><a class="lv4 d1" href="#s6"><span>$1.\text{BZOJ3684}$ 大朋友和多叉树</span></a><a class="lv4 d1" href="#s7"><span>$2.\text P5828$ 边双连通图计数</span></a><a class="lv4 d1" href="#s8"><span>$3.\text P5827$ 点双连通图计数</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

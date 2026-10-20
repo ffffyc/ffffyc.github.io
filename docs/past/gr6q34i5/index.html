@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
       <h1 class="post-title">详细揭秘：特殊图高斯消元</h1>
@@ -39,14 +39,14 @@
         <span>2024-08-01</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/gr6q34i5" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h2 id="s1">树上高斯消元</h2>
+    <div class="prose"><h2 id="s1">树上高斯消元<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <blockquote>
 <p>给你一颗树，某些点为终止结点，求从每个点开始随机游走走到某个终止节点的期望时间。</p>
 </blockquote>
 <p>从叶子开始将 $f(u)$ 表示为 $k(u)f(\text{fa}(u))+b(u)$，带回 $f(\text{fa}(u))$ 的方程中将 $f(u)$ 消掉即可。</p>
-<h2 id="s2">DAG 上高斯消元</h2>
+<h2 id="s2">DAG 上高斯消元<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <blockquote>
-<h4 id="s3"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2158&amp;pid=1">可重集 / reset</a></h4>
+<h4 id="s3"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2158&amp;pid=1">可重集 / reset</a><a class="anchor" href="#s3" aria-label="本节链接">#</a></h4>
 <p>有一个可重集 $S$，每一个时刻：</p>
 <ul>
 <li>有 $p$ 的概率执行以下操作：如果 $S=\varnothing$，则无事发生，否则会从 $S$ 中删去恰好一个 $\min(S)$；</li>
@@ -80,9 +80,9 @@ $$f(\varnothing)=\frac{1+\frac{1-p}{n}\sum_{x=1}^n b(x,x)}{1-p-\frac{1-p}{n}\sum
 <p>给你一个有向无环图，出度为 $0$ 的点为终止结点，求从每个点开始随机游走走到某个终止节点的期望时间。</p>
 <p>随机游走的规则为：对于每一次，设当前在点 $u$，有 $p_u$ 的概率回退上一步游走以及 $1-p_u$ 的概率进行一次游走，以 $w_{u,v}$ 为权随机一条边 $u\to v$ 游走到点 $v$。</p>
 </blockquote>
-<h2 id="s4">ACAM 上高斯消元</h2>
+<h2 id="s4">ACAM 上高斯消元<a class="anchor" href="#s4" aria-label="本节链接">#</a></h2>
 <blockquote>
-<h4 id="s5"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2001&amp;pid=0">字符串 / string</a></h4>
+<h4 id="s5"><a href="http://192.168.102.138/JudgeOnline/problem.php?cid=2001&amp;pid=0">字符串 / string</a><a class="anchor" href="#s5" aria-label="本节链接">#</a></h4>
 <p>给你 $n$ 个长为 $m$、字符集为 $k$ 的字符串 $T_{1\sim n}$，以及一个长为 $k$ 的序列 $p_{1\sim k}$，每次询问给一个字符串 $S$，在 $S$ 后面以 $p$ 为概率随机添加字符直到恰好包含任意一个 $T_i$，求期望添加字符数量。</p>
 <p>$n,m\le 100$，$k\le nm$。</p>
 </blockquote>
@@ -120,7 +120,7 @@ $$\begin{aligned}f(t)&amp;=1+\sum_{c}f(g_{t,c})p_c\\
 <p>对每个关键变量分别进行一次上述过程即可做到空间复杂度 $O(nm)$。</p>
 <hr />
 <blockquote>
-<h4 id="s6"><a href="https://www.luogu.com.cn/problem/P3706">[SDOI2017] 硬币游戏</a></h4>
+<h4 id="s6"><a href="https://www.luogu.com.cn/problem/P3706">[SDOI2017] 硬币游戏</a><a class="anchor" href="#s6" aria-label="本节链接">#</a></h4>
 <p>给你 $n$ 个长为 $m$、字符集为 $k$ 的字符串 $T_{1\sim n}$，每次询问给一个字符串 $S$，在 $S$ 后面均匀随机添加字符直到恰好包含任意一个 $T_i$，对 $i\in [1,n]$ 求最终恰好包含 $T_i$ 的概率。</p>
 <p>$n,m\le 300$，$k=2$。</p>
 </blockquote>
@@ -144,12 +144,47 @@ $$\begin{aligned}f(t)&amp;=1+\sum_{c}f(g_{t,c})p_c\\
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">树上高斯消元</a><a class="lv2" href="#s2">DAG 上高斯消元</a><a class="lv4" href="#s3">可重集 / reset</a><a class="lv2" href="#s4">ACAM 上高斯消元</a><a class="lv4" href="#s5">字符串 / string</a><a class="lv4" href="#s6">[SDOI2017] 硬币游戏</a>  </aside>
+    <a class="toc-doc" href="#top">详细揭秘：特殊图高斯消元</a>
+<a class="lv2 d0 top" href="#s1"><span>树上高斯消元</span></a><a class="lv2 d0 top" href="#s2"><span>DAG 上高斯消元</span></a><a class="lv4 d1" href="#s3"><span>可重集 / reset</span></a><a class="lv2 d0 top" href="#s4"><span>ACAM 上高斯消元</span></a><a class="lv4 d1" href="#s5"><span>字符串 / string</span></a><a class="lv4 d1" href="#s6"><span>[SDOI2017] 硬币游戏</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解：P7078 [CSP-S2020] 贪吃蛇</h1>
@@ -41,11 +41,11 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P7078">$\text{Link}$</a></p>
 <p>时隔四年来修订一下这篇题解。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给你一个长为 $n$ 的数组 $a_{1\sim n}$，有 $n$ 条蛇，它们的实力依次为 $a_1,a_2,\dots,a_n$，保证 $a_{1\sim n}$ 升序。接下来每个时刻，实力值最大的蛇可以决定是否吃掉实力值最小的蛇，如果选择吃，那么其实力值将会减去被吃的蛇的实力值。实力值相同时按照编号进行实力的比较。</p>
 <p>每条蛇目标均为在自己不会被吃的前提下尽可能吃最多的蛇，且每条蛇均采用最优策略，求出最后剩余的蛇的数量。多组数据。</p>
 <p>$n\le 10^6$，$T\le 10$。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>进行分类讨论。第一类情况是 $a_n-a_1\ge a_2$，即最强的蛇吃完后并非最弱的蛇。假设之后有一时刻其成为了最弱的蛇，那么当前最弱的蛇 $a_2$ 一定被吃了，设吃掉它的是 $a_k$，那么蛇 $k$ 的当前实力为 $a_k-a_2$，又有 $a_k\le a_n,a_2\ge a_1$，所以此时应该是蛇 $k$ 最弱，这与我们的假设矛盾。</p>
 <p>于是我们可以得出结论，如果最强的蛇吃完后不是最弱的蛇，那么它一定会吃，并且在之后的任意时刻不可能<strong>在此类情况中</strong>成为最弱的蛇。</p>
 <p>接下来是第二类情况 $a_n-a_1&lt;a_2$，最强的蛇吃完后成为了最弱的蛇。它会这么做的前提是在当前次强蛇的最优策略中不会吃掉它。则有以下情况：</p>
@@ -68,12 +68,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解：P7078 [CSP-S2020] 贪吃蛇</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

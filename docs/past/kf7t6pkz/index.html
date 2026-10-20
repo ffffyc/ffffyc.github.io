@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/travel/">游记</a></p>
       <h1 class="post-title">GDKOI2023 TG 游记</h1>
@@ -40,7 +40,7 @@
 <span class="tag">GDKOI 2023</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/kf7t6pkz" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/paste/42i834fc">题面</a></p>
-<h3 id="s1">$\text{Day1}/2023.3.11$</h3>
+<h3 id="s1">$\text{Day1}/2023.3.11$<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
 <p>考试时间是 $8:30\sim12:30$。</p>
 <p>拿到题一看，三个 $998244353$。</p>
 <p>看 $\text{A}$，不会，非常慌。</p>
@@ -56,7 +56,7 @@
 <p>下午听讲评，中午休息的时候有人弹了 SIGMA，mopemope，Testify，Palescreen，OIer 和音游人真是高度重合啊（</p>
 <p>听讲评，果然 $\text{BC}$ 都不太是考场写的出来的。$\text A$ 的 std 就是上面那个，看上去出题人应该想不到我的做法，应该能过！</p>
 <p>然后就是漫长的等时间，主持人一直在拖时间，拖到最后只剩下一个“明天再见”，成绩还没出。</p>
-<h3 id="s2">$\text{Day2}/2023.3.12$</h3>
+<h3 id="s2">$\text{Day2}/2023.3.12$<a class="anchor" href="#s2" aria-label="本节链接">#</a></h3>
 <p>事实证明，背板子没有什么用。</p>
 <p>进场，三题糊脸上感觉都不怎么简单！</p>
 <p>$\text{BC}$ 太抽象了所以就先看 $\text A$。</p>
@@ -86,12 +86,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">$\text{Day1}/2023.3.11$</a><a class="lv3" href="#s2">$\text{Day2}/2023.3.12$</a>  </aside>
+    <a class="toc-doc" href="#top">GDKOI2023 TG 游记</a>
+<a class="lv3 d0 top" href="#s1"><span>$\text{Day1}/2023.3.11$</span></a><a class="lv3 d0 top" href="#s2"><span>$\text{Day2}/2023.3.12$</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P9169【[省选联考 2023] 过河卒】</h1>
@@ -41,7 +41,7 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P9169">$\text{Link}$</a></p>
 <p>十分考验代码实现能力。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>一个 $n\times m$ 的棋盘，有的位置有障碍物。有两个红子和一个黑子。对于一个红子 $(x,y)$，移动一次可以走到 $(x±1,y)$ 或 $(x,y±1)$，对于一个黑子，移动一次可以走到 $(x-1,y)$ 或 $(x,y±1)$。需要保证移动后还在地图内且不在障碍物上。两个红子不能重叠。双方轮流执子，红方为先手，红方每次可挑一个棋子进行移动。</p>
 <p>在一次移动前，按照以下顺序判定胜负：</p>
 <ul>
@@ -53,7 +53,7 @@
 <p>假设双方均采用最优策略，在可获胜时希望总移动步数最少，否则希望总移动步数最多。如果游戏无法结束则判定平局。</p>
 <p>$T$ 组数据，给出地图，求获胜方、总移动步数或判定平局。</p>
 <p>$1\le T,n,m\le 10$。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>对于三个棋子，分别记作 $r_1,r_2,b$。求出三个棋子所在连通块的所有点，列出所有可能存在的局面（包含三个点的位置和先手，显然上限是 $O(n^3m^3)$ 种），在局面内建边 $t\to s$ <strong>表示 $s$ 局面一次移动后可以转移到 $t$ 局面</strong>。建反向边的原因是 $s$ 会决策走到哪个局面更好，当 $t$ 决策完了可以更好地更新 $s$ 的决策。</p>
 <p>考虑求出所有点最优方案，考虑一个 bfs 和拓扑排序的融合东西，维护一个队列，存当前决策完了的所有点。初始时队列里的点是所有的结束结点（在这个局面移动之前已经判定胜负）。维护每个点获胜方和结束步数 $p_i$。</p>
 <p>考虑一个点 $t$ 去更新点 $s$：</p>
@@ -299,12 +299,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P9169【[省选联考 2023] 过河卒】</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

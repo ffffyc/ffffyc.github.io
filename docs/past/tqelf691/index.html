@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/theory/">算法·理论</a></p>
       <h1 class="post-title">【日报#359】浅谈线段树分裂</h1>
@@ -39,8 +39,8 @@
         <span>2021-04-20</span>
 <span class="tag">洛谷日报</span><span class="tag">日报</span><a class="tag tag-link" href="https://www.luogu.com.cn/article/tqelf691" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h2 id="s1">浅谈线段树分裂</h2>
-<h2 id="s2">$\text{Part -1}$ 目录</h2>
+    <div class="prose"><h2 id="s1">浅谈线段树分裂<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
+<h2 id="s2">$\text{Part -1}$ 目录<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <ul>
 <li>$\text{Part 0}$ 前言</li>
 <li>$\text{Part 1}$ 介绍</li>
@@ -49,7 +49,7 @@
 <li>$\text{Part 4}$ 后记</li>
 <li>$\text{Part 5}$ 参考</li>
 </ul>
-<h2 id="s3">$\text{Part 0}$ 前言</h2>
+<h2 id="s3">$\text{Part 0}$ 前言<a class="anchor" href="#s3" aria-label="本节链接">#</a></h2>
 <ul>
 <li>Q：有什么数据结构是支持用合并&amp;分裂查询答案信息的呢？</li>
 <li>A：$\text{fhq-Treap}$</li>
@@ -59,13 +59,13 @@
 <p>前置芝士：<a href="https://www.luogu.com.cn/blog/bfqaq/qian-tan-quan-zhi-xian-duan-shu">权值线段树</a>、<a href="https://www.luogu.com.cn/blog/styx-ferryman/xian-duan-shu-ge-bing-zong-ru-men-dao-fang-qi">线段树合并</a></p>
 <p>约定：$val_x$ 为节点 $x$ 的权值， $ls(x),rs(x)$ 分别为 $x$ 节点的左儿子、右儿子。</p>
 <p>$\text{An Interesting Fact}$：$\text{URL}$ 中的 $\text{segment}$ 打错了。</p>
-<h2 id="s4">$\text{Part 1}$ 介绍</h2>
+<h2 id="s4">$\text{Part 1}$ 介绍<a class="anchor" href="#s4" aria-label="本节链接">#</a></h2>
 <p>线段树分裂，顾名思义就是将线段树分裂开。为了维护线段树合并所维护的可重集，我们需要将权值线段树中前 $k$ 小的位置和其余数分在两颗权值线段树上进行维护。</p>
 <p>具体怎么分裂呢？我们来看一张图：</p>
 <p><img src="https://cdn.luogu.com.cn/upload/image_hosting/77dv4pwn.png?x-oss-process=image/resize,m_lfit,h_170,w_225" alt="sum" /><img src="https://cdn.luogu.com.cn/upload/image_hosting/z08dbgcz.png?x-oss-process=image/resize,m_lfit,h_170,w_225" alt="l" /><img src="https://cdn.luogu.com.cn/upload/image_hosting/a9fm6he1.png?x-oss-process=image/resize,m_lfit,h_170,w_225" alt="right" /></p>
 <p>最左边的线段树即可按 $[1,3]$ 和 $[4,4]$ 分裂成右边两颗线段树。</p>
 <p>（wtcl 不会画树请谅解）</p>
-<h2 id="s5">$\text{Part 2}$ 实现</h2>
+<h2 id="s5">$\text{Part 2}$ 实现<a class="anchor" href="#s5" aria-label="本节链接">#</a></h2>
 <p>怎么实现？</p>
 <p><s>我会暴力 $O(n)$！</s></p>
 <p>回顾 $\text{Part 0}$，我们将线段树分裂与 $\text{fhq-Treap}$ 对比，现在我们也可以参考 $\text{fhq-Treap}$ 的分裂方法。</p>
@@ -91,8 +91,8 @@
 <span class="p">}</span>
 </code></pre>
 <p>我们发现上述三种情况都是每层只递归 $O(1)$ 次，复杂度 $O(\log n)$。</p>
-<h2 id="s6">$\text{Part 3}$ 应用</h2>
-<h3 id="s7">例1 P5494 【模板】线段树分裂</h3>
+<h2 id="s6">$\text{Part 3}$ 应用<a class="anchor" href="#s6" aria-label="本节链接">#</a></h2>
+<h3 id="s7">例1 P5494 【模板】线段树分裂<a class="anchor" href="#s7" aria-label="本节链接">#</a></h3>
 <p><a href="https://www.luogu.com.cn/problem/P5494">$\text{Link}$</a></p>
 <p>简化题意：维护一些可重集支持以下操作：</p>
 <ul>
@@ -227,7 +227,7 @@
 <span class="p">}</span>
 </code></pre>
 <p>（我所有代码中的快读快写都删掉了，需要的可以在<a href="https://www.luogu.com.cn/problem/P7809">$\text{ P7809 }$</a>找到。）</p>
-<h3 id="s8">例2 P2824 [HEOI2016/TJOI2016]排序</h3>
+<h3 id="s8">例2 P2824 [HEOI2016/TJOI2016]排序<a class="anchor" href="#s8" aria-label="本节链接">#</a></h3>
 <p><a href="https://www.luogu.com.cn/problem/P2824">$\text{Link}$</a></p>
 <p>简化题意：维护一个 $[1,n]$ 的排列，$m$ 次操作，每次操作区间升序或者降序排序，最后求位置 $p$ 上的数。</p>
 <p>考虑排序之后合并可以用权值线段树简单合并。</p>
@@ -328,7 +328,7 @@
 <span class="w">	</span><span class="n">flush</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre>
-<h3 id="s9">例3 CF558E A Simple Task</h3>
+<h3 id="s9">例3 CF558E A Simple Task<a class="anchor" href="#s9" aria-label="本节链接">#</a></h3>
 <p><a href="https://www.luogu.com.cn/problem/CF558E">$\text{Link}$</a></p>
 <p>简化题意：维护一个字符串，$m$ 次操作，每次操作区间升序或者降序排序，最后求整个字符串。</p>
 <p>我们发现这道题和上一道题基本一样，于是把代码一粘，改几下，发现过不了样例！</p>
@@ -347,9 +347,9 @@
 <span class="p">}</span>
 </code></pre>
 <p>要完整代码可以点 <a href="https://www.luogu.com.cn/paste/ztiz3sk1">$\text{Here}$</a>。</p>
-<h2 id="s10">$\text{Part 4}$ 后记</h2>
+<h2 id="s10">$\text{Part 4}$ 后记<a class="anchor" href="#s10" aria-label="本节链接">#</a></h2>
 <p>写这篇文章加深了我对线段树分裂的理解，因为线段树分裂考到的次数很少，所以没有找到多少题做例子，非常感谢你看到这里，我有些东西写得不够好、不够严谨，或者有其他例题，你们可以帮忙指出，万分感谢！</p>
-<h2 id="s11">$\text{Part 5}$ 参考</h2>
+<h2 id="s11">$\text{Part 5}$ 参考<a class="anchor" href="#s11" aria-label="本节链接">#</a></h2>
 <p><a href="https://www.luogu.com.cn/blog/ix-35/solution-p6012">题解 P6012 【【模板】线段树分裂】 - ix35</a></p>
 <p><a href="https://www.luogu.com.cn/blog/fusu2333/solution-p2824">题解 P2824 【[HEOI2016/TJOI2016]排序】 - 一扶苏一</a></p>
 <ul>
@@ -368,12 +368,47 @@
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">浅谈线段树分裂</a><a class="lv2" href="#s2">$\text{Part -1}$ 目录</a><a class="lv2" href="#s3">$\text{Part 0}$ 前言</a><a class="lv2" href="#s4">$\text{Part 1}$ 介绍</a><a class="lv2" href="#s5">$\text{Part 2}$ 实现</a><a class="lv2" href="#s6">$\text{Part 3}$ 应用</a><a class="lv3" href="#s7">例1 P5494 【模板】线段树分裂</a><a class="lv3" href="#s8">例2 P2824 [HEOI2016/TJOI2016]排序</a><a class="lv3" href="#s9">例3 CF558E A Simple Task</a><a class="lv2" href="#s10">$\text{Part 4}$ 后记</a><a class="lv2" href="#s11">$\text{Part 5}$ 参考</a>  </aside>
+    <a class="toc-doc" href="#top">【日报#359】浅谈线段树分裂</a>
+<a class="lv2 d0 top" href="#s1"><span>浅谈线段树分裂</span></a><a class="lv2 d0 top" href="#s2"><span>$\text{Part -1}$ 目录</span></a><a class="lv2 d0 top" href="#s3"><span>$\text{Part 0}$ 前言</span></a><a class="lv2 d0 top" href="#s4"><span>$\text{Part 1}$ 介绍</span></a><a class="lv2 d0 top" href="#s5"><span>$\text{Part 2}$ 实现</span></a><a class="lv2 d0 top" href="#s6"><span>$\text{Part 3}$ 应用</span></a><a class="lv3 d1" href="#s7"><span>例1 P5494 【模板】线段树分裂</span></a><a class="lv3 d1" href="#s8"><span>例2 P2824 [HEOI2016/TJOI2016]排序</span></a><a class="lv3 d1" href="#s9"><span>例3 CF558E A Simple Task</span></a><a class="lv2 d0 top" href="#s10"><span>$\text{Part 4}$ 后记</span></a><a class="lv2 d0 top" href="#s11"><span>$\text{Part 5}$ 参考</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

@@ -51,8 +51,10 @@
     items.forEach(function (t) {
       const a = document.createElement("a");
       a.href = "#" + t.id;
-      a.className = "lv" + t.level;
-      a.textContent = t.text;
+      a.className = "lv" + t.level + " d" + (t.depth || 0) + (t.top ? " top" : "");
+      const span = document.createElement("span");
+      span.textContent = t.text;
+      a.appendChild(span);
       tocEl.appendChild(a);
     });
     if (window.ffffycTypeset) window.ffffycTypeset(tocEl);

@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 P5491【【模板】二次剩余】</h1>
@@ -41,15 +41,15 @@
     </header>
     <div class="prose"><p><a href="https://www.luogu.com.cn/problem/P5491"><em>传送门</em></a></p>
 <p>板子题。</p>
-<h2 id="s1">题意</h2>
+<h2 id="s1">题意<a class="anchor" href="#s1" aria-label="本节链接">#</a></h2>
 <p>给出 $a,p$，求满足 $x^2\equiv a(\bmod p)$ 的所有 $x$。</p>
 <p>模奇素数的二次剩余大家都讲过了，这里不再多说。</p>
 <p>我们来看<a href="https://www.luogu.com.cn/problem/U152928">任意模数二次剩余</a>。</p>
-<h2 id="s2">思路</h2>
+<h2 id="s2">思路<a class="anchor" href="#s2" aria-label="本节链接">#</a></h2>
 <p>我们将上面的问题拆分为四部分：</p>
-<h4 id="s3">1.$p$ 为奇素数</h4>
+<h4 id="s3">1.$p$ 为奇素数<a class="anchor" href="#s3" aria-label="本节链接">#</a></h4>
 <p>不讲，见其他题解。</p>
-<h4 id="s4">2.$p=p_0^k$，其中 $p_0$ 为奇素数</h4>
+<h4 id="s4">2.$p=p_0^k$，其中 $p_0$ 为奇素数<a class="anchor" href="#s4" aria-label="本节链接">#</a></h4>
 <p>设 $a=p_0^i\times m,p_0\nmid m$。</p>
 <p>当 $i\ne0$ 时：</p>
 <p>设 $x=p_0^j\times n,p_0\nmid n$,即 $x^2=p_0^{2j}n^2$</p>
@@ -71,7 +71,7 @@ $$s^2\equiv t^2a(\bmod p)$$
 $$s^2t^{-2}\equiv a(\bmod p)$$
 显然逆元有解。</p>
 <p>时间复杂度 $O(\log p)$</p>
-<h4 id="s5">3.$p=2^k$</h4>
+<h4 id="s5">3.$p=2^k$<a class="anchor" href="#s5" aria-label="本节链接">#</a></h4>
 <p>先将 $a$ 中 $2$ 的因数除掉，然后可以发现 $a\equiv 1(\bmod 8)$ 才有解。</p>
 <p>证明：</p>
 <p>因为 $x_0^2\equiv a(\bmod p),2\nmid a$，所以 $2\nmid x_0$
@@ -93,7 +93,7 @@ $$t_{q-1}\equiv \dfrac{a\bmod 2^q-x_{q-1}^2}{2^{q-1}}(\bmod 2)$$
 $$x=±(x_{q-1}+\dfrac{a\bmod 2^q-x_{q-1}^2}{2}+2^{k-1}\times t_k)$$</p>
 <p>从 $q=3$ 开始递推就行了。</p>
 <p>时间复杂度 $O(\log p)$，也就是 $O(k)$。</p>
-<h4 id="s6">4.$p$ 无要求</h4>
+<h4 id="s6">4.$p$ 无要求<a class="anchor" href="#s6" aria-label="本节链接">#</a></h4>
 <p>分解 $p$ 得到 $t$ 个二次剩余方程
 $$\begin{cases}x_1^2\equiv a(\bmod p_1^{k_1})\x_2^2\equiv a(\bmod p_2^{k_2})\x_3^2\equiv a(\bmod p_3^{k_3})\\...\x_t^2\equiv a(\bmod p_t^{k_t})\end{cases}$$
 最后用 CRT 合并：
@@ -112,12 +112,47 @@ $$\begin{cases}x\equiv x_1(\bmod p_1^{k_1})\x\equiv x_2(\bmod p_2^{k_2})\x\equiv
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv2" href="#s1">题意</a><a class="lv2" href="#s2">思路</a><a class="lv4" href="#s3">1.$p$ 为奇素数</a><a class="lv4" href="#s4">2.$p=p_0^k$，其中 $p_0$ 为奇素数</a><a class="lv4" href="#s5">3.$p=2^k$</a><a class="lv4" href="#s6">4.$p$ 无要求</a>  </aside>
+    <a class="toc-doc" href="#top">题解 P5491【【模板】二次剩余】</a>
+<a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a><a class="lv4 d1" href="#s3"><span>1.$p$ 为奇素数</span></a><a class="lv4 d1" href="#s4"><span>2.$p=p_0^k$，其中 $p_0$ 为奇素数</span></a><a class="lv4 d1" href="#s5"><span>3.$p=2^k$</span></a><a class="lv4 d1" href="#s6"><span>4.$p$ 无要求</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>

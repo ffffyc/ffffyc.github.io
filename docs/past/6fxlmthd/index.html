@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792495802">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792495802">
+  <link rel="stylesheet" href="/assets/style.css?v=1792497809">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792497809">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792495802"></script>
+  <script src="/assets/math.js?v=1792497809"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -31,7 +31,7 @@
 
   <main class="wrap wide">
 <div class="post-layout">
-  <article class="post">
+  <article class="post" id="top">
     <header class="post-head">
       <p class="crumb"><a href="/past/">缥缈过往</a> / <a href="/past/category/solutions/">题解</a></p>
       <h1 class="post-title">题解 UVA12396【Remoteland】</h1>
@@ -39,12 +39,12 @@
         <span>2021-01-22</span>
 <a class="tag tag-link" href="https://www.luogu.com.cn/article/6fxlmthd" target="_blank" rel="noopener">洛谷原文</a>      </p>
     </header>
-    <div class="prose"><h3 id="s1">UVA12396 Remoteland</h3>
-<h4 id="s2"><a href="https://www.luogu.com.cn/problem/UVA12396"><em>传送门</em></a></h4>
-<h2 id="s3">翻译</h2>
+    <div class="prose"><h3 id="s1">UVA12396 Remoteland<a class="anchor" href="#s1" aria-label="本节链接">#</a></h3>
+<h4 id="s2"><a href="https://www.luogu.com.cn/problem/UVA12396"><em>传送门</em></a><a class="anchor" href="#s2" aria-label="本节链接">#</a></h4>
+<h2 id="s3">翻译<a class="anchor" href="#s3" aria-label="本节链接">#</a></h2>
 <p>选任意个在 $1$~$n$ 之间的互不相同数，使得他们的乘积为完全平方数且最大。</p>
 <p>多组数据，读入到 $0$ 结束。</p>
-<h2 id="s4">思路</h2>
+<h2 id="s4">思路<a class="anchor" href="#s4" aria-label="本节链接">#</a></h2>
 <p>由于答案要是完全平方数，所以它所有质因数的次数都是偶数。</p>
 <p>考虑枚举 $n$ 以内的质数，由于答案最大为 $n!$ ，于是这个质数在答案里的次数最高也只有它在 $n!$ 中的次数，为了使答案最大，要取到它最大的偶数次数。</p>
 <p>这里给出求一个质数 $p$ 在 $n!$ 中的次数的次数的公式:
@@ -52,7 +52,7 @@ $$f_p=\sum_{i=1}\left\lfloor\dfrac{n}{p^i}\right\rfloor$$
 因为答案要是完全平方数，当 $f_p$ 为奇数时，只能取到 $f_p-1$ 次。</p>
 <p>设 $P$ 为不超过 $n$ 的质数集合，答案就是
 $$\prod_{p\in P}p^{2\left\lfloor\frac{f_p}{2}\right\rfloor}$$</p>
-<h2 id="s5">代码实现</h2>
+<h2 id="s5">代码实现<a class="anchor" href="#s5" aria-label="本节链接">#</a></h2>
 <p>我们可以使用线性筛 $O(n)$ 求出集合 $P$，$O(log_pn)$ 求出 $f_p$，其它部分复杂度太玄学，不会分析，代码实现见下：</p>
 <pre class="code"><code class="language-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bits/stdc++.h&gt;</span>
 <span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span>
@@ -119,12 +119,47 @@ $$\prod_{p\in P}p^{2\left\lfloor\frac{f_p}{2}\right\rfloor}$$</p>
 
   <aside class="toc">
     <p class="toc-title">目录</p>
-<a class="lv3" href="#s1">UVA12396 Remoteland</a><a class="lv4" href="#s2">传送门</a><a class="lv2" href="#s3">翻译</a><a class="lv2" href="#s4">思路</a><a class="lv2" href="#s5">代码实现</a>  </aside>
+    <a class="toc-doc" href="#top">题解 UVA12396【Remoteland】</a>
+<a class="lv3 d0 top" href="#s1"><span>UVA12396 Remoteland</span></a><a class="lv4 d1" href="#s2"><span>传送门</span></a><a class="lv2 d0 top" href="#s3"><span>翻译</span></a><a class="lv2 d0 top" href="#s4"><span>思路</span></a><a class="lv2 d0 top" href="#s5"><span>代码实现</span></a>  </aside>
 </div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(
+    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+  );
+  if (!links.length) return;
+  var map = {}, heads = [];
+  links.forEach(function (a) {
+    var id = decodeURIComponent(a.getAttribute('href').slice(1));
+    var el = document.getElementById(id);
+    if (el) { map[id] = a; heads.push(el); }
+  });
+  function sync() {
+    var y = window.scrollY + 140, cur = heads[0];
+    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+  }
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
   </main>
 
   <footer class="foot">
     <div class="wrap">© 2026 ffffyc</div>
   </footer>
+
+  <script>
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
 </body>
 </html>
