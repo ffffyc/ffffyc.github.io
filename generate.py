@@ -48,9 +48,9 @@ COLUMN_LABEL = {
     "record": "课堂记录",
     "note": "笔记",
     "homework": "作业",
-    "solution": "作业解答",
+    "solution": "解答",
     "tutorial": "习题课",
-    "tutorial_solution": "习题课解答",
+    "tutorial_solution": "解答",
     "slide": "课件",
     "lectures": "对应讲次",
     "other": "其他",
@@ -349,7 +349,9 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     "date_text": date_text(imeta.get("date")),
                     "kind": kind,
                     "order": int(imeta.get("order") or 0),
-                    "short": (
+                    "seq": int(imeta.get("seq") or 0),
+                    "short": imeta.get("short")
+                    or (
                         imeta.get("title", slug).replace("课堂记录", "").strip()
                         if kind == "record"
                         else imeta.get("title", slug)
@@ -369,7 +371,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     "url": f"{cfg['base']}notes/{folder.name}/{slug}/",
                 }
             )
-        items.sort(key=lambda i: (i["order"], -i["date"].toordinal()))
+        items.sort(key=lambda i: (i["order"], i["seq"], -i["date"].toordinal()))
         public = [i for i in items if not i["hidden"]]
         secret = [i for i in items if i["hidden"]]
 
@@ -419,21 +421,30 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 }
             )
 
-        # 解答不单独占一列，挂在对应作业/习题课后面，避免列数过多把表格挤扁
-        for r in rows:
-            for sol_key, base_key in (("solution", "homework"), ("tutorial_solution", "tutorial")):
-                group = r["cells"].pop(sol_key, None)
-                if not group:
-                    continue
-                if base_key not in r["cells"]:
-                    r["cells"][base_key] = []
-                for e in group:
-                    item = dict(e)
-                    item["short"] = "解答"
-                    r["cells"][base_key].append(item)
+        # 解答、答案默认并进「作业 / 习题课」格：作业 · 解答 · 答案
+        inline_solutions = meta.get("inline_solutions", True)
+        if inline_solutions:
+            for r in rows:
+                for extra_key, base_key, label in (
+                    ("solution", "homework", "解答"),
+                    ("tutorial_solution", "tutorial", "解答"),
+                    ("answer", "homework", "答案"),
+                ):
+                    group = r["cells"].pop(extra_key, None)
+                    if not group:
+                        continue
+                    if base_key not in r["cells"]:
+                        r["cells"][base_key] = []
+                    for e in group:
+                        item = dict(e)
+                        item["short"] = label
+                        r["cells"][base_key].append(item)
 
+        drop = ("solution", "tutorial_solution", "answer")
         column_keys = [
-            k for k in (meta.get("columns") or []) if k not in ("solution", "tutorial_solution")
+            k
+            for k in (meta.get("columns") or [])
+            if not (inline_solutions and k in drop)
         ]
         if not column_keys:
             present = {k for r in rows for k in r["cells"]}

@@ -4,6 +4,6 @@ order: 4
 term: 2026 秋
 unit: 次
 columns:
+- slide
 - homework
-- solution
 show_text: false

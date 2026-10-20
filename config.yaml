@@ -1,19 +1,11 @@
-# 站点基本信息，改这里即可
 title: ffffyc
 tagline: 记录与整理
 description: 长期维护的文章，以及正在学习的科目的笔记与资料。
 author: ffffyc
 footer: © 2026 ffffyc
-
-# 发布地址。仓库名为 ffffyc.github.io 时前缀保持 "/"；
-# 如果仓库是普通名字（如 blog），改成 "/blog/"。
 url: https://ffffyc.github.io
 base: /
-
-# 首页只展示当前学期的科目
 current_term: 2026 秋
-
-# 科目的条目分类
 kinds:
   note: 笔记
   homework: 作业
@@ -21,3 +13,4 @@ kinds:
   tutorial: 习题课
   slide: 课件
   other: 其他
+  answer: 答案
