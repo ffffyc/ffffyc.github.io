@@ -64,6 +64,21 @@ def page_lines(path: Path) -> list[tuple[str, float]]:
     return lines
 
 
+def normalize_parens(text: str) -> str:
+    """含英文的括号改成半角并在前面留一个空格：中文（English）→ 中文 (English)。"""
+
+    def rep(m: re.Match) -> str:
+        inner = m.group(1)
+        if re.search(r"[A-Za-z]", inner):
+            return f" ({inner})"
+        return m.group(0)
+
+    text = re.sub(r"（([^（）]*)）", rep, text)
+    # 中文后紧跟左括号时补空格；右括号后紧跟中文时也补，避免 "(英文)与" 黏在一起
+    text = re.sub(r"(?<=[\u4e00-\u9fff])\(", " (", text)
+    return re.sub(r"\)(?=[\u4e00-\u9fff])", ") ", text)
+
+
 def topic_from_tex(subject: str, order: int) -> str:
     """从同名 .tex 的 \\author{...} 首行取主题句，保留 $...$。"""
     folder = TEX_DIRS.get(subject)
@@ -146,7 +161,7 @@ def main() -> None:
                 continue
             topic = topic_from_tex(folder.name, order) or topics_from_pdf(pdf)
             if topic:
-                data[order] = topic
+                data[order] = normalize_parens(topic)
                 changed = True
         if changed:
             lines = ["# 每周/每讲涉及的课程内容，键是周次或讲次；留空则不显示"]
