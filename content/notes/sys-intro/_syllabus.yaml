@@ -1,14 +1,14 @@
 # 每周/每讲涉及的课程内容，键是周次或讲次；留空则不显示
-1: "Lecture 1: Course Overview and Core Principles Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents"
-2: "Spring 2026 Lecture 2 Processors and Assembly Code Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen"
-3: "University Lecture Note Lecture 3: Memory Hierarchy A comprehensive note synthesized from lecture slides, the lecture transcript, and the uploaded study materials Course instructors: Wei Xu, Mingyu Gao Teaching assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 IIIS, Tsinghua University"
-4: "Lecture 4: Processes and Threads Comprehensive Lecture Note Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Tsinghua University"
-5: "Lecture 5: Practical Skills in Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 7, 2026"
-6: "Lecture 6: Concurrency and Synchronization (1)Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 7, 2026"
-7: "Lecture 7: Concurrency and Synchronization (2)Course Name: Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 12, 2026"
-8: "Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents"
-9: "I/O Devices Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 IIIS, Tsinghua University"
-10: "Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents"
-11: "Lecture 11: Networking and Remote Procedure Calls Multiplexing, Addressing, Reliability, Layering, and RPC Semantics Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents"
-12: "Lecture 12: Database Transactions Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents"
-13: "Lecture 13: Distributed Systems Remote Procedure Calls, Distributed File Systems, and Failure Handling Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents"
+1: 'Lecture 1: Course Overview and Core Principles Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents'
+2: 'Spring 2026 Lecture 2 Processors and Assembly Code Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen'
+3: 'University Lecture Note Lecture 3: Memory Hierarchy A comprehensive note synthesized from lecture slides, the lecture transcript, and the uploaded study materials Course instructors: Wei Xu, Mingyu Gao Teaching assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 IIIS, Tsinghua University'
+4: 'Lecture 4: Processes and Threads Comprehensive Lecture Note Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Tsinghua University'
+5: 'Lecture 5: Practical Skills in Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 7, 2026'
+6: 'Lecture 6: Concurrency and Synchronization (1)Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 7, 2026'
+7: 'Lecture 7: Concurrency and Synchronization (2)Course Name: Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen April 12, 2026'
+8: 'Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents'
+9: 'I/O Devices Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 IIIS, Tsinghua University'
+10: 'Introduction to Computer Systems Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Spring 2026 Contents'
+11: 'Lecture 11: Networking and Remote Procedure Calls Multiplexing, Addressing, Reliability, Layering, and RPC Semantics Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents'
+12: 'Lecture 12: Database Transactions Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents'
+13: 'Lecture 13: Distributed Systems Remote Procedure Calls, Distributed File Systems, and Failure Handling Instructors: Wei Xu, Mingyu Gao Teaching Assistants: Weitao Wan, Tingrui Zhang, Ruitao Liu, Shuo Chen Contents'

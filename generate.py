@@ -588,6 +588,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 "resources": meta.get("resources") or [],
                 "links": meta.get("links") or [],
                 "links_title": meta.get("links_title", "实验与代码"),
+                "math": any("$" in str(v) for v in syllabus.values()),
                 "count": len(public),
                 "hidden_count": len(secret),
             }
@@ -851,6 +852,7 @@ def main() -> None:
             section="notes",
             subject=subject,
             wider=True,
+            math=subject.get("math", False),
         )
         for item in subject["entries"]:
             if item["has_page"]:

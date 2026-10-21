@@ -10,6 +10,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 NOTES = ROOT / "content" / "notes"
+THU = Path(r"C:\Users\Rain\Desktop\THU")
+
+# 有 LaTeX 源时优先用源里的 \author，主题句自带 $...$，比 PDF 里被替换成 Unicode 符号更准
+TEX_DIRS = {
+    "advanced-calculus-1": THU / "2026 秋" / "高等微积分" / "Notes",
+    "linear-algebra": THU / "2026 秋" / "线性代数" / "Notes",
+}
 
 SKIP = ("依据", "课堂记录", "本讲在", "两本教材", "参考书", "对应关系")
 FORCE = True
@@ -55,6 +62,30 @@ def page_lines(path: Path) -> list[tuple[str, float]]:
                 lines.append((text, line["bbox"][0]))
     doc.close()
     return lines
+
+
+def topic_from_tex(subject: str, order: int) -> str:
+    """从同名 .tex 的 \\author{...} 首行取主题句，保留 $...$。"""
+    folder = TEX_DIRS.get(subject)
+    if not folder or not folder.is_dir():
+        return ""
+    for tex in folder.glob("*.tex"):
+        name = tex.name
+        if not (
+            re.search(rf"第\s*{order}\s*周", name)
+            or re.search(rf"[Ll]ecture\s*{order}\b", name)
+            or re.search(rf"[_-]0*{order}[_-]", name)
+        ):
+            continue
+        text = tex.read_text(encoding="utf-8")
+        m = re.search(r"\\author\{(.+?)\}", text, re.S)
+        if not m:
+            continue
+        first = m.group(1).split("\\\\")[0]
+        first = re.sub(r"\s+", " ", first).strip()
+        if first:
+            return first
+    return ""
 
 
 def topics_from_pdf(path: Path) -> str:
@@ -113,15 +144,16 @@ def main() -> None:
             current = str(data.get(order) or "")
             if not FORCE and current and "§" not in current and "《" not in current:
                 continue
-            topic = topics_from_pdf(pdf)
+            topic = topic_from_tex(folder.name, order) or topics_from_pdf(pdf)
             if topic:
                 data[order] = topic
                 changed = True
         if changed:
             lines = ["# 每周/每讲涉及的课程内容，键是周次或讲次；留空则不显示"]
             for n in sorted(data):
-                value = str(data[n] or "").replace('"', '\\"')
-                lines.append(f'{n}: "{value}"')
+                # 单引号写 YAML，反斜杠才不会被当成转义（主题句里可能有 $\epsilon$）
+                value = str(data[n] or "").replace("'", "''")
+                lines.append(f"{n}: '{value}'")
             syl.write_text("\n".join(lines) + "\n", encoding="utf-8")
             print(folder.name, "更新", len(data), "行")
 
