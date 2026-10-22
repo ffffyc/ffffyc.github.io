@@ -340,6 +340,19 @@ def _office_src(pdf: str | None, cfg: dict) -> str:
     return f"https://view.officeapps.live.com/op/embed.aspx?src={quote(target, safe='')}"
 
 
+def table_width(columns: list[dict], show_text: bool, text_len: int = 0) -> dict:
+    """按列数与「涉及内容」的实际长度决定科目页宽度。
+
+    列少但文字长（例如线代的涉及内容每格近百字）仍要宽，否则换行成一团。
+    """
+    total = len(columns) + (1 if show_text else 0) + 1  # +1 是序号列
+    if total >= 6 or (show_text and text_len >= 40):
+        return {"wider": True}
+    if total >= 4:
+        return {"wide": True}
+    return {}
+
+
 def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
     subjects = []
     root = CONTENT / "notes"
@@ -589,6 +602,13 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 "links": meta.get("links") or [],
                 "links_title": meta.get("links_title", "实验与代码"),
                 "math": any("$" in str(v) for v in syllabus.values()),
+                "width": table_width(
+                    merged_columns if merge else columns + [
+                        {"key": k} for k in lecture_keys
+                    ],
+                    bool(meta.get("show_text", True)),
+                    max((len(str(v)) for v in syllabus.values()), default=0),
+                ),
                 "count": len(public),
                 "hidden_count": len(secret),
             }
@@ -851,7 +871,7 @@ def main() -> None:
             f"notes/{subject['slug']}/index.html",
             section="notes",
             subject=subject,
-            wider=True,
+            **subject["width"],
             math=subject.get("math", False),
         )
         for item in subject["entries"]:

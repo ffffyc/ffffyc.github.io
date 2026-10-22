@@ -28,7 +28,8 @@ for n in range(1, 6):
             md.write_text(text, encoding="utf-8")
             print("更新", md.name)
         else:
-            title = f"第{n}讲笔记-" + ("CN" if suffix == "cn" else "EN")
+            cn = "零一二三四五六七八九十"[n] if n <= 10 else str(n)
+            title = f"第{cn}讲笔记-" + ("CN" if suffix == "cn" else "EN")
             body = (
                 "---\n"
                 f'title: "{title}"\n'
