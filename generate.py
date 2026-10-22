@@ -469,10 +469,17 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                         continue
                     if base_key not in r["cells"]:
                         r["cells"][base_key] = []
+                    base = r["cells"][base_key]
                     for e in group:
                         item = dict(e)
                         item["short"] = label
-                        r["cells"][base_key].append(item)
+                        # 按 seq 插到对应位置，避免解答总被排到格子最后
+                        pos = len(base)
+                        for idx, exist in enumerate(base):
+                            if exist.get("seq", 0) > item.get("seq", 0):
+                                pos = idx
+                                break
+                        base.insert(pos, item)
 
         drop = ("solution", "tutorial_solution", "answer")
         column_keys = [
@@ -599,6 +606,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 "unit": meta.get("unit", "周"),
                 "show_text": bool(meta.get("show_text", True)),
                 "resources": meta.get("resources") or [],
+                "extras": meta.get("extras") or [],
                 "links": meta.get("links") or [],
                 "links_title": meta.get("links_title", "实验与代码"),
                 "math": any("$" in str(v) for v in syllabus.values()),

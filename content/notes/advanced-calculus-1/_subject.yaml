@@ -19,3 +19,7 @@ resources:
   file: files/books/advanced-calculus-1/analysis-textbook.pdf
 - title: 全国大学生数学竞赛分类题目
   file: files/books/advanced-calculus-1/contest-problems.pdf
+extras:
+- title: 公式手册
+  note: 展开、等价无穷小、三角恒等式、常用求和
+  file: files/notes/advanced-calculus-1/formula-handbook.pdf

@@ -182,5 +182,14 @@
 
 {% if not subject.entries %}<p class="empty">这个科目还没有内容。</p>{% endif %}
 
+{% if subject.extras %}
+<p class="extras">
+  自制资料：
+  {% for e in subject.extras %}
+  <a href="{{ base }}{{ e.file }}" target="_blank" rel="noopener">{{ e.title }}</a>{% if e.note %}<span class="extras-note">{{ e.note }}</span>{% endif %}{% if not loop.last %}<span class="sep">·</span>{% endif %}
+  {% endfor %}
+</p>
+{% endif %}
+
 <p class="post-back"><a href="{{ base }}notes/">返回学习资料</a></p>
 {% endblock %}

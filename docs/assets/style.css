@@ -659,6 +659,23 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
 
 .hidden-link a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
+/* 自制资料：放在表格下方、字号更小，不抢参考资料的位置 */
+.extras {
+  margin: 1.8rem 0 0;
+  font-size: .82rem;
+  color: var(--ink-3);
+}
+
+.extras a {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--line);
+}
+
+.extras a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.extras-note { margin-left: .4rem; color: var(--ink-3); }
+.extras .sep { padding: 0 .3rem; color: var(--ink-3); }
+
 /* 隐藏文章解锁 */
 .lock { max-width: 26rem; padding: 1.4rem 0 1rem; }
 
