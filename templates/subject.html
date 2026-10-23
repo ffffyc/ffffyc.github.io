@@ -156,7 +156,8 @@
   <ul class="itemlist">
     {% for r in subject.resources %}
     <li>
-      <a class="pl-title" href="{{ base }}{{ r.file }}" target="_blank" rel="noopener">{{ r.title }}</a>
+      {% if r.page %}<a class="pl-title" href="{{ base }}{{ r.page }}">{{ r.title }}</a>
+      {% else %}<a class="pl-title" href="{{ base }}{{ r.file }}" target="_blank" rel="noopener">{{ r.title }}</a>{% endif %}
     </li>
     {% endfor %}
   </ul>

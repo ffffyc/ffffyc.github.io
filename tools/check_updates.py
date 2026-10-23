@@ -51,6 +51,18 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-2-record.pdf",
 )
 
+# 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
+AC = THU / "高等微积分" / "Homeworks"
+for n, order in ((1, 1), (2, 2), (3, 4), (4, 5), (5, 6)):
+    add(
+        AC / f"《高等微积分1》第{['一', '二', '三', '四', '五'][n - 1]}次作业.pdf",
+        ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
+    )
+    add(
+        AC / f"Homework{n}.pdf",
+        ROOT / "static" / "private" / "notes" / "advanced-calculus-1" / f"homework-{n}-solution.pdf",
+    )
+
 # 高微：六周笔记 + 10-23 课堂记录
 for n in range(1, 7):
     add(
@@ -149,6 +161,23 @@ add(
 add(
     THU / "算法设计" / "Homework" / "Homework5" / "Homework_Algorithm_Design_5.pdf",
     ROOT / "static" / "private" / "notes" / "algorithm-design" / "homework-5-solution.pdf",
+)
+
+
+# 课程安排相关文件
+add(
+    THU / "线性代数" / "Lecture 1" / "Lecture 1.pptx",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "lecture-1.pptx",
+)
+add(
+    THU / "计算机入门" / "Week1" / "week01-course-info.pdf",
+    ROOT / "static" / "files" / "notes" / "introduction-to-cs" / "course-info.pdf",
+)
+
+# 计应数（2026 春）：整本课程笔记（放在 books 目录，属于参考资料）
+add(
+    Path(r"C:\Users\Rain\Desktop\THU\2026 春\计算机与人工智能应用数学\lecture_notes.pdf"),
+    ROOT / "static" / "files" / "books" / "math4csai" / "lecture-notes.pdf",
 )
 
 

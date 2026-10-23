@@ -12,3 +12,5 @@ resources:
   file: files/books/linear-algebra/lay-4e.pdf
 - title: Linear Algebra（Friedberg / Insel / Spence，4e）
   file: files/books/linear-algebra/friedberg-4e.pdf
+- title: 课程安排（第 1 讲 PPT）
+  page: notes/linear-algebra/schedule/

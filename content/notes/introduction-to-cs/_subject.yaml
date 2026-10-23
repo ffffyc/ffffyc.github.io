@@ -7,3 +7,6 @@ columns:
 - slide
 - homework
 - tutorial
+resources:
+- title: 课程安排与评分（course info）
+  file: files/notes/introduction-to-cs/course-info.pdf
