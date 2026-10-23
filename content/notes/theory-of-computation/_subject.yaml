@@ -6,7 +6,6 @@ unit: 次
 columns:
 - homework
 - solution
-show_text: false
 lecture_columns:
 - slide
 lecture_unit: 讲
@@ -17,3 +16,6 @@ homework_lectures:
   4: 8–10
   5: 11–14
 merge_tables: true
+extras:
+- title: 期末复习集
+  page: notes/theory-of-computation/review/

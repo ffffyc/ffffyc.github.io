@@ -6,4 +6,4 @@ unit: 次
 columns:
 - slide
 - homework
-show_text: false
+- tutorial

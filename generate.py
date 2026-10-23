@@ -401,6 +401,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     "html": body_html,
                     "href": href,
                     "hidden": hidden,
+                    "unlisted": bool(imeta.get("unlisted", False)),
                     "has_page": bool(body_html),
                     "url": f"{cfg['base']}notes/{folder.name}/{slug}/",
                 }
@@ -573,7 +574,8 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     {"key": c, "label": COLUMN_LABEL.get(c, cfg["kinds"].get(c, c))}
                 )
 
-        loose = [e for e in public if e["slug"] not in used]
+        # unlisted: true 的条目只从别处链接进来（如页尾的「自制资料」），不在列表里重复出现
+        loose = [e for e in public if e["slug"] not in used and not e.get("unlisted")]
 
         groups = []
         for key, label in cfg["kinds"].items():
@@ -884,12 +886,15 @@ def main() -> None:
         )
         for item in subject["entries"]:
             if item["has_page"]:
+                body, toc = build_toc(item["html"])
                 render(
                     "item.html",
                     f"notes/{subject['slug']}/{item['slug']}/index.html",
                     section="notes",
                     subject=subject,
-                    item=item,
+                    item={**item, "html": body},
+                    toc=toc,
+                    wide=bool(toc),
                     math=item["math"],
                 )
             elif item["pdf"]:

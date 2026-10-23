@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792748157">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792748157">
+  <link rel="stylesheet" href="/assets/style.css?v=1792772292">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792772292">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792748157"></script>
+  <script src="/assets/math.js?v=1792772292"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -74,29 +74,6 @@
     <a class="toc-doc" href="#top">题解：P8299 [COCI2012-2013#2] INFORMACIJE</a>
 <a class="lv2 d0 top" href="#s1"><span>题意</span></a><a class="lv2 d0 top" href="#s2"><span>思路</span></a>  </aside>
 </div>
-
-<script>
-(function () {
-  var links = Array.prototype.slice.call(
-    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
-  );
-  if (!links.length) return;
-  var map = {}, heads = [];
-  links.forEach(function (a) {
-    var id = decodeURIComponent(a.getAttribute('href').slice(1));
-    var el = document.getElementById(id);
-    if (el) { map[id] = a; heads.push(el); }
-  });
-  function sync() {
-    var y = window.scrollY + 140, cur = heads[0];
-    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
-    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
-  }
-  window.addEventListener('scroll', sync, { passive: true });
-  window.addEventListener('resize', sync);
-  sync();
-})();
-</script>
   </main>
 
   <footer class="foot">
@@ -104,6 +81,28 @@
   </footer>
 
   <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
   // 点击正文标题即可定位到该节，并把锚点写进地址栏
   document.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;

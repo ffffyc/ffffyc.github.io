@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792748157">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792748157">
+  <link rel="stylesheet" href="/assets/style.css?v=1792772292">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792772292">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
 </head>
-<body class="">
+<body class="wide">
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="/">ffffyc</a>
@@ -25,7 +25,7 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <main class="wrap wide">
 <header class="subject-head">
   <h1 class="page-title">计算机入门</h1>
 <p class="lede">Introduction to Computer Science</p></header>
@@ -36,12 +36,12 @@
     <thead>
       <tr>
         <th class="col-n">次</th>
-<th>课件</th><th>作业</th>      </tr>
+<th class="col-text">涉及内容</th><th>课件</th><th>作业</th><th>习题课</th>      </tr>
     </thead>
     <tbody>
       <tr>
         <td class="col-n">1</td>
-        <td>
+<td class="col-text">AI 的能力与局限：从理论视角看机器学习的边界</td>        <td>
               <a href="/notes/introduction-to-cs/slide-1/">第一周课件</a>
         </td>
         <td>
@@ -49,10 +49,13 @@
 <span class="sep">·</span>              <a class="locked" href="/notes/introduction-to-cs/homework-1-solution/" title="隐藏内容，需要口令">解答</a>
 <span class="sep">·</span>              <a href="/notes/introduction-to-cs/homework-1-answer/">答案</a>
         </td>
+        <td>
+              <a href="/notes/introduction-to-cs/tutorial-week-1/">LaTeX</a>
+        </td>
       </tr>
       <tr>
         <td class="col-n">2</td>
-        <td>
+<td class="col-text">图算法：BFS/DFS、最短路与最小生成树</td>        <td>
               <a href="/notes/introduction-to-cs/slide-2/">第二周课件</a>
         </td>
         <td>
@@ -60,34 +63,47 @@
 <span class="sep">·</span>              <a class="locked" href="/notes/introduction-to-cs/homework-2-solution/" title="隐藏内容，需要口令">解答</a>
 <span class="sep">·</span>              <a href="/notes/introduction-to-cs/homework-2-answer/">答案</a>
         </td>
+        <td>
+              <a href="/notes/introduction-to-cs/tutorial-week-2/">论文阅读 I</a>
+        </td>
       </tr>
       <tr>
         <td class="col-n">3</td>
-        <td>
+<td class="col-text">计算机体系结构：过去与未来</td>        <td>
               <a href="/notes/introduction-to-cs/slide-3/">第三周课件</a>
         </td>
         <td>
               <a href="/notes/introduction-to-cs/homework-3/">第三次作业</a>
 <span class="sep">·</span>              <a class="locked" href="/notes/introduction-to-cs/homework-3-solution/" title="隐藏内容，需要口令">解答</a>
         </td>
+        <td>
+              <a href="/notes/introduction-to-cs/tutorial-week-3/">论文阅读 II</a>
+        </td>
       </tr>
       <tr>
         <td class="col-n">5</td>
-        <td>
+<td class="col-text">Grothendieck 拓扑：局部视角到整体一致</td>        <td>
               <a href="/notes/introduction-to-cs/slide-5/">第五周课件</a>
         </td>
         <td>
               <a href="/notes/introduction-to-cs/homework-4/">第四次作业</a>
 <span class="sep">·</span>              <a class="locked" href="/notes/introduction-to-cs/homework-4-solution/" title="隐藏内容，需要口令">解答</a>
         </td>
+        <td>
+              <a href="/notes/introduction-to-cs/tutorial-week-5/">LLM</a>
+        </td>
       </tr>
       <tr>
         <td class="col-n">6</td>
-        <td>
+<td class="col-text">量子计算：算法与纠错</td>        <td>
               <a href="/notes/introduction-to-cs/slide-6/">第六周课件</a>
         </td>
         <td>
               <a href="/notes/introduction-to-cs/homework-5/">第五次作业</a>
+<span class="sep">·</span>              <a class="locked" href="/notes/introduction-to-cs/homework-5-solution/" title="隐藏内容，需要口令">解答</a>
+        </td>
+        <td>
+              <a href="/notes/introduction-to-cs/tutorial-week-6/">Linux</a>
         </td>
       </tr>
     </tbody>
@@ -109,6 +125,28 @@
   </footer>
 
   <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
   // 点击正文标题即可定位到该节，并把锚点写进地址栏
   document.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;

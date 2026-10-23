@@ -186,7 +186,7 @@
 <p class="extras">
   自制资料：
   {% for e in subject.extras %}
-  <a href="{{ base }}{{ e.file }}" target="_blank" rel="noopener">{{ e.title }}</a>{% if e.note %}<span class="extras-note">{{ e.note }}</span>{% endif %}{% if not loop.last %}<span class="sep">·</span>{% endif %}
+  {% if e.page %}<a href="{{ base }}{{ e.page }}">{{ e.title }}</a>{% else %}<a href="{{ base }}{{ e.file }}" target="_blank" rel="noopener">{{ e.title }}</a>{% endif %}{% if e.note %}<span class="extras-note">{{ e.note }}</span>{% endif %}{% if not loop.last %}<span class="sep">·</span>{% endif %}
   {% endfor %}
 </p>
 {% endif %}

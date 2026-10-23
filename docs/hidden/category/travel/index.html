@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792748157">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792748157">
+  <link rel="stylesheet" href="/assets/style.css?v=1792772292">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792772292">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792748157"></script>
+  <script src="/assets/math.js?v=1792772292"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -59,8 +59,8 @@
 <a href="/past/category/travel/">回到公开的 游记 列表</a><a href="/hidden/">全部隐藏文章</a>  <a href="/past/">返回缥缈过往</a>
 </p>
 
-<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "fiNJUiLEEV2Z+b7q", "c": "tKNYfik2G53g8J+sNZGq9LWVgAk9Hj6TAcUw8uV4oG+BrEgI0pFWwrcEm/VKBz83Uh8Z6quZ6Q7pPMhVRphORPk303gAWjT1+Hztqu/FwzDz3779xYa6Q8x+5hmBkIgGh1v3cmnHKAAfPmbtOFG46exOXpDiec57u91yYr3WgJSZhnt38C3jmTBV2bAllP+BuJh+4fFGR/pjJ0QraZbAq5NUZFU+vM+4W6lRgLcCMNAK39ZxVfX2TAzB3TIgY7x1uOEC8shPGZOU4iH5cIBE22FMJZa+cF+UmUQx6Q+xWhN8Eswh3IsHRSHazxMVlVIJM4bqqc8RfoEetD5MIPw+x9BxT8bMGFqBgdVP69d4c1yTv/Fp+g/JotMQBhDy9TKRmNQJ/TBcgdEczKRIF8vbQi51L4IQPpekuqut2KbYT+WrxwBSONA/CvHKs7rVEsscCkflNVNLgT1VIMYeCYACfYiqaS0="}</script>
-<script src="/assets/lock.js?v=1792748157"></script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "CRJEtBB2cdiq1t6x", "c": "XVHD9VNWBDg1Tk694pFpie3j599AssxqThE/D7MlY8JE/8xCfe78zRsZ8hSPLT/Ig+vXz1fY4ZQUpNS+T4vwfee+3BVGmTvLE6D7NpYQTQi/Jznxf9YNa7rk7NoAPf/qZr08MZqeoyvhWYglznfFxzSzGArz2aLpmZ2sqASjBfKotXIJvII4E4EG9enNUheOxlzcAeeV56guTI+lKb+Zw7g+567Z17OKMZaxNbtFSFzwgmlP1dhhVBtGZG+kEwhB4TJTXldito9VgiqmMLXXj+/sXBYf2YnHDX2fERg2zyj0i5DO6A7T3zwSJF4O6OJ6r3zmvP31rKjKY4zVdejzzfmO2upc7eh4FhisnSQGI9EoI7ZaP4Vxenzc1SouqTSpVldZ6N9E0DJa6LjnwC1Yy4pHhvXf9B8QXteeWkGefSV8fF8k/HWibzZRXepoEH4njITuwYL84b3TTWdyFcX5l99Vnw8="}</script>
+<script src="/assets/lock.js?v=1792772292"></script>
   </main>
 
   <footer class="foot">
@@ -68,6 +68,28 @@
   </footer>
 
   <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
   // 点击正文标题即可定位到该节，并把锚点写进地址栏
   document.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}{{ item.title }} — {{ subject.name }} — {{ site.title }}{% endblock %}
 {% block main %}
-<article class="post">
+{% if toc %}<div class="post-layout">{% endif %}
+<article class="post" id="top">
   <header class="post-head">
     <p class="crumb"><a href="{{ base }}notes/{{ subject.slug }}/">{{ subject.name }}</a> / {{ item.kind_label }}</p>
     <h1 class="post-title">{{ item.title }}</h1>
@@ -13,6 +14,15 @@
   </header>
   <div class="prose">{{ item.html|safe }}</div>
 </article>
+
+{% if toc %}
+<aside class="toc">
+  <p class="toc-title">目录</p>
+  <a class="toc-doc" href="#top">{{ item.title }}</a>
+  {% for t in toc %}<a class="lv{{ t.level }} d{{ t.depth }}{% if t.top %} top{% endif %}" href="#{{ t.id }}"><span>{{ t.text }}</span></a>{% endfor %}
+</aside>
+</div>
+{% endif %}
 
 <p class="back"><a href="{{ base }}notes/{{ subject.slug }}/">返回 {{ subject.name }}</a></p>
 {% endblock %}

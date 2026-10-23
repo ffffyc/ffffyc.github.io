@@ -6,7 +6,6 @@ unit: 次
 columns:
 - homework
 - solution
-show_text: false
 lecture_columns:
 - slide
 - note

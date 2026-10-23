@@ -8,8 +8,8 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792748157">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792748157">
+  <link rel="stylesheet" href="/assets/style.css?v=1792772292">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792772292">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
@@ -49,8 +49,8 @@
 </article>
 
 <script>window.FFFFYC_SUFFIX = "ffffyc";</script>
-<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "vt+cZffg0GKl6IB3", "c": "W1Gdo+G9hsdRYmAO6DqXapbVVc6OHdBNF9wOeZud4Wty5snqGV7Q/pV/lWlfumqUxS1rCcZ4ZQXOf89rbxHfcgkdM550GA1DLLHVgRTOePavAn6yq2NpthrpGksT8pu+M22ux0BIuZjlLqlU3s0i84yckTETrwA="}</script>
-<script src="/assets/lock.js?v=1792748157"></script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "4i8v9AGM+tPbnNXy", "c": "zUJDV9MdG5u/fbtc+VPN/goVuStlQFicCSIBjYWvh8ZVPjMhgG44UsbbMTRT+I9YrZehm4Vbt9v+Q1ljxYhVosBEX5zGKqep9rRLdY9i7d7IcYOQmR1jlzGMKriu4+pa0g2x/heso711TQhyYxiZFHMdsPMxWgE="}</script>
+<script src="/assets/lock.js?v=1792772292"></script>
   </main>
 
   <footer class="foot">
@@ -58,6 +58,28 @@
   </footer>
 
   <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
   // 点击正文标题即可定位到该节，并把锚点写进地址栏
   document.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;

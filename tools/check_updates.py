@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -22,6 +23,23 @@ for n in range(1, 6):
             THU / "线性代数" / "Notes" / f"Lecture{n}_notes_{lang}.pdf",
             ROOT / "static" / "files" / "notes" / "linear-algebra" / f"note-lecture-{n}-{suffix}.pdf",
         )
+
+# 线代：作业题面（公开）与自己写的解答（加密）
+for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5)):
+    add(
+        THU / "线性代数" / f"Lecture {week}" / f"Linear_Algebra_Homework{n}.pdf",
+        ROOT / "static" / "files" / "notes" / "linear-algebra" / f"homework-{n}.pdf",
+    )
+for week, src_name, dst_name in (
+    (1, "Homework1.pdf", "homework-1-solution.pdf"),
+    (2, "Homework2.pdf", "homework-2-solution.pdf"),
+    (3, "Homework__Linear_Algebra_3.pdf", "homework-3-solution.pdf"),
+    (4, "Homework_Linear_Algebra_4.pdf", "homework-4-solution.pdf"),
+):
+    add(
+        THU / "线性代数" / f"Lecture {week}" / src_name,
+        ROOT / "static" / "private" / "notes" / "linear-algebra" / dst_name,
+    )
 
 # 线代第二次习题课
 add(
@@ -105,6 +123,23 @@ for week, src, dst in (
     (5, "Homework_Intro2cs_4.pdf", "homework-4-solution.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS_PRIVATE / dst)
+
+# 计入门：习题课（TA 讲解材料）
+for src, dst in (
+    ("Week1/week01-office-hour/Intro to LaTeX.pdf", "tutorial-week-1.pdf"),
+    ("Week2/week02-paper-reading.pdf", "tutorial-week-2.pdf"),
+    ("Week3/week03-paper-reading.pdf", "tutorial-week-3.pdf"),
+    ("Week6/week06-linux.pdf", "tutorial-week-6.pdf"),
+):
+    add(THU / "计算机入门" / src, ICS / dst)
+# 第五周在 zip 里，解包后单独比对
+LLM_PDF = (
+    Path(os.environ.get("TEMP", ""))
+    / "ics_oh"
+    / "week05-office-hour-responsible-use-of-llm-for-information-search.pdf"
+)
+if LLM_PDF.exists():
+    add(LLM_PDF, ICS / "tutorial-week-5.pdf")
 
 # 算法设计：第五次作业题面与解答
 add(

@@ -8,13 +8,13 @@
   <link rel="icon" href="/files/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="/files/icon-180.png">
-  <link rel="stylesheet" href="/assets/style.css?v=1792748157">
-  <link rel="stylesheet" href="/assets/pygments.css?v=1792748157">
+  <link rel="stylesheet" href="/assets/style.css?v=1792772292">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1792772292">
   <style>
     body::before { background-image: url("/files/background.jpg"); }
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-  <script src="/assets/math.js?v=1792748157"></script>
+  <script src="/assets/math.js?v=1792772292"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
@@ -1245,29 +1245,6 @@
     <a class="toc-doc" href="#top">常用黑盒</a>
 <a class="lv1 d0 top" href="#s1"><span>扫描线维护区间 mex</span></a><a class="lv1 d0 top" href="#s2"><span>FHQ-Treap 维护凸分段一次函数</span></a><a class="lv1 d0 top" href="#s3"><span>KTT 维护直线</span></a><a class="lv1 d0 top" href="#s4"><span>区间加区间历史和</span></a><a class="lv1 d0 top" href="#s5"><span>哈希表</span></a><a class="lv1 d0 top" href="#s6"><span>矩阵乘法</span></a><a class="lv1 d0 top" href="#s7"><span>定值矩阵光速幂</span></a><a class="lv1 d0 top" href="#s8"><span>反射容斥</span></a><a class="lv1 d0 top" href="#s9"><span>最近公共祖先</span></a><a class="lv1 d0 top" href="#s10"><span>虚树</span></a><a class="lv1 d0 top" href="#s11"><span>范围随机数生成</span></a><a class="lv1 d0 top" href="#s12"><span>拉格朗日插值</span></a><a class="lv1 d0 top" href="#s13"><span>压位布尔数组</span></a><a class="lv1 d0 top" href="#s14"><span>可删堆</span></a><a class="lv1 d0 top" href="#s15"><span>zkw 线段树</span></a><a class="lv1 d0 top" href="#s16"><span>颜色段均摊</span></a><a class="lv1 d0 top" href="#s17"><span>迭代分块</span></a><a class="lv1 d0 top" href="#s18"><span>强连通分量</span></a><a class="lv1 d0 top" href="#s19"><span>斜率优化</span></a><a class="lv1 d0 top" href="#s20"><span>组合数</span></a>  </aside>
 </div>
-
-<script>
-(function () {
-  var links = Array.prototype.slice.call(
-    document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
-  );
-  if (!links.length) return;
-  var map = {}, heads = [];
-  links.forEach(function (a) {
-    var id = decodeURIComponent(a.getAttribute('href').slice(1));
-    var el = document.getElementById(id);
-    if (el) { map[id] = a; heads.push(el); }
-  });
-  function sync() {
-    var y = window.scrollY + 140, cur = heads[0];
-    heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
-    links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
-  }
-  window.addEventListener('scroll', sync, { passive: true });
-  window.addEventListener('resize', sync);
-  sync();
-})();
-</script>
   </main>
 
   <footer class="foot">
@@ -1275,6 +1252,28 @@
   </footer>
 
   <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
   // 点击正文标题即可定位到该节，并把锚点写进地址栏
   document.addEventListener('click', function (e) {
     if (e.target.closest('a')) return;

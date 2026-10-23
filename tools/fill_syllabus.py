@@ -136,9 +136,15 @@ def topics_from_pdf(path: Path) -> str:
     return ""
 
 
+# 这几门没有可提取主题的笔记，涉及内容由课件标题手工整理（tools/fill_slide_topics.py），不要覆盖
+HANDWRITTEN = {"sys-intro", "theory-of-computation", "introduction-to-cs"}
+
+
 def main() -> None:
     for folder in sorted(NOTES.iterdir()):
         if not folder.is_dir():
+            continue
+        if folder.name in HANDWRITTEN:
             continue
         syl = folder / "_syllabus.yaml"
         data = {}

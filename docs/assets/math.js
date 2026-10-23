@@ -14,6 +14,7 @@ window.FFFFYC_MATH = {
     "\\Q": "\\mathbb{Q}",
     "\\C": "\\mathbb{C}",
     "\\eps": "\\varepsilon",
+    "\\argmax": "\\operatorname*{arg\\,max}",
   },
   throwOnError: false,
   ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
