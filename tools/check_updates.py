@@ -50,6 +50,10 @@ add(
     THU / "线性代数" / "Lecture 4" / "Tutorial_Session_1016_.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-2-record.pdf",
 )
+add(
+    THU / "线性代数" / "Lecture 5" / "第三次习题课课堂记录.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-3-record.pdf",
+)
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
 AC = THU / "高等微积分" / "Homeworks"

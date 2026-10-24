@@ -312,6 +312,13 @@ main.wrap {
   border-bottom: 1px solid var(--line-soft);
 }
 
+/* 文件页（阅读器）压缩页头，把高度让给 PDF */
+.post-file .post-head {
+  margin-bottom: 1.1rem;
+  padding-bottom: 1rem;
+}
+.post-file .post-title { margin-bottom: .5rem; font-size: clamp(1.35rem, 3.4vw, 1.7rem); }
+
 .post-title {
   margin: 0 0 .9rem;
   font-size: clamp(1.6rem, 4.4vw, 2.1rem);
@@ -763,9 +770,9 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
 
 .pdf-frame {
   width: 100%;
-  height: calc(100vh - 9.5rem);
-  min-height: 34rem;
-  margin-top: 1.1rem;
+  height: calc(100vh - 6rem);
+  min-height: 36rem;
+  margin-top: .6rem;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--panel);

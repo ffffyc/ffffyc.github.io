@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}作业解答 — {{ site.title }}{% endblock %}
 {% block main %}
-<article class="post">
+<article class="post post-file">
   <header class="post-head">
     <p class="crumb"><a href="{{ base }}notes/{{ subject.slug }}/">{{ subject.name }}</a> / {{ item.kind_label }}</p>
     <h1 class="post-title" id="secret-title">作业解答</h1>
@@ -16,7 +16,7 @@
     </form>
   </div>
 
-  <div id="pdf-slot"></div>
+  <div id="pdf-slot" data-zoom="{{ item.pdf_zoom }}"></div>
 
   <p class="post-back">
     <a href="{{ base }}notes/{{ subject.slug }}/">返回{{ subject.name }}</a>

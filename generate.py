@@ -13,8 +13,10 @@ import os
 import re
 import shutil
 from datetime import date, datetime
+from functools import lru_cache
 from pathlib import Path
 
+import pymupdf
 import yaml
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from urllib.parse import quote
@@ -329,6 +331,26 @@ def _size_text(pdf: str | None) -> str:
     return f"{size / 1024:.0f} KB"
 
 
+@lru_cache(maxsize=256)
+def _pdf_zoom(pdf: str | None) -> str:
+    """竖版文档（笔记、作业、解答）按页宽铺满，横版幻灯片整页缩放。
+
+    浏览器阅读器的 `#zoom=` 参数：page-width 适合竖排文字，page-fit 适合整页幻灯片。
+    """
+    if not pdf or not pdf.lower().endswith(".pdf"):
+        return "page-fit"
+    path = STATIC / pdf
+    if not path.exists():
+        return "page-fit"
+    try:
+        doc = pymupdf.open(path)
+        rect = doc[0].rect
+        doc.close()
+    except Exception:  # noqa: BLE001
+        return "page-fit"
+    return "90" if rect.height >= rect.width * 1.1 else "page-fit"
+
+
 def _office_src(pdf: str | None, cfg: dict) -> str:
     """PPTX 交给微软 Office 网页查看器渲染，需要公网可访问的绝对地址。"""
     if not pdf or pdf.lower().endswith(".pdf"):
@@ -395,6 +417,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     "pdf_href": (cfg["base"] + pdf) if pdf else "",
                     "file_name": Path(pdf).name if pdf else "",
                     "size_text": _size_text(pdf),
+                    "pdf_zoom": _pdf_zoom(pdf),
                     "office_src": _office_src(pdf, cfg),
                     "tags": imeta.get("tags") or [],
                     "math": bool(imeta.get("math", False)),

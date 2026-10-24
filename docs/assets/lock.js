@@ -74,8 +74,9 @@
       );
       const blob = new Blob([plain], { type: "application/pdf" });
       const blobUrl = URL.createObjectURL(blob);
+      const viewUrl = blobUrl + "#zoom=" + (pdfSlot.dataset.zoom || "90");
       pdfSlot.innerHTML =
-        '<iframe class="pdf-frame" title="作业解答" src="' + blobUrl + '"></iframe>' +
+        '<iframe class="pdf-frame" title="作业解答" src="' + viewUrl + '"></iframe>' +
         '<p class="post-back"><a href="' + blobUrl + '" download="解答.pdf">下载 PDF</a></p>';
     } catch (err) {
       pdfSlot.textContent = "解密失败，请刷新后重试。";
