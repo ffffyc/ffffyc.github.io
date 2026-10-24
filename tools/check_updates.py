@@ -35,6 +35,7 @@ for week, src_name, dst_name in (
     (2, "Homework2.pdf", "homework-2-solution.pdf"),
     (3, "Homework__Linear_Algebra_3.pdf", "homework-3-solution.pdf"),
     (4, "Homework_Linear_Algebra_4.pdf", "homework-4-solution.pdf"),
+    (5, "Homework_Linear_Algebra_5.pdf", "homework-5-solution.pdf"),
 ):
     add(
         THU / "线性代数" / f"Lecture {week}" / src_name,
@@ -100,8 +101,12 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-6.pdf",
 )
 add(
-    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第一次习题课材料参考解答.pdf",
-    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-1-solution.pdf",
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第二次习题课材料参考解答.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-2-solution.pdf",
+)
+add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第三次习题课材料.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-3.pdf",
 )
 add(
     THU / "高等微积分" / "Notes" / "练习题集" / "高等微积分1_公式手册.pdf",
