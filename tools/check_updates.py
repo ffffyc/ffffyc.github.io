@@ -162,15 +162,23 @@ LLM_PDF = (
 if LLM_PDF.exists():
     add(LLM_PDF, ICS / "tutorial-week-5.pdf")
 
-# 算法设计：第五次作业题面与解答
-add(
-    THU / "算法设计" / "Homework" / "Homework5" / "hw5.pdf",
-    ROOT / "static" / "files" / "notes" / "algorithm-design" / "homework-5.pdf",
-)
-add(
-    THU / "算法设计" / "Homework" / "Homework5" / "Homework_Algorithm_Design_5.pdf",
-    ROOT / "static" / "private" / "notes" / "algorithm-design" / "homework-5-solution.pdf",
-)
+# 算法设计：作业题面与解答（HomeworkN 目录）
+for n in (5, 6):
+    add(
+        THU / "算法设计" / "Homework" / f"Homework{n}" / f"hw{n}.pdf",
+        ROOT / "static" / "files" / "notes" / "algorithm-design" / f"homework-{n}.pdf",
+    )
+    add(
+        THU / "算法设计" / "Homework" / f"Homework{n}" / f"Homework_Algorithm_Design_{n}.pdf",
+        ROOT / "static" / "private" / "notes" / "algorithm-design" / f"homework-{n}-solution.pdf",
+    )
+
+# 算法设计：历年期中试题
+for year in (2023, 2024, 2025):
+    add(
+        THU / "算法设计" / f"midterm{year}.pdf",
+        ROOT / "static" / "files" / "notes" / "algorithm-design" / f"midterm-{year}.pdf",
+    )
 
 
 # 课程安排相关文件

@@ -11,4 +11,10 @@ resources:
   file: files/books/algorithm-design/kleinberg-tardos.pdf
 - title: Introduction to Algorithms（CLRS）
   file: files/books/algorithm-design/clrs.pdf
+- title: 2023 年期中试题（英文原文与中文译文）
+  file: files/notes/algorithm-design/midterm-2023.pdf
+- title: 2024 年期中试题（英文原文与中文译文）
+  file: files/notes/algorithm-design/midterm-2024.pdf
+- title: 2025 年期中试题（英文原文与中文译文）
+  file: files/notes/algorithm-design/midterm-2025.pdf
 show_text: false
