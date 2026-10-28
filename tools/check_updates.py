@@ -68,8 +68,18 @@ for n, order in ((1, 1), (2, 2), (3, 4), (4, 5), (5, 6)):
         ROOT / "static" / "private" / "notes" / "advanced-calculus-1" / f"homework-{n}-solution.pdf",
     )
 
-# 高微：六周笔记 + 10-23 课堂记录
-for n in range(1, 7):
+# 高微：期中样卷与真题
+add(
+    THU / "高等微积分" / "样卷试题合集.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "sample-exams.pdf",
+)
+add(
+    THU / "高等微积分" / "2025年秋季《高等微积分1》期中试题A卷.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-2025-a.pdf",
+)
+
+# 高微：七周笔记 + 10-23 课堂记录
+for n in range(1, 8):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
