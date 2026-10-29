@@ -16,8 +16,8 @@ def add(src: Path, dst: Path) -> None:
     PAIRS.append((src, dst))
 
 
-# 线代：第 1–5 讲中英笔记
-for n in range(1, 6):
+# 线代：第 1–6 讲中英笔记
+for n in range(1, 7):
     for lang, suffix in (("zh", "cn"), ("en", "en")):
         add(
             THU / "线性代数" / "Notes" / f"Lecture{n}_notes_{lang}.pdf",
@@ -54,6 +54,10 @@ add(
 add(
     THU / "线性代数" / "Lecture 5" / "第三次习题课课堂记录.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-3-record.pdf",
+)
+add(
+    THU / "线性代数" / "Lecture 6" / "tutorial_1030.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-4.pdf",
 )
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
@@ -111,6 +115,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-6.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "高等微积分-第7周习题课.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-7.pdf",
+)
+add(
     THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第二次习题课材料参考解答.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-2-solution.pdf",
 )
@@ -138,12 +146,14 @@ for week, src, dst in (
     (3, "intro2cs-hw-3-v2.pdf", "homework-3.pdf"),
     (5, "Intro2CS_HW4.pdf", "homework-4.pdf"),
     (6, "Intro_to_CS_HW_Week_6.pdf", "homework-5.pdf"),
+    (7, "intro2cs-hw-6.pdf", "homework-6.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 官方答案（公开）
 for week, src, dst in (
     (1, "Intro_to_CS_HW_1_Answer.pdf", "homework-1-answer.pdf"),
     (2, "Intro2CS_HW2_Answer.pdf", "homework-2-answer.pdf"),
+    (3, "intro2cs-hw3-sol.pdf", "homework-3-answer.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 自己写的解答（加密）
@@ -152,6 +162,8 @@ for week, src, dst in (
     (2, "Homework_Intro2cs_2.pdf", "homework-2-solution.pdf"),
     (3, "Homework__Intro2cs_3.pdf", "homework-3-solution.pdf"),
     (5, "Homework_Intro2cs_4.pdf", "homework-4-solution.pdf"),
+    (6, "Homework_Intro2cs_5.pdf", "homework-5-solution.pdf"),
+    (7, "Homework_Intro2cs_6.pdf", "homework-6-solution.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS_PRIVATE / dst)
 
@@ -161,6 +173,7 @@ for src, dst in (
     ("Week2/week02-paper-reading.pdf", "tutorial-week-2.pdf"),
     ("Week3/week03-paper-reading.pdf", "tutorial-week-3.pdf"),
     ("Week6/week06-linux.pdf", "tutorial-week-6.pdf"),
+    ("Week7/week07-LLM-programming.pdf", "tutorial-week-7.pdf"),
 ):
     add(THU / "计算机入门" / src, ICS / dst)
 # 第五周在 zip 里，解包后单独比对
@@ -216,7 +229,12 @@ def md5(p: Path) -> str:
     return h.hexdigest()
 
 
-same, stale, missing_dst, missing_src = [], [], [], []
+same, stale, missing_dst, missing_src, rasterized, rasterized_late = [], [], [], [], [], []
+
+# 超过 20 MB 的素材由 shrink_pdf.py 栅格化后入库，体积与内容都变了，哈希必然不同，
+# 这类只核对站内文件不旧于素材。
+RASTERIZED_LIMIT = 20 * 1024 * 1024
+
 for src, dst in PAIRS:
     if not src.exists():
         missing_src.append(src.name)
@@ -224,11 +242,21 @@ for src, dst in PAIRS:
     if not dst.exists():
         missing_dst.append(dst)
         continue
+    if src.stat().st_size > RASTERIZED_LIMIT:
+        (rasterized if dst.stat().st_mtime >= src.stat().st_mtime else rasterized_late).append(
+            (src, dst)
+        )
+        continue
     (same if md5(src) == md5(dst) else stale).append((src, dst))
 
 print(f"一致 {len(same)} 份")
 for src, dst in stale:
     print(f"  [待同步] {src.name} -> {dst.name}")
+for src, dst in rasterized_late:
+    print(f"  [可能过期] {src.name} -> {dst.name}（栅格化产物比素材旧）")
+if rasterized:
+    names = "、".join(src.name for src, _ in rasterized)
+    print(f"  [栅格化] {len(rasterized)} 份，哈希不可比，站内不旧于素材：{names}")
 for dst in missing_dst:
     print(f"  [站内缺失] {dst}")
 for name in missing_src:

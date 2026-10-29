@@ -12,6 +12,7 @@ import json
 import os
 import re
 import shutil
+import stat
 from datetime import date, datetime
 from functools import lru_cache
 from pathlib import Path
@@ -691,6 +692,16 @@ def write(rel: str, html: str) -> None:
     target.write_text(html, encoding="utf-8")
 
 
+def _rmtree(path: Path) -> None:
+    """清空输出目录；素材带只读属性时先去掉再删。"""
+
+    def onerror(func, target, exc_info):
+        os.chmod(target, stat.S_IWRITE)
+        func(target)
+
+    shutil.rmtree(path, onerror=onerror)
+
+
 def main() -> None:
     cfg = load_config()
     site = {
@@ -703,7 +714,7 @@ def main() -> None:
     site["v"] = str(int(datetime.now().timestamp()))
 
     if OUT.exists():
-        shutil.rmtree(OUT)
+        _rmtree(OUT)
     (OUT / "assets").mkdir(parents=True)
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
 
@@ -965,6 +976,9 @@ def main() -> None:
     files_src = STATIC / "files"
     if files_src.exists():
         shutil.copytree(files_src, OUT / "files")
+        for copied in (OUT / "files").rglob("*"):
+            if copied.is_file() and not copied.stat().st_mode & stat.S_IWRITE:
+                copied.chmod(copied.stat().st_mode | stat.S_IWRITE)
     for rel, text in pending_enc:
         target = OUT / rel
         target.parent.mkdir(parents=True, exist_ok=True)
