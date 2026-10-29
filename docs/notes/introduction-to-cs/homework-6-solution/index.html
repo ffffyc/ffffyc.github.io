@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>作业解答 — ffffyc</title>
+  <meta name="description" content="长期维护的文章，以及正在学习的科目的笔记与资料。">
+  <link rel="icon" href="/files/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/files/icon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/files/icon-180.png">
+  <link rel="stylesheet" href="/assets/style.css?v=1793282062">
+  <link rel="stylesheet" href="/assets/pygments.css?v=1793282062">
+  <style>
+    body::before { background-image: url("/files/background.jpg"); }
+  </style>
+</head>
+<body class=" wider">
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">ffffyc</a>
+      <nav class="nav">
+        <a href="/past/">过往文章</a>
+        <a href="/notes/" class="on">学习资料</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap wider">
+<article class="post post-file">
+  <header class="post-head">
+    <p class="crumb"><a href="/notes/introduction-to-cs/">计算机入门</a> / 作业</p>
+    <h1 class="post-title" id="secret-title">作业解答</h1>
+  </header>
+
+  <div class="lock" id="lock-panel">
+    <p class="lede">这份文件已加密。输入口令后，本浏览器会记住，不必重复输入。</p>
+    <form class="lock-form" id="lock-form">
+      <input id="lock-pass" type="password" autocomplete="current-password" placeholder="口令" required>
+      <button type="submit">打开</button>
+      <span class="lock-hint" id="lock-hint"></span>
+    </form>
+  </div>
+
+  <div id="pdf-slot" data-zoom="90"></div>
+
+  <p class="post-back">
+    <a href="/notes/introduction-to-cs/">返回计算机入门</a>
+  </p>
+</article>
+
+<script>window.FFFFYC_SUFFIX = "ffffyc";</script>
+<script id="lock-data" type="application/json">{"v": 1, "i": 150000, "s": "hnM9/780DoplIGTvnnAXsQ==", "n": "bQHeeS2+zd6me/p4", "c": "dC4f7/Z5Xkv9n1uudAk6NMXZNdR3r7f8b+vyYdTA7IvOlI5lC6L/Cw9UFh+MEfH0qw90ACDdiubjT8RZ/Jfv4fGIMbAal7hj6fK59xMrE8QMTZwZBvHl9RjH7N1KC6nh0Ap4NXvz+NIQMHhUKOMuqTrN12+nS4bu0g=="}</script>
+<script src="/assets/lock.js?v=1793282062"></script>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">© 2026 ffffyc</div>
+  </footer>
+
+  <script>
+  // 目录：滚动时高亮当前小节（文章页与课程条目页共用）
+  (function () {
+    var links = Array.prototype.slice.call(
+      document.querySelectorAll('.toc a[href^="#"]:not(.toc-doc)')
+    );
+    if (!links.length) return;
+    var map = {}, heads = [];
+    links.forEach(function (a) {
+      var id = decodeURIComponent(a.getAttribute('href').slice(1));
+      var el = document.getElementById(id);
+      if (el) { map[id] = a; heads.push(el); }
+    });
+    function sync() {
+      var y = window.scrollY + 140, cur = heads[0];
+      heads.forEach(function (h) { if (h.offsetTop <= y) cur = h; });
+      links.forEach(function (a) { a.classList.toggle('active', a === map[cur.id]); });
+    }
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  })();
+
+  // 点击正文标题即可定位到该节，并把锚点写进地址栏
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var h = e.target.closest('.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6');
+    if (!h || !h.id) return;
+    history.replaceState(null, '', '#' + h.id);
+    h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  </script>
+</body>
+</html>

@@ -12,3 +12,8 @@ resources:
   file: files/books/math4csai/lecture-notes.pdf
 - title: Discrete Mathematics
   file: files/books/math4csai/discrete-mathematics.pdf
+extras:
+- title: 期中复习
+  page: notes/math4csai/review-midterm/
+- title: 期末复习
+  page: notes/math4csai/review-final/
