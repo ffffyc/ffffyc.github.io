@@ -4,4 +4,4 @@
 3: '线性变换 (linear transformation)、核空间与值域 (null space and range)、线性变换的矩阵表示 (the matrix representation of a linear transformation)'
 4: '线性变换的复合 (composition of linear transformations)、矩阵乘法 (matrix multiplication)、可逆性 (invertibility) 与同构 (isomorphism)'
 5: '坐标与坐标映射 (coordinate mapping)、坐标变换矩阵 (change of coordinate matrix) 与相似 (similar matrices)、对偶空间 (dual space) 与转置 (transpose)、矩阵的秩 (rank of a matrix)'
-6: '分块矩阵 (partitioned matrices) 与分块乘法、列行展开 (column–row expansion)、分块矩阵的逆、LU 分解 (LU factorization) 与用它解方程组、逆矩阵的算法 (algorithm for finding $A^{-1}$)'
+6: '分块矩阵 (partitioned matrices) 与分块乘法、列行展开 (column–row expansion)、分块矩阵的逆、LU 分解 (LU factorization) 与用它解方程组、逆矩阵的算法 (algorithm for finding A⁻¹)'
