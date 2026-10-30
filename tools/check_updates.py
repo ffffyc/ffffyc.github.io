@@ -25,7 +25,7 @@ for n in range(1, 7):
         )
 
 # 线代：作业题面（公开）与自己写的解答（加密）
-for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5)):
+for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)):
     add(
         THU / "线性代数" / f"Lecture {week}" / f"Linear_Algebra_Homework{n}.pdf",
         ROOT / "static" / "files" / "notes" / "linear-algebra" / f"homework-{n}.pdf",
@@ -62,11 +62,13 @@ add(
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
 AC = THU / "高等微积分" / "Homeworks"
-for n, order in ((1, 1), (2, 2), (3, 4), (4, 5), (5, 6)):
+CN_NUM = ["一", "二", "三", "四", "五", "六"]
+for n in range(1, 7):
     add(
-        AC / f"《高等微积分1》第{['一', '二', '三', '四', '五'][n - 1]}次作业.pdf",
+        AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
     )
+for n in range(1, 6):
     add(
         AC / f"Homework{n}.pdf",
         ROOT / "static" / "private" / "notes" / "advanced-calculus-1" / f"homework-{n}-solution.pdf",
@@ -82,16 +84,30 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-2025-a.pdf",
 )
 
-# 高微：七周笔记 + 10-23 课堂记录
+# 高微：七周笔记 + 全部课堂记录
 for n in range(1, 8):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
     )
-add(
-    THU / "高等微积分" / "Records" / "2026年10月23日高微记录.pdf",
-    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "record-2026-10-23.pdf",
-)
+for month, day in (
+    (9, 16),
+    (9, 18),
+    (9, 20),
+    (9, 23),
+    (9, 30),
+    (10, 9),
+    (10, 14),
+    (10, 16),
+    (10, 21),
+    (10, 23),
+    (10, 28),
+    (10, 30),
+):
+    add(
+        THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
+        ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"record-2026-{month}-{day}.pdf",
+    )
 
 # 高微习题课
 add(
@@ -132,7 +148,7 @@ add(
 )
 
 # 计入门：课件与作业
-for week in (1, 2, 3, 5, 6):
+for week in (1, 2, 3, 5, 6, 7):
     for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week0?-prof-*.pdf")):
         add(src, ROOT / "static" / "files" / "notes" / "introduction-to-cs" / f"slide-week-{week}.pdf")
 
