@@ -23,6 +23,8 @@ resources:
   file: files/notes/advanced-calculus-1/sample-exams.pdf
 - title: 2025 年秋季期中试题 A 卷
   file: files/notes/advanced-calculus-1/midterm-2025-a.pdf
+- title: 课程录像与课堂记录
+  href: 'https://cloud.tsinghua.edu.cn/d/a6ed5e18ccc5472389e9/?p=%2F&mode=list'
 extras:
 - title: 公式手册
   file: files/notes/advanced-calculus-1/formula-handbook.pdf
