@@ -152,11 +152,12 @@
 
 {% if subject.resources %}
 <section class="block">
-  <h2 class="sec">参考资料</h2>
+  <h2 class="sec">课程资料</h2>
   <ul class="itemlist">
     {% for r in subject.resources %}
     <li>
-      {% if r.page %}<a class="pl-title" href="{{ base }}{{ r.page }}">{{ r.title }}</a>
+      {% if r.href %}<a class="pl-title" href="{{ r.href }}" target="_blank" rel="noopener">{{ r.title }}</a>
+      {% elif r.page %}<a class="pl-title" href="{{ base }}{{ r.page }}">{{ r.title }}</a>
       {% else %}<a class="pl-title" href="{{ base }}{{ r.file }}" target="_blank" rel="noopener">{{ r.title }}</a>{% endif %}
     </li>
     {% endfor %}
