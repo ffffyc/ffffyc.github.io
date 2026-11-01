@@ -36,6 +36,7 @@ for week, src_name, dst_name in (
     (3, "Homework__Linear_Algebra_3.pdf", "homework-3-solution.pdf"),
     (4, "Homework_Linear_Algebra_4.pdf", "homework-4-solution.pdf"),
     (5, "Homework_Linear_Algebra_5.pdf", "homework-5-solution.pdf"),
+    (6, "Homework_Linear_Algebra_6.pdf", "homework-6-solution.pdf"),
 ):
     add(
         THU / "线性代数" / f"Lecture {week}" / src_name,
@@ -68,7 +69,7 @@ for n in range(1, 7):
         AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
     )
-for n in range(1, 6):
+for n in range(1, 7):
     add(
         AC / f"Homework{n}.pdf",
         ROOT / "static" / "private" / "notes" / "advanced-calculus-1" / f"homework-{n}-solution.pdf",
@@ -141,6 +142,14 @@ add(
 add(
     THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第三次习题课材料.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-3.pdf",
+)
+add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第三次习题课材料参考解答.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-3-solution.pdf",
+)
+add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第四次习题课材料.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-4.pdf",
 )
 add(
     THU / "高等微积分" / "Notes" / "练习题集" / "高等微积分1_公式手册.pdf",
