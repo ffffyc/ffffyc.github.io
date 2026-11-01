@@ -69,9 +69,16 @@ for n in range(1, 7):
         AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
     )
-for n in range(1, 7):
+for n, src_name in (
+    (1, "Homework1.pdf"),
+    (2, "Homework2.pdf"),
+    (3, "Homework3.pdf"),
+    (4, "Homework4.pdf"),
+    (5, "Homework5.pdf"),
+    (6, "Homework__Advanced_Calculus__I_.pdf"),
+):
     add(
-        AC / f"Homework{n}.pdf",
+        AC / src_name,
         ROOT / "static" / "private" / "notes" / "advanced-calculus-1" / f"homework-{n}-solution.pdf",
     )
 
