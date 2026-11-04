@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import hashlib
+import io
+import json
 import os
+import sys
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -75,7 +79,7 @@ for n, src_name in (
     (3, "Homework3.pdf"),
     (4, "Homework4.pdf"),
     (5, "Homework5.pdf"),
-    (6, "Homework__Advanced_Calculus__I_.pdf"),
+    (6, "Homework6.pdf"),
 ):
     add(
         AC / src_name,
@@ -93,7 +97,7 @@ add(
 )
 
 # 高微：七周笔记 + 全部课堂记录
-for n in range(1, 8):
+for n in range(1, 9):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
@@ -111,6 +115,7 @@ for month, day in (
     (10, 23),
     (10, 28),
     (10, 30),
+    (11, 4),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
@@ -164,7 +169,7 @@ add(
 )
 
 # 计入门：课件与作业
-for week in (1, 2, 3, 5, 6, 7):
+for week in (1, 2, 3, 5, 6, 7, 8):
     for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week0?-prof-*.pdf")):
         add(src, ROOT / "static" / "files" / "notes" / "introduction-to-cs" / f"slide-week-{week}.pdf")
 
@@ -206,6 +211,7 @@ for src, dst in (
     ("Week3/week03-paper-reading.pdf", "tutorial-week-3.pdf"),
     ("Week6/week06-linux.pdf", "tutorial-week-6.pdf"),
     ("Week7/week07-LLM-programming.pdf", "tutorial-week-7.pdf"),
+    ("Week8/week08-office-hour.pdf", "tutorial-week-8.pdf"),
 ):
     add(THU / "计算机入门" / src, ICS / dst)
 # 第五周在 zip 里，解包后单独比对
@@ -261,6 +267,34 @@ def md5(p: Path) -> str:
     return h.hexdigest()
 
 
+# 哈希缓存：文件大小与修改时间都没变时直接复用上次的摘要，避免整份重读。
+CACHE_FILE = ROOT / "tools" / "data" / "check_cache.json"
+STATUS_FILE = ROOT / "tools" / "data" / "last_check.json"
+
+
+def load_cache() -> dict:
+    try:
+        return json.loads(CACHE_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+_cache = load_cache()
+_used: dict[str, list] = {}
+
+
+def md5_cached(p: Path) -> str:
+    st = p.stat()
+    key = str(p)
+    hit = _cache.get(key)
+    if hit and hit[0] == st.st_size and hit[1] == st.st_mtime_ns:
+        _used[key] = hit
+        return hit[2]
+    digest = md5(p)
+    _used[key] = [st.st_size, st.st_mtime_ns, digest]
+    return digest
+
+
 same, stale, missing_dst, missing_src, rasterized, rasterized_late = [], [], [], [], [], []
 
 # 超过 20 MB 的素材由 shrink_pdf.py 栅格化后入库，体积与内容都变了，哈希必然不同，
@@ -279,7 +313,12 @@ for src, dst in PAIRS:
             (src, dst)
         )
         continue
-    (same if md5(src) == md5(dst) else stale).append((src, dst))
+    (same if md5_cached(src) == md5_cached(dst) else stale).append((src, dst))
+
+QUIET = "--quiet" in sys.argv
+_sink = io.StringIO() if QUIET else None
+if _sink is not None:
+    sys.stdout = _sink
 
 print(f"一致 {len(same)} 份")
 for src, dst in stale:
@@ -293,3 +332,38 @@ for dst in missing_dst:
     print(f"  [站内缺失] {dst}")
 for name in missing_src:
     print(f"  [素材缺失] {name}")
+
+changed = [f"{src.name} -> {dst.name}" for src, dst in stale]
+stale_raster = [f"{src.name} -> {dst.name}" for src, dst in rasterized_late]
+pending = changed + stale_raster
+
+CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+CACHE_FILE.write_text(json.dumps(_used, ensure_ascii=False), encoding="utf-8")
+STATUS_FILE.write_text(
+    json.dumps(
+        {
+            "time": datetime.now().isoformat(timespec="seconds"),
+            "same": len(same),
+            "changed": changed,
+            "rasterized_stale": stale_raster,
+            "missing_src": missing_src,
+            "missing_dst": [str(d) for d in missing_dst],
+        },
+        ensure_ascii=False,
+        indent=1,
+    ),
+    encoding="utf-8",
+)
+
+if QUIET:
+    sys.stdout = sys.__stdout__
+    if pending or missing_src or missing_dst:
+        summary = "、".join(pending) if pending else ""
+        if missing_src:
+            summary += ("；" if summary else "") + "素材缺失 " + "、".join(missing_src)
+        if missing_dst:
+            summary += ("；" if summary else "") + "站内缺失 " + str(len(missing_dst)) + " 份"
+        print(f"有更新：{summary}")
+        sys.exit(1)
+    print("无更新")
+    sys.exit(0)
