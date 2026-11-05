@@ -7,6 +7,7 @@ import io
 import json
 import os
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -274,6 +275,21 @@ add(
     ROOT / "static" / "files" / "books" / "math4csai" / "lecture-notes.pdf",
 )
 
+# 目录扫描：最近几天改过、又不在上面的映射里的素材，说明是还没收录的新文件。
+IGNORED_NAMES = {"算法设计_期中笔记_A4.pdf", "cs_2024_lhz.pdf"}
+RECENT_DAYS = 3
+_cutoff = time.time() - RECENT_DAYS * 86400
+_known = {str(src) for src, _ in PAIRS}
+unlisted: list[Path] = []
+for _course in ("线性代数", "高等微积分", "算法设计", "计算机入门"):
+    for _p in sorted((THU / _course).rglob("*")):
+        if not _p.is_file() or _p.suffix.lower() not in {".pdf", ".pptx"}:
+            continue
+        if str(_p) in _known or _p.name in IGNORED_NAMES:
+            continue
+        if _p.stat().st_mtime >= _cutoff:
+            unlisted.append(_p)
+
 
 def md5(p: Path) -> str:
     h = hashlib.md5()
@@ -348,6 +364,9 @@ for dst in missing_dst:
     print(f"  [站内缺失] {dst}")
 for name in missing_src:
     print(f"  [素材缺失] {name}")
+unlisted_text = [p.relative_to(THU).as_posix() for p in unlisted]
+if unlisted_text:
+    print(f"  [未收录] {len(unlisted_text)} 份新素材：" + "、".join(unlisted_text))
 
 changed = [f"{src.name} -> {dst.name}" for src, dst in stale]
 stale_raster = [f"{src.name} -> {dst.name}" for src, dst in rasterized_late]
@@ -364,6 +383,7 @@ STATUS_FILE.write_text(
             "rasterized_stale": stale_raster,
             "missing_src": missing_src,
             "missing_dst": [str(d) for d in missing_dst],
+            "unlisted": unlisted_text,
         },
         ensure_ascii=False,
         indent=1,
@@ -373,8 +393,10 @@ STATUS_FILE.write_text(
 
 if QUIET:
     sys.stdout = sys.__stdout__
-    if pending or missing_src or missing_dst:
+    if pending or unlisted_text or missing_src or missing_dst:
         summary = "、".join(pending) if pending else ""
+        if unlisted_text:
+            summary += ("；" if summary else "") + "未收录 " + "、".join(unlisted_text)
         if missing_src:
             summary += ("；" if summary else "") + "素材缺失 " + "、".join(missing_src)
         if missing_dst:
