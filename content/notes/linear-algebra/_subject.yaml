@@ -12,5 +12,9 @@ resources:
   file: files/books/linear-algebra/lay-4e.pdf
 - title: Linear Algebra（Friedberg / Insel / Spence，4e）
   file: files/books/linear-algebra/friedberg-4e.pdf
+- title: 2023 年期中试题
+  file: files/notes/linear-algebra/midterm-2023.pdf
+- title: 2025 年期中试题
+  file: files/notes/linear-algebra/midterm-2025.pdf
 - title: 课程安排（第 1 讲 PPT）
   page: notes/linear-algebra/schedule/

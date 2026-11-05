@@ -17,4 +17,6 @@ resources:
   file: files/notes/algorithm-design/midterm-2024.pdf
 - title: 2025 年期中试题（英文原文与中文译文）
   file: files/notes/algorithm-design/midterm-2025.pdf
+- title: 期中复习讲义（Hengxi Liu）
+  file: files/notes/algorithm-design/midterm-review.pdf
 show_text: false
