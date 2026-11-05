@@ -20,8 +20,8 @@ def add(src: Path, dst: Path) -> None:
     PAIRS.append((src, dst))
 
 
-# 线代：第 1–6 讲中英笔记
-for n in range(1, 7):
+# 线代：第 1–7 讲中英笔记
+for n in range(1, 8):
     for lang, suffix in (("zh", "cn"), ("en", "en")):
         add(
             THU / "线性代数" / "Notes" / f"Lecture{n}_notes_{lang}.pdf",
@@ -47,6 +47,13 @@ for week, src_name, dst_name in (
         ROOT / "static" / "private" / "notes" / "linear-algebra" / dst_name,
     )
 
+# 线代：历年期中试题
+for year in (2023, 2025):
+    add(
+        THU / "线性代数" / f"midterm{year}.pdf",
+        ROOT / "static" / "files" / "notes" / "linear-algebra" / f"midterm-{year}.pdf",
+    )
+
 # 线代第二次习题课
 add(
     THU / "线性代数" / "Lecture 4" / "tutorial_session_1016.pdf",
@@ -67,8 +74,8 @@ add(
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
 AC = THU / "高等微积分" / "Homeworks"
-CN_NUM = ["一", "二", "三", "四", "五", "六"]
-for n in range(1, 7):
+CN_NUM = ["一", "二", "三", "四", "五", "六", "七"]
+for n in range(1, 8):
     add(
         AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
@@ -148,6 +155,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-7.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "高等微积分-第8周习题课.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-8.pdf",
+)
+add(
     THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第二次习题课材料参考解答.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-2-solution.pdf",
 )
@@ -184,6 +195,7 @@ for week, src, dst in (
     (5, "Intro2CS_HW4.pdf", "homework-4.pdf"),
     (6, "Intro_to_CS_HW_Week_6.pdf", "homework-5.pdf"),
     (7, "intro2cs-hw-6.pdf", "homework-6.pdf"),
+    (8, "Intro_to_CS_HW_7.pdf", "homework-7.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 官方答案（公开）
@@ -240,6 +252,10 @@ for year in (2023, 2024, 2025):
         THU / "算法设计" / f"midterm{year}.pdf",
         ROOT / "static" / "files" / "notes" / "algorithm-design" / f"midterm-{year}.pdf",
     )
+add(
+    THU / "算法设计" / "midterm-review.pdf",
+    ROOT / "static" / "files" / "notes" / "algorithm-design" / "midterm-review.pdf",
+)
 
 
 # 课程安排相关文件
