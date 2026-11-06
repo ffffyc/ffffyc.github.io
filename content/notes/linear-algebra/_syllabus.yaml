@@ -4,5 +4,5 @@
 3: '线性变换 (linear transformation)、核空间与值域 (null space and range)、线性变换的矩阵表示 (the matrix representation of a linear transformation)'
 4: '线性变换的复合 (composition of linear transformations)、矩阵乘法 (matrix multiplication)、可逆性 (invertibility) 与同构 (isomorphism)'
 5: '坐标变换矩阵 (change of coordinate matrix) 与对偶空间 (dual space)、矩阵的秩 (rank of a matrix)'
-6: '分块矩阵 (partitioned matrices)、LU 分解 (LU decomposition) 与矩阵的逆 (matrix inverses)、线性方程组的解集 (solution sets)'
-7: '二阶与 n 阶行列式 (determinants of order 2 and order n)、余子式与余因子展开 (cofactor expansion)'
+6: '分块矩阵 (partitioned matrices)、矩阵的逆 (matrix inverses)、线性方程组的解集 (solution sets)'
+7: 'LU 分解 (LU decomposition)、二阶与 n 阶行列式 (determinants of order 2 and order n)、余子式与余因子展开 (cofactor expansion)'
