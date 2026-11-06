@@ -42,6 +42,7 @@ for week, src_name, dst_name in (
     (4, "Homework_Linear_Algebra_4.pdf", "homework-4-solution.pdf"),
     (5, "Homework_Linear_Algebra_5.pdf", "homework-5-solution.pdf"),
     (6, "Homework_Linear_Algebra_6.pdf", "homework-6-solution.pdf"),
+    (7, "Homework_Linear_Algebra_7.pdf", "homework-7-solution.pdf"),
 ):
     add(
         THU / "线性代数" / f"Lecture {week}" / src_name,
@@ -71,6 +72,10 @@ add(
 add(
     THU / "线性代数" / "Lecture 6" / "tutorial_1030.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-4.pdf",
+)
+add(
+    THU / "线性代数" / "Lecture 7" / "第五次习题课课堂记录.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
 )
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
