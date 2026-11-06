@@ -30,7 +30,7 @@ for n in range(1, 8):
         )
 
 # 线代：作业题面（公开）与自己写的解答（加密）
-for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)):
+for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)):
     add(
         THU / "线性代数" / f"Lecture {week}" / f"Linear_Algebra_Homework{n}.pdf",
         ROOT / "static" / "files" / "notes" / "linear-algebra" / f"homework-{n}.pdf",
@@ -124,6 +124,7 @@ for month, day in (
     (10, 28),
     (10, 30),
     (11, 4),
+    (11, 6),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
