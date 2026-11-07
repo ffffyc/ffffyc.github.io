@@ -16,5 +16,7 @@ resources:
   file: files/notes/linear-algebra/midterm-2023.pdf
 - title: 2025 年期中试题
   file: files/notes/linear-algebra/midterm-2025.pdf
+- title: 期中复习讲义（YiChen Sun / Haokun Zhao）
+  file: files/notes/linear-algebra/midterm-review.pdf
 - title: 课程安排（第 1 讲 PPT）
   page: notes/linear-algebra/schedule/

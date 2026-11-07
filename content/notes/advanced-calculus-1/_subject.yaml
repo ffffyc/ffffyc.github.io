@@ -28,3 +28,5 @@ resources:
 extras:
 - title: 公式手册
   file: files/notes/advanced-calculus-1/formula-handbook.pdf
+- title: 期中复习题集
+  file: files/notes/advanced-calculus-1/midterm-review.pdf

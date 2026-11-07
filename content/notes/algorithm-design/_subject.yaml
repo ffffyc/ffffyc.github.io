@@ -19,4 +19,6 @@ resources:
   file: files/notes/algorithm-design/midterm-2025.pdf
 - title: 期中复习讲义（Hengxi Liu）
   file: files/notes/algorithm-design/midterm-review.pdf
+- title: 全部习题与答案（合集）
+  file: files/notes/algorithm-design/all-exercises.pdf
 show_text: false
