@@ -55,6 +55,10 @@ for year in (2023, 2025):
         THU / "线性代数" / f"midterm{year}.pdf",
         ROOT / "static" / "files" / "notes" / "linear-algebra" / f"midterm-{year}.pdf",
     )
+add(
+    THU / "线性代数" / "linear_algebra-midterm_review.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "midterm-review.pdf",
+)
 
 # 线代第二次习题课
 add(
@@ -76,6 +80,10 @@ add(
 add(
     THU / "线性代数" / "Lecture 7" / "第五次习题课课堂记录.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
+)
+add(
+    THU / "线性代数" / "Lecture 4" / "tutorial_session_2_solutions.pdf",
+    ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-2-solution.pdf",
 )
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
@@ -182,8 +190,20 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-4.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第四次习题课材料参考解答.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-4-solution.pdf",
+)
+add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第五次习题课材料.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-5.pdf",
+)
+add(
     THU / "高等微积分" / "Notes" / "练习题集" / "高等微积分1_公式手册.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "formula-handbook.pdf",
+)
+add(
+    THU / "高等微积分" / "高微期中复习.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-review.pdf",
 )
 
 # 计入门：课件与作业
@@ -262,6 +282,10 @@ for year in (2023, 2024, 2025):
 add(
     THU / "算法设计" / "midterm-review.pdf",
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "midterm-review.pdf",
+)
+add(
+    THU / "算法设计" / "全部习题与答案（合集）.pdf",
+    ROOT / "static" / "files" / "notes" / "algorithm-design" / "all-exercises.pdf",
 )
 
 
