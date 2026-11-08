@@ -101,6 +101,7 @@ for n, src_name in (
     (4, "Homework4.pdf"),
     (5, "Homework5.pdf"),
     (6, "Homework6.pdf"),
+    (7, "Homework7.pdf"),
 ):
     add(
         AC / src_name,
