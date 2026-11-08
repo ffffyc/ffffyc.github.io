@@ -284,7 +284,7 @@ add(
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "midterm-review.pdf",
 )
 add(
-    THU / "算法设计" / "全部习题与答案（合集）.pdf",
+    THU / "算法设计" / "算法设计_简明题面与答案.pdf",
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "all-exercises.pdf",
 )
 
