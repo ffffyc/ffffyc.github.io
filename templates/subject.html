@@ -137,7 +137,7 @@
 {% endif %}
 
 {% if subject.links %}
-<section class="block">
+<section class="block block-links">
   <h2 class="sec">{{ subject.links_title }}</h2>
   <ul class="itemlist">
     {% for l in subject.links %}
@@ -151,10 +151,12 @@
 {% endif %}
 
 {% if subject.resources %}
-<section class="block">
+<section class="block block-resources{% if not subject.resource_grouped %} no-groups{% endif %}">
   <h2 class="sec">课程资料</h2>
+  {% for name, items in subject.resource_groups %}
+  {% if subject.resource_grouped and name %}<h3 class="res-group">{{ name }}</h3>{% endif %}
   <ul class="itemlist">
-    {% for r in subject.resources %}
+    {% for r in items %}
     <li>
       {% if r.href %}<a class="pl-title" href="{{ r.href }}" target="_blank" rel="noopener">{{ r.title }}</a>
       {% elif r.page %}<a class="pl-title" href="{{ base }}{{ r.page }}">{{ r.title }}</a>
@@ -162,6 +164,7 @@
     </li>
     {% endfor %}
   </ul>
+  {% endfor %}
 </section>
 {% endif %}
 

@@ -606,6 +606,18 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
             bucket = [i for i in public if i["kind"] == key]
             if bucket:
                 groups.append((label, bucket))
+
+        resources = meta.get("resources") or []
+        resource_groups: list[tuple[str, list[dict]]] = []
+        buckets: dict[str, list[dict]] = {}
+        for item in resources:
+            name = item.get("group") or ""
+            if name not in buckets:
+                buckets[name] = []
+                resource_groups.append((name, buckets[name]))
+            buckets[name].append(item)
+        resource_grouped = any(name for name, _ in resource_groups)
+
         subjects.append(
             {
                 "slug": folder.name,
@@ -631,7 +643,9 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                 "lecture_unit": meta.get("lecture_unit", "讲"),
                 "unit": meta.get("unit", "周"),
                 "show_text": bool(meta.get("show_text", True)),
-                "resources": meta.get("resources") or [],
+                "resources": resources,
+                "resource_groups": resource_groups,
+                "resource_grouped": resource_grouped,
                 "extras": meta.get("extras") or [],
                 "links": meta.get("links") or [],
                 "links_title": meta.get("links_title", "实验与代码"),
