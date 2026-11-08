@@ -11,22 +11,30 @@ columns:
 - tutorial
 - tutorial_solution
 resources:
-- title: 《高等微积分》讲义（艾颖华）
+- group: 教材与讲义
+  title: 《高等微积分》讲义（艾颖华）
   file: files/books/advanced-calculus-1/lecture-notes.pdf
-- title: 2026 年秋季课程安排
-  file: files/books/advanced-calculus-1/schedule.pdf
-- title: 数学分析教程（上册，常庚哲 / 史济怀）
+- group: 教材与讲义
+  title: 数学分析教程（上册，常庚哲 / 史济怀）
   file: files/books/advanced-calculus-1/analysis-textbook.pdf
-- title: 全国大学生数学竞赛分类题目
-  file: files/books/advanced-calculus-1/contest-problems.pdf
-- title: 期中样卷试题合集
+- group: 课程安排
+  title: 2026 年秋季课程安排
+  file: files/books/advanced-calculus-1/schedule.pdf
+- group: 试题
+  title: 期中样卷试题合集
   file: files/notes/advanced-calculus-1/sample-exams.pdf
-- title: 2025 年秋季期中试题 A 卷
+- group: 试题
+  title: 2025 年秋季期中试题 A 卷
   file: files/notes/advanced-calculus-1/midterm-2025-a.pdf
-- title: 课程录像与课堂记录
+- group: 习题与题解
+  title: 全国大学生数学竞赛分类题目
+  file: files/books/advanced-calculus-1/contest-problems.pdf
+- group: 复习材料
+  title: 期中复习题集（年级复习会）
+  file: files/notes/advanced-calculus-1/midterm-review.pdf
+- group: 课程录像
+  title: 课程录像与课堂记录
   href: 'https://cloud.tsinghua.edu.cn/d/a6ed5e18ccc5472389e9/?p=%2F&mode=list'
 extras:
 - title: 公式手册
   file: files/notes/advanced-calculus-1/formula-handbook.pdf
-- title: 期中复习题集
-  file: files/notes/advanced-calculus-1/midterm-review.pdf

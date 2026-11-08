@@ -8,9 +8,11 @@ columns:
 - solution
 show_text: false
 resources:
-- title: 课程讲义 lecture notes
+- group: 教材与讲义
+  title: 课程讲义 lecture notes
   file: files/books/math4csai/lecture-notes.pdf
-- title: Discrete Mathematics
+- group: 教材与讲义
+  title: Discrete Mathematics
   file: files/books/math4csai/discrete-mathematics.pdf
 extras:
 - title: 期中复习

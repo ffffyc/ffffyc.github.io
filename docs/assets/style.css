@@ -172,6 +172,33 @@ main.wrap {
   color: var(--ink-3);
 }
 
+/* 课程资料与实验：与上方表格留出距离，标题略大于链接但不抢眼 */
+.block-resources,
+.block-links {
+  margin-top: 2.2rem;
+}
+
+.block-resources .sec,
+.block-links .sec {
+  margin-bottom: .6rem;
+  font-size: .98rem;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+.res-group {
+  margin: .95rem 0 .1rem;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ink-3);
+}
+
+.res-group:first-of-type { margin-top: .1rem; }
+
+/* 没有分组时，标题直接接列表，不留大段空隙 */
+.block-resources.no-groups .sec { margin-bottom: .3rem; }
+
 .sec-head .sec { margin-bottom: 0; }
 .sec-more { font-size: .85rem; color: var(--ink-3); text-decoration: none; }
 .sec-more:hover { color: var(--accent); }

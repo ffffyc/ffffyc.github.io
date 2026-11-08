@@ -7,18 +7,25 @@ columns:
 - homework
 - solution
 resources:
-- title: Algorithm Design（Kleinberg / Tardos）
+- group: 教材与讲义
+  title: Algorithm Design（Kleinberg / Tardos）
   file: files/books/algorithm-design/kleinberg-tardos.pdf
-- title: Introduction to Algorithms（CLRS）
+- group: 教材与讲义
+  title: Introduction to Algorithms（CLRS）
   file: files/books/algorithm-design/clrs.pdf
-- title: 2023 年期中试题（英文原文与中文译文）
+- group: 试题
+  title: 2023 年期中试题（英文原文与中文译文）
   file: files/notes/algorithm-design/midterm-2023.pdf
-- title: 2024 年期中试题（英文原文与中文译文）
+- group: 试题
+  title: 2024 年期中试题（英文原文与中文译文）
   file: files/notes/algorithm-design/midterm-2024.pdf
-- title: 2025 年期中试题（英文原文与中文译文）
+- group: 试题
+  title: 2025 年期中试题（英文原文与中文译文）
   file: files/notes/algorithm-design/midterm-2025.pdf
-- title: 期中复习讲义（Hengxi Liu）
-  file: files/notes/algorithm-design/midterm-review.pdf
-- title: 全部习题与答案（合集）
+- group: 习题与题解
+  title: 全部习题与答案（合集）
   file: files/notes/algorithm-design/all-exercises.pdf
+- group: 复习材料
+  title: 期中复习讲义（Hengxi Liu）
+  file: files/notes/algorithm-design/midterm-review.pdf
 show_text: false
