@@ -241,6 +241,7 @@ for week, src, dst in (
     (5, "Homework_Intro2cs_4.pdf", "homework-4-solution.pdf"),
     (6, "Homework_Intro2cs_5.pdf", "homework-5-solution.pdf"),
     (7, "Homework_Intro2cs_6.pdf", "homework-6-solution.pdf"),
+    (8, "Homework_Intro2cs_7.pdf", "homework-7-solution.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS_PRIVATE / dst)
 
@@ -287,6 +288,10 @@ add(
 add(
     THU / "算法设计" / "算法设计_简明题面与答案.pdf",
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "all-exercises.pdf",
+)
+add(
+    THU / "算法设计" / "Midterm_Exam_Questions_English.pdf",
+    ROOT / "static" / "files" / "notes" / "algorithm-design" / "midterm-2026.pdf",
 )
 
 
