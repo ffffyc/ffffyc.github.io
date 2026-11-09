@@ -22,6 +22,9 @@ resources:
 - group: 试题
   title: 2025 年期中试题（英文原文与中文译文）
   file: files/notes/algorithm-design/midterm-2025.pdf
+- group: 试题
+  title: 2026 年期中试题（回忆版，英文）
+  file: files/notes/algorithm-design/midterm-2026.pdf
 - group: 习题与题解
   title: 全部习题与答案（合集）
   file: files/notes/algorithm-design/all-exercises.pdf
