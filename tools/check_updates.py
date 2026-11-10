@@ -304,6 +304,10 @@ add(
     THU / "计算机入门" / "Week1" / "week01-course-info.pdf",
     ROOT / "static" / "files" / "notes" / "introduction-to-cs" / "course-info.pdf",
 )
+add(
+    THU / "计算机入门" / "Intro2CS (Fall 2026) Project Guideline.pdf",
+    ROOT / "static" / "files" / "notes" / "introduction-to-cs" / "project-guideline.pdf",
+)
 
 # 计应数（2026 春）：整本课程笔记（放在 books 目录，属于参考资料）
 add(
