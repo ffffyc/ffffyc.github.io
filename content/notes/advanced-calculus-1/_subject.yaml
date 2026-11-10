@@ -26,6 +26,9 @@ resources:
 - group: 试题
   title: 2025 年秋季期中试题 A 卷
   file: files/notes/advanced-calculus-1/midterm-2025-a.pdf
+- group: 试题
+  title: 2025 年秋季期中试题 A 卷参考解答
+  file: files/notes/advanced-calculus-1/midterm-2025-a-solution.pdf
 - group: 习题与题解
   title: 全国大学生数学竞赛分类题目
   file: files/books/advanced-calculus-1/contest-problems.pdf
