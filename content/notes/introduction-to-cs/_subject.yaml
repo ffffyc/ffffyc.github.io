@@ -11,3 +11,6 @@ resources:
 - group: 课程安排
   title: 课程安排与评分（course info）
   file: files/notes/introduction-to-cs/course-info.pdf
+- group: 课程安排
+  title: 项目指南（Project Guideline）
+  file: files/notes/introduction-to-cs/project-guideline.pdf
