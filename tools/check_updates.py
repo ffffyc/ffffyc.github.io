@@ -117,6 +117,10 @@ add(
     THU / "高等微积分" / "2025年秋季《高等微积分1》期中试题A卷.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-2025-a.pdf",
 )
+add(
+    THU / "高等微积分" / "2025年秋季《高等微积分1》期中参考解答.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-2025-a-solution.pdf",
+)
 
 # 高微：七周笔记 + 全部课堂记录
 for n in range(1, 9):
@@ -253,6 +257,7 @@ for src, dst in (
     ("Week6/week06-linux.pdf", "tutorial-week-6.pdf"),
     ("Week7/week07-LLM-programming.pdf", "tutorial-week-7.pdf"),
     ("Week8/week08-office-hour.pdf", "tutorial-week-8.pdf"),
+    ("Week9/week09-office-hour.pdf", "tutorial-week-9.pdf"),
 ):
     add(THU / "计算机入门" / src, ICS / dst)
 # 第五周在 zip 里，解包后单独比对

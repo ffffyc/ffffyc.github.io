@@ -657,7 +657,10 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     bool(meta.get("show_text", True)),
                     max((len(str(v)) for v in syllabus.values()), default=0),
                 ),
-                "count": len(public),
+                "count": len(public)
+                + len(resources)
+                + len(meta.get("extras") or [])
+                + len(meta.get("links") or []),
                 "hidden_count": len(secret),
             }
         )
@@ -704,6 +707,42 @@ def write(rel: str, html: str) -> None:
     target = OUT / rel
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(html, encoding="utf-8")
+
+
+def clear_pdf_title(data: bytes) -> bytes:
+    """清空 PDF 的 Title 元数据，让阅读器统一显示文件名。"""
+    try:
+        doc = pymupdf.open(stream=data, filetype="pdf")
+        meta = doc.metadata or {}
+        if (meta.get("title") or "").strip():
+            meta["title"] = ""
+            doc.set_metadata(meta)
+            out = doc.tobytes(garbage=3, deflate=True)
+            doc.close()
+            return out
+        doc.close()
+    except Exception:  # noqa: BLE001
+        pass
+    return data
+
+
+def clear_pdf_titles(root: Path) -> None:
+    """把目录内所有带 Title 的 PDF 清空标题，其余文件跳过。"""
+    for path in root.rglob("*.pdf"):
+        try:
+            doc = pymupdf.open(path)
+            meta = doc.metadata or {}
+            if not (meta.get("title") or "").strip():
+                doc.close()
+                continue
+            meta["title"] = ""
+            doc.set_metadata(meta)
+            tmp = path.with_suffix(".tmp.pdf")
+            doc.save(tmp, garbage=3, deflate=True)
+            doc.close()
+            tmp.replace(path)
+        except Exception:  # noqa: BLE001
+            continue
 
 
 def _rmtree(path: Path) -> None:
@@ -922,6 +961,7 @@ def main() -> None:
         section="notes",
         subjects=subjects,
         terms=terms,
+        wide=True,
     )
     for subject in subjects:
         render(
@@ -963,7 +1003,7 @@ def main() -> None:
                 if not src or not src.exists():
                     continue
                 enc_rel = entry["pdf"].replace("private/", "files/", 1) + ".enc"
-                pending_enc.append((enc_rel, seal_bytes(src.read_bytes(), *secret)))
+                pending_enc.append((enc_rel, seal_bytes(clear_pdf_title(src.read_bytes()), *secret)))
                 payload = seal(
                     {"title": entry["title"], "file": f"{base}{enc_rel}"}, *secret
                 )
@@ -993,6 +1033,7 @@ def main() -> None:
         for copied in (OUT / "files").rglob("*"):
             if copied.is_file() and not copied.stat().st_mode & stat.S_IWRITE:
                 copied.chmod(copied.stat().st_mode | stat.S_IWRITE)
+        clear_pdf_titles(OUT / "files" / "notes")
     for rel, text in pending_enc:
         target = OUT / rel
         target.parent.mkdir(parents=True, exist_ok=True)
