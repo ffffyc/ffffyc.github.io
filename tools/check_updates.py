@@ -123,7 +123,7 @@ add(
 )
 
 # 高微：七周笔记 + 全部课堂记录
-for n in range(1, 9):
+for n in range(1, 10):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
@@ -143,6 +143,7 @@ for month, day in (
     (10, 30),
     (11, 4),
     (11, 6),
+    (11, 11),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
@@ -210,9 +211,13 @@ add(
     THU / "高等微积分" / "高微期中复习.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-review.pdf",
 )
+add(
+    THU / "高等微积分" / "《微积分1》期中总结.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-summary.pdf",
+)
 
 # 计入门：课件与作业
-for week in (1, 2, 3, 5, 6, 7, 8):
+for week in (1, 2, 3, 5, 6, 7, 8, 9):
     for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week0?-prof-*.pdf")):
         add(src, ROOT / "static" / "files" / "notes" / "introduction-to-cs" / f"slide-week-{week}.pdf")
 
@@ -310,7 +315,7 @@ add(
     ROOT / "static" / "files" / "notes" / "introduction-to-cs" / "course-info.pdf",
 )
 add(
-    THU / "计算机入门" / "Intro2CS (Fall 2026) Project Guideline.pdf",
+    THU / "计算机入门" / "Intro2CS (Fall 2026) Project Guideline Updated.pdf",
     ROOT / "static" / "files" / "notes" / "introduction-to-cs" / "project-guideline.pdf",
 )
 
