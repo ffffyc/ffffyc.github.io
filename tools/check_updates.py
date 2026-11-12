@@ -216,6 +216,14 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-review.pdf",
 )
 add(
+    THU / "高等微积分" / "渐近线的定义用途与典型例题.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "asymptote-notes.pdf",
+)
+add(
+    THU / "高等微积分" / "Homeworks" / "《高等微积分1》作业参考答案.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "homework-answers.pdf",
+)
+add(
     THU / "高等微积分" / "《微积分1》期中总结.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-summary.pdf",
 )
@@ -237,6 +245,7 @@ for week, src, dst in (
     (6, "Intro_to_CS_HW_Week_6.pdf", "homework-5.pdf"),
     (7, "intro2cs-hw-6.pdf", "homework-6.pdf"),
     (8, "Intro_to_CS_HW_7.pdf", "homework-7.pdf"),
+    (9, "Intro2CS_HW8_Week09.pdf", "homework-8.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 官方答案（公开）
