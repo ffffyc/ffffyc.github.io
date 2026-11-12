@@ -32,6 +32,9 @@ resources:
 - group: 习题与题解
   title: 全国大学生数学竞赛分类题目
   file: files/books/advanced-calculus-1/contest-problems.pdf
+- group: 习题与题解
+  title: 作业参考答案（第 1–6 次）
+  file: files/notes/advanced-calculus-1/homework-answers.pdf
 - group: 复习材料
   title: 期中复习题集（年级复习会）
   file: files/notes/advanced-calculus-1/midterm-review.pdf
