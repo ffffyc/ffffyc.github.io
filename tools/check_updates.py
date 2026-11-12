@@ -204,6 +204,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-5.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第五次习题课材料参考解答.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-5-solution.pdf",
+)
+add(
     THU / "高等微积分" / "Notes" / "练习题集" / "高等微积分1_公式手册.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "formula-handbook.pdf",
 )
