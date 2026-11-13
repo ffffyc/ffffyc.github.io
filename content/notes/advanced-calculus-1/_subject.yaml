@@ -15,11 +15,11 @@ resources:
   title: 《高等微积分》讲义（艾颖华）
   file: files/books/advanced-calculus-1/lecture-notes.pdf
 - group: 教材与讲义
+  title: 《高等微积分》补充讲义（艾颖华）
+  file: files/notes/advanced-calculus-1/supplement-notes.pdf
+- group: 教材与讲义
   title: 数学分析教程（上册，常庚哲 / 史济怀）
   file: files/books/advanced-calculus-1/analysis-textbook.pdf
-- group: 教材与讲义
-  title: 渐近线讲义
-  file: files/notes/advanced-calculus-1/asymptote-notes.pdf
 - group: 课程安排
   title: 2026 年秋季课程安排
   file: files/books/advanced-calculus-1/schedule.pdf
