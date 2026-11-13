@@ -82,6 +82,10 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
 )
 add(
+    THU / "线性代数" / "Lucture 8" / "第六次习题课讲义.pptx",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pptx",
+)
+add(
     THU / "线性代数" / "Lecture 4" / "tutorial_session_2_solutions.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-2-solution.pdf",
 )
@@ -144,6 +148,7 @@ for month, day in (
     (11, 4),
     (11, 6),
     (11, 11),
+    (11, 13),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
@@ -178,6 +183,10 @@ add(
 add(
     THU / "高等微积分" / "习题课" / "高等微积分-第8周习题课.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-8.pdf",
+)
+add(
+    THU / "高等微积分" / "习题课" / "高等微积分-第9周习题课.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-9.pdf",
 )
 add(
     THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第二次习题课材料参考解答.pdf",
@@ -216,8 +225,8 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-review.pdf",
 )
 add(
-    THU / "高等微积分" / "渐近线的定义用途与典型例题.pdf",
-    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "asymptote-notes.pdf",
+    THU / "高等微积分" / "《高等微积分1》补充讲义.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "supplement-notes.pdf",
 )
 add(
     THU / "高等微积分" / "Homeworks" / "《高等微积分1》作业参考答案.pdf",
