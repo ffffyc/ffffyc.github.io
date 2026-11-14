@@ -118,6 +118,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "sample-exams.pdf",
 )
 add(
+    THU / "高等微积分" / "样卷参考解答合集.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "sample-exams-solution.pdf",
+)
+add(
     THU / "高等微积分" / "2025年秋季《高等微积分1》期中试题A卷.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-2025-a.pdf",
 )
