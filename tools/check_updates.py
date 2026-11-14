@@ -82,7 +82,7 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
 )
 add(
-    THU / "线性代数" / "Lucture 8" / "第六次习题课讲义.pptx",
+    THU / "线性代数" / "Lucture 8" / "第六次习题课材料.pptx",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pptx",
 )
 add(
