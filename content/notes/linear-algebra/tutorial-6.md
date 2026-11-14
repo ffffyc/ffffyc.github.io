@@ -1,5 +1,5 @@
 ---
-title: "第六次习题课讲义"
+title: "第六次习题课材料"
 kind: tutorial
 order: 8
 seq: 1
