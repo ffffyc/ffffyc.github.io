@@ -26,7 +26,7 @@ resources:
   title: 2026 年期中试题（回忆版，英文）
   file: files/notes/algorithm-design/midterm-2026.pdf
 - group: 习题与题解
-  title: 全部习题与答案（合集）
+  title: 习题与答案（第 1–6、8 章）
   file: files/notes/algorithm-design/all-exercises.pdf
 - group: 复习材料
   title: 期中复习讲义（Hengxi Liu）
