@@ -277,6 +277,7 @@ for week, src, dst in (
     (6, "Homework_Intro2cs_5.pdf", "homework-5-solution.pdf"),
     (7, "Homework_Intro2cs_6.pdf", "homework-6-solution.pdf"),
     (8, "Homework_Intro2cs_7.pdf", "homework-7-solution.pdf"),
+    (9, "Homework_Intro2cs_8.pdf", "homework-8-solution.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS_PRIVATE / dst)
 
@@ -310,6 +311,10 @@ for n in (5, 6):
         THU / "算法设计" / "Homework" / f"Homework{n}" / f"Homework_Algorithm_Design_{n}.pdf",
         ROOT / "static" / "private" / "notes" / "algorithm-design" / f"homework-{n}-solution.pdf",
     )
+add(
+    THU / "算法设计" / "Homework" / "Homework7" / "hw7.pdf",
+    ROOT / "static" / "files" / "notes" / "algorithm-design" / "homework-7.pdf",
+)
 
 # 算法设计：历年期中试题
 for year in (2023, 2024, 2025):
