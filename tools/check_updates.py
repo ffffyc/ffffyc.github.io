@@ -21,8 +21,8 @@ def add(src: Path, dst: Path) -> None:
     PAIRS.append((src, dst))
 
 
-# 线代：第 1–7 讲中英笔记
-for n in range(1, 8):
+# 线代：第 1–8 讲中英笔记
+for n in range(1, 9):
     for lang, suffix in (("zh", "cn"), ("en", "en")):
         add(
             THU / "线性代数" / "Notes" / f"Lecture{n}_notes_{lang}.pdf",
@@ -266,6 +266,7 @@ for week, src, dst in (
     (1, "Intro_to_CS_HW_1_Answer.pdf", "homework-1-answer.pdf"),
     (2, "Intro2CS_HW2_Answer.pdf", "homework-2-answer.pdf"),
     (3, "intro2cs-hw3-sol.pdf", "homework-3-answer.pdf"),
+    (5, "Intro2CS_HW4_Answer.pdf", "homework-4-answer.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 自己写的解答（加密）

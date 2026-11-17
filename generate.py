@@ -457,6 +457,17 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
         )
 
         numbers = sorted({i["order"] for i in main_items if i["order"]})
+        row_labels = {
+            int(k): str(v) for k, v in (meta.get("row_labels") or {}).items()
+        }
+        skips = sorted(int(x) for x in (meta.get("number_skips") or []))
+
+        def row_label(n: int):
+            if n in row_labels:
+                return row_labels[n]
+            if skips:
+                return str(n - sum(1 for s in skips if s < n))
+            return None
         rows = []
         for n in numbers:
             cells = {}
@@ -474,6 +485,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
             rows.append(
                 {
                     "n": n,
+                    "label": row_label(n),
                     "text": str(syllabus.get(n, "") or ""),
                     "cells": cells,
                     "lect": str((meta.get("homework_lectures") or {}).get(n, "") or ""),
@@ -541,7 +553,9 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     if i["order"] == n:
                         cells.setdefault(i["kind"], []).append(i)
                         used.add(i["slug"])
-                lecture_rows.append({"n": n, "cells": cells})
+                lecture_rows.append(
+                    {"n": n, "cells": cells, "label": row_label(n)}
+                )
 
         # 作业表与讲次表合并：行 = 讲次，作业挂在它覆盖的第一讲上
         merge = bool(meta.get("merge_tables", False))
@@ -586,6 +600,8 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
             for n, r in by_n.items():
                 r["text"] = str(syllabus.get(n, "") or "")
             merged_rows = [by_n[n] for n in sorted(by_n)]
+            for row in merged_rows:
+                row["label"] = row_label(row["n"])
             seen = set()
             merged_columns = []
             for c in lecture_keys + [
