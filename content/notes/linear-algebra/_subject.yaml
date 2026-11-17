@@ -3,6 +3,9 @@ name_en: Linear Algebra
 order: 1
 term: 2026 秋
 unit: 讲
+row_labels:
+  8: '—'
+number_skips: [8]
 columns:
 - note
 - homework
