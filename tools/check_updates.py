@@ -131,7 +131,7 @@ add(
 )
 
 # 高微：七周笔记 + 全部课堂记录
-for n in range(1, 10):
+for n in range(1, 11):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
@@ -153,6 +153,7 @@ for month, day in (
     (11, 6),
     (11, 11),
     (11, 13),
+    (11, 18),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
@@ -240,6 +241,10 @@ add(
     THU / "高等微积分" / "《微积分1》期中总结.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-summary.pdf",
 )
+add(
+    THU / "高等微积分" / "多项式逼近与多次Rolle.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "polynomial-rolle.pdf",
+)
 
 # 计入门：课件与作业
 for week in (1, 2, 3, 5, 6, 7, 8, 9):
@@ -291,6 +296,7 @@ for src, dst in (
     ("Week7/week07-LLM-programming.pdf", "tutorial-week-7.pdf"),
     ("Week8/week08-office-hour.pdf", "tutorial-week-8.pdf"),
     ("Week9/week09-office-hour.pdf", "tutorial-week-9.pdf"),
+    ("Week10/TA_lecture_w10_release.pdf", "tutorial-week-10.pdf"),
 ):
     add(THU / "计算机入门" / src, ICS / dst)
 # 第五周在 zip 里，解包后单独比对
