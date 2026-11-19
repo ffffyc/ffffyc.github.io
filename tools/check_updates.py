@@ -86,14 +86,22 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pptx",
 )
 add(
+    THU / "线性代数" / "Lucture 8" / "tutorial_session_1120.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-7.pdf",
+)
+add(
+    THU / "线性代数" / "Lucture 8" / "tutorial_session_7_solutions.pdf",
+    ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-7-solution.pdf",
+)
+add(
     THU / "线性代数" / "Lecture 4" / "tutorial_session_2_solutions.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-2-solution.pdf",
 )
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
 AC = THU / "高等微积分" / "Homeworks"
-CN_NUM = ["一", "二", "三", "四", "五", "六", "七"]
-for n in range(1, 8):
+CN_NUM = ["一", "二", "三", "四", "五", "六", "七", "八"]
+for n in range(1, 9):
     add(
         AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
@@ -241,14 +249,10 @@ add(
     THU / "高等微积分" / "《微积分1》期中总结.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-summary.pdf",
 )
-add(
-    THU / "高等微积分" / "多项式逼近与多次Rolle.pdf",
-    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "polynomial-rolle.pdf",
-)
 
 # 计入门：课件与作业
-for week in (1, 2, 3, 5, 6, 7, 8, 9):
-    for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week0?-prof-*.pdf")):
+for week in (1, 2, 3, 5, 6, 7, 8, 9, 10):
+    for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week??-prof-*.pdf")):
         add(src, ROOT / "static" / "files" / "notes" / "introduction-to-cs" / f"slide-week-{week}.pdf")
 
 ICS = ROOT / "static" / "files" / "notes" / "introduction-to-cs"
@@ -264,6 +268,7 @@ for week, src, dst in (
     (7, "intro2cs-hw-6.pdf", "homework-6.pdf"),
     (8, "Intro_to_CS_HW_7.pdf", "homework-7.pdf"),
     (9, "Intro2CS_HW8_Week09.pdf", "homework-8.pdf"),
+    (10, "Intro2CS_HW9_Week10.pdf", "homework-9.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 官方答案（公开）
