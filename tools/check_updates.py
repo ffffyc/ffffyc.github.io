@@ -94,6 +94,10 @@ add(
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-7-solution.pdf",
 )
 add(
+    THU / "线性代数" / "Lecture 5" / "tutorial_session_3_supplementary.pdf",
+    ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-3-solution.pdf",
+)
+add(
     THU / "线性代数" / "Lecture 4" / "tutorial_session_2_solutions.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-2-solution.pdf",
 )
@@ -162,6 +166,7 @@ for month, day in (
     (11, 11),
     (11, 13),
     (11, 18),
+    (11, 20),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
