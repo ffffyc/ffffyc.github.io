@@ -41,6 +41,9 @@ resources:
 - group: 习题与题解
   title: 作业参考答案（第 1–6 次）
   file: files/notes/advanced-calculus-1/homework-answers.pdf
+- group: 习题与题解
+  title: 微积分 1 练习册（题目）
+  file: files/notes/advanced-calculus-1/workbook-problems.pdf
 - group: 复习材料
   title: 期中复习题集（年级复习会）
   file: files/notes/advanced-calculus-1/midterm-review.pdf

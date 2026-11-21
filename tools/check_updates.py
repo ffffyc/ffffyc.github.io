@@ -35,6 +35,10 @@ for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)):
         THU / "线性代数" / f"Lecture {week}" / f"Linear_Algebra_Homework{n}.pdf",
         ROOT / "static" / "files" / "notes" / "linear-algebra" / f"homework-{n}.pdf",
     )
+add(
+    THU / "线性代数" / "Lucture 8" / "Linear_Algebra_Homework_8.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "homework-8.pdf",
+)
 for week, src_name, dst_name in (
     (1, "Homework1.pdf", "homework-1-solution.pdf"),
     (2, "Homework2.pdf", "homework-2-solution.pdf"),
@@ -235,6 +239,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-5-solution.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第六次习题课材料.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-11.pdf",
+)
+add(
     THU / "高等微积分" / "Notes" / "练习题集" / "高等微积分1_公式手册.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "formula-handbook.pdf",
 )
@@ -253,6 +261,10 @@ add(
 add(
     THU / "高等微积分" / "《微积分1》期中总结.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "midterm-summary.pdf",
+)
+add(
+    THU / "高等微积分" / "微积分1练习册-题目.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "workbook-problems.pdf",
 )
 
 # 计入门：课件与作业
