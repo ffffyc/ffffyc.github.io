@@ -52,6 +52,10 @@ for week, src_name, dst_name in (
         THU / "线性代数" / f"Lecture {week}" / src_name,
         ROOT / "static" / "private" / "notes" / "linear-algebra" / dst_name,
     )
+add(
+    THU / "线性代数" / "Lucture 8" / "Homework_Linear_Algebra_8.pdf",
+    ROOT / "static" / "private" / "notes" / "linear-algebra" / "homework-8-solution.pdf",
+)
 
 # 线代：历年期中试题
 for year in (2023, 2025):
@@ -343,6 +347,14 @@ for n in (5, 6):
 add(
     THU / "算法设计" / "Homework" / "Homework7" / "hw7.pdf",
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "homework-7.pdf",
+)
+add(
+    THU / "算法设计" / "Homework" / "Homework7" / "Homework_Algorithm_Design_7.pdf",
+    ROOT / "static" / "private" / "notes" / "algorithm-design" / "homework-7-solution.pdf",
+)
+add(
+    THU / "算法设计" / "Homework" / "Homework8" / "hw8.pdf",
+    ROOT / "static" / "files" / "notes" / "algorithm-design" / "homework-8.pdf",
 )
 
 # 算法设计：历年期中试题
