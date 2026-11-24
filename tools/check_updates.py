@@ -21,8 +21,8 @@ def add(src: Path, dst: Path) -> None:
     PAIRS.append((src, dst))
 
 
-# 线代：第 1–8 讲中英笔记
-for n in range(1, 9):
+# 线代：第 1–9 讲中英笔记
+for n in range(1, 10):
     for lang, suffix in (("zh", "cn"), ("en", "en")):
         add(
             THU / "线性代数" / "Notes" / f"Lecture{n}_notes_{lang}.pdf",
@@ -36,7 +36,7 @@ for week, n in ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)):
         ROOT / "static" / "files" / "notes" / "linear-algebra" / f"homework-{n}.pdf",
     )
 add(
-    THU / "线性代数" / "Lucture 8" / "Linear_Algebra_Homework_8.pdf",
+    THU / "线性代数" / "Lecture 8" / "Linear_Algebra_Homework_8.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "homework-8.pdf",
 )
 for week, src_name, dst_name in (
@@ -53,7 +53,7 @@ for week, src_name, dst_name in (
         ROOT / "static" / "private" / "notes" / "linear-algebra" / dst_name,
     )
 add(
-    THU / "线性代数" / "Lucture 8" / "Homework_Linear_Algebra_8.pdf",
+    THU / "线性代数" / "Lecture 8" / "Homework_Linear_Algebra_8.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "homework-8-solution.pdf",
 )
 
@@ -90,15 +90,15 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
 )
 add(
-    THU / "线性代数" / "Lucture 8" / "第六次习题课材料.pptx",
+    THU / "线性代数" / "Lecture 8" / "第六次习题课材料.pptx",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pptx",
 )
 add(
-    THU / "线性代数" / "Lucture 8" / "tutorial_session_1120.pdf",
+    THU / "线性代数" / "Lecture 8" / "tutorial_session_1120.pdf",
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-7.pdf",
 )
 add(
-    THU / "线性代数" / "Lucture 8" / "tutorial_session_7_solutions.pdf",
+    THU / "线性代数" / "Lecture 8" / "tutorial_session_7_solutions.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-7-solution.pdf",
 )
 add(
@@ -126,6 +126,7 @@ for n, src_name in (
     (5, "Homework5.pdf"),
     (6, "Homework6.pdf"),
     (7, "Homework7.pdf"),
+    (8, "Homework8.pdf"),
 ):
     add(
         AC / src_name,
@@ -322,6 +323,7 @@ for src, dst in (
     ("Week7/week07-LLM-programming.pdf", "tutorial-week-7.pdf"),
     ("Week8/week08-office-hour.pdf", "tutorial-week-8.pdf"),
     ("Week9/week09-office-hour.pdf", "tutorial-week-9.pdf"),
+    ("Week11/week-11-office-hour.pdf", "tutorial-week-11.pdf"),
     ("Week10/TA_lecture_w10_release.pdf", "tutorial-week-10.pdf"),
 ):
     add(THU / "计算机入门" / src, ICS / dst)
