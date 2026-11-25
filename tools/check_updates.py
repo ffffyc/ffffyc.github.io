@@ -152,7 +152,7 @@ add(
 )
 
 # 高微：七周笔记 + 全部课堂记录
-for n in range(1, 11):
+for n in range(1, 12):
     add(
         THU / "高等微积分" / "Notes" / f"高等微积分1_第{n}周笔记.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"note-week-{n}.pdf",
@@ -176,6 +176,7 @@ for month, day in (
     (11, 13),
     (11, 18),
     (11, 20),
+    (11, 25),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
@@ -273,7 +274,7 @@ add(
 )
 
 # 计入门：课件与作业
-for week in (1, 2, 3, 5, 6, 7, 8, 9, 10):
+for week in (1, 2, 3, 5, 6, 7, 8, 9, 10, 11):
     for src in sorted((THU / "计算机入门" / f"Week{week}").glob("week??-prof-*.pdf")):
         add(src, ROOT / "static" / "files" / "notes" / "introduction-to-cs" / f"slide-week-{week}.pdf")
 
@@ -357,6 +358,10 @@ add(
 add(
     THU / "算法设计" / "Homework" / "Homework8" / "hw8.pdf",
     ROOT / "static" / "files" / "notes" / "algorithm-design" / "homework-8.pdf",
+)
+add(
+    THU / "算法设计" / "Homework" / "Homework8" / "Homework_Algorithm_Design_8.pdf",
+    ROOT / "static" / "private" / "notes" / "algorithm-design" / "homework-8-solution.pdf",
 )
 
 # 算法设计：历年期中试题
