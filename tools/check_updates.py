@@ -90,8 +90,8 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-5-record.pdf",
 )
 add(
-    THU / "线性代数" / "Lecture 8" / "第六次习题课材料.pptx",
-    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pptx",
+    THU / "线性代数" / "Lecture 8" / "第六次习题课材料.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-6.pdf",
 )
 add(
     THU / "线性代数" / "Lecture 8" / "tutorial_session_1120.pdf",
@@ -100,6 +100,10 @@ add(
 add(
     THU / "线性代数" / "Lecture 8" / "tutorial_session_7_solutions.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-7-solution.pdf",
+)
+add(
+    THU / "线性代数" / "Lecture 9" / "slides1127.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-8.pdf",
 )
 add(
     THU / "线性代数" / "Lecture 5" / "tutorial_session_3_supplementary.pdf",
@@ -217,6 +221,10 @@ add(
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-week-9.pdf",
 )
 add(
+    THU / "高等微积分" / "习题课" / "高等微积分-第11周习题课.pdf",
+    ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-11-slides.pdf",
+)
+add(
     THU / "高等微积分" / "习题课" / "2026年秋季《高等微积分1》第二次习题课材料参考解答.pdf",
     ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / "tutorial-2-solution.pdf",
 )
@@ -292,6 +300,7 @@ for week, src, dst in (
     (8, "Intro_to_CS_HW_7.pdf", "homework-7.pdf"),
     (9, "Intro2CS_HW8_Week09.pdf", "homework-8.pdf"),
     (10, "Intro2CS_HW9_Week10.pdf", "homework-9.pdf"),
+    (11, "intro2cs-hw-10.pdf", "homework-10.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS / dst)
 # 官方答案（公开）
@@ -312,6 +321,8 @@ for week, src, dst in (
     (7, "Homework_Intro2cs_6.pdf", "homework-6-solution.pdf"),
     (8, "Homework_Intro2cs_7.pdf", "homework-7-solution.pdf"),
     (9, "Homework_Intro2cs_8.pdf", "homework-8-solution.pdf"),
+    (10, "Homework_Intro2cs_9.pdf", "homework-9-solution.pdf"),
+    (11, "Homework_Intro2cs_10.pdf", "homework-10-solution.pdf"),
 ):
     add(CS / f"Week{week}" / src, ICS_PRIVATE / dst)
 
