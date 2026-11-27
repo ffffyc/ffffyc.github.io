@@ -3,6 +3,7 @@ name_en: Linear Algebra
 order: 1
 term: 2026 秋
 unit: 讲
+width: widest
 row_labels:
   8: '—'
 number_skips: [8]

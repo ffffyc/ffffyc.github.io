@@ -3,6 +3,7 @@ name_en: Advanced Calculus I
 order: 2
 term: 2026 秋
 unit: 周
+width: widest
 columns:
 - record
 - note
