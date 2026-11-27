@@ -116,8 +116,8 @@ add(
 
 # 高微：作业题面（《高等微积分1》第N次作业，公开）与自己写的解答（HomeworkN，加密）
 AC = THU / "高等微积分" / "Homeworks"
-CN_NUM = ["一", "二", "三", "四", "五", "六", "七", "八"]
-for n in range(1, 9):
+CN_NUM = ["一", "二", "三", "四", "五", "六", "七", "八", "九"]
+for n in range(1, 10):
     add(
         AC / f"《高等微积分1》第{CN_NUM[n - 1]}次作业.pdf",
         ROOT / "static" / "files" / "notes" / "advanced-calculus-1" / f"homework-{n}.pdf",
