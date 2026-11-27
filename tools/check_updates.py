@@ -106,6 +106,10 @@ add(
     ROOT / "static" / "files" / "notes" / "linear-algebra" / "tutorial-8.pdf",
 )
 add(
+    THU / "线性代数" / "Lecture 9" / "Linear_Algebra_Homework9.pdf",
+    ROOT / "static" / "files" / "notes" / "linear-algebra" / "homework-9.pdf",
+)
+add(
     THU / "线性代数" / "Lecture 5" / "tutorial_session_3_supplementary.pdf",
     ROOT / "static" / "private" / "notes" / "linear-algebra" / "tutorial-3-solution.pdf",
 )
@@ -417,7 +421,7 @@ add(
 )
 
 # 目录扫描：最近几天改过、又不在上面的映射里的素材，说明是还没收录的新文件。
-IGNORED_NAMES = {"算法设计_期中笔记_A4.pdf", "cs_2024_lhz.pdf"}
+IGNORED_NAMES = {"算法设计_期中笔记_A4.pdf", "cs_2024_lhz.pdf", "Final_Project_Proposal.pdf"}
 RECENT_DAYS = 3
 _cutoff = time.time() - RECENT_DAYS * 86400
 _known = {str(src) for src, _ in PAIRS}
