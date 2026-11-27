@@ -363,11 +363,16 @@ def _office_src(pdf: str | None, cfg: dict) -> str:
     return f"https://view.officeapps.live.com/op/embed.aspx?src={quote(target, safe='')}"
 
 
-def table_width(columns: list[dict], show_text: bool, text_len: int = 0) -> dict:
+def table_width(
+    columns: list[dict], show_text: bool, text_len: int = 0, forced: str | None = None
+) -> dict:
     """按列数与「涉及内容」的实际长度决定科目页宽度。
 
     列少但文字长（例如线代的涉及内容每格近百字）仍要宽，否则换行成一团。
+    `_subject.yaml` 的 `width` 可显式指定 wide / wider / widest，优先于自动判断。
     """
+    if forced in ("wide", "wider", "widest"):
+        return {forced: True}
     total = len(columns) + (1 if show_text else 0) + 1  # +1 是序号列
     if total >= 6 or (show_text and text_len >= 40):
         return {"wider": True}
@@ -672,6 +677,7 @@ def collect_subjects(md: MarkdownIt, cfg: dict) -> list[dict]:
                     ],
                     bool(meta.get("show_text", True)),
                     max((len(str(v)) for v in syllabus.values()), default=0),
+                    meta.get("width"),
                 ),
                 "count": len(public)
                 + len(resources)

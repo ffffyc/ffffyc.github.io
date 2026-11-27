@@ -77,6 +77,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 
 .wrap.wide { max-width: 62rem; }
 .wrap.wider { max-width: 76rem; }
+.wrap.widest { max-width: 86rem; }
 
 /* 顶栏与页脚跟随正文宽度 */
 body.wide .topbar .wrap,
@@ -84,6 +85,9 @@ body.wide .foot .wrap { max-width: 62rem; }
 
 body.wider .topbar .wrap,
 body.wider .foot .wrap { max-width: 76rem; }
+
+body.widest .topbar .wrap,
+body.widest .foot .wrap { max-width: 86rem; }
 
 /* 顶栏 */
 .topbar {
@@ -763,8 +767,11 @@ mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
   padding: .5rem .55rem;
   border-bottom: 1px solid var(--line-soft);
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
 }
+
+/* 涉及内容可能多行，保持顶对齐，其余单元格垂直居中 */
+.course-table td.col-text { vertical-align: top; }
 
 .course-table thead th {
   font-weight: 600;

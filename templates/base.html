@@ -20,7 +20,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   {% endif %}
 </head>
-<body class="{% if wide %}wide{% endif %}{% if wider %} wider{% endif %}">
+<body class="{% if wide %}wide{% endif %}{% if wider %} wider{% endif %}{% if widest %} widest{% endif %}">
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="{{ base }}">{{ site.title }}</a>
@@ -31,7 +31,7 @@
     </div>
   </header>
 
-  <main class="wrap{% if wide %} wide{% endif %}{% if wider %} wider{% endif %}">
+  <main class="wrap{% if wide %} wide{% endif %}{% if wider %} wider{% endif %}{% if widest %} widest{% endif %}">
     {% block main %}{% endblock %}
   </main>
 
