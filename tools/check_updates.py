@@ -181,6 +181,7 @@ for month, day in (
     (11, 18),
     (11, 20),
     (11, 25),
+    (11, 27),
 ):
     add(
         THU / "高等微积分" / "Records" / f"2026年{month}月{day}日高微记录.pdf",
